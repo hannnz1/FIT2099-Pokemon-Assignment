@@ -1,8 +1,6 @@
 package game.actors.pokemon;
 
 
-import static game.weapons.BackupWeaponsManager.backupWeaponsManager;
-
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -26,8 +24,11 @@ import game.conditions.FavoriteAffection;
 import game.conditions.Status;
 import game.time.TimePerception;
 import game.weapons.IntrinsicScratchWeapon;
-import java.util.HashMap;
+import game.weapons.BackupWeaponsManager;
+import game.weapons.SpecialAttackType;
+import game.weapons.SpecialAttackWeapon;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by:
@@ -44,19 +45,19 @@ import java.util.Map;
 //    Special attack: If Torchic is standing on the Fire element ground, it will equip "Ember", a weapon that can deal 30 HP damage with a 65% chance to hit ( "sparks").
 //    Currently, this Pokemon is uncatchable/ cannot be caught with a Pokeball/Greatball/Masterball  (See REQ4).
 public class Torchic extends Pokemon implements TimePerception {
-    //FIXME: Change it to a sorted map (is it TreeMap? HashMap? LinkedHashMap?)
-    private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
+    private final Map<Integer, Behaviour> behaviours = new TreeMap<>();
+    private final SpecialAttackWeapon specialWeapon;
 
     /**
      * Constructor.
      */
     public Torchic() {
         super("Torchic", 'c', 100);
-        // HINT: add more relevant behaviours here
+        this.specialWeapon = BackupWeaponsManager.getInstance().createWeapon(SpecialAttackType.EMBER);
         this.addCapability(Element.FIRE);
         this.behaviours.put(10, new WanderBehaviour());
         this.registerInstance();
-        this.behaviours.put(1, new AttackBehaviour()); // not sure for now: priority, behaviour"
+        this.behaviours.put(1, new AttackBehaviour());
         this.addCapability(FavoriteAffection.SINGING);
     }
 
@@ -101,15 +102,9 @@ public class Torchic extends Pokemon implements TimePerception {
         return new DoNothingAction();
     }
 
-    /**
-     * @param isEquipping FIXME: develop a logic to toggle weapon (put a selected weapon to the inventory - used!);
-     */
+    @Override
     public void toggleWeapon(boolean isEquipping) {
-        if (isEquipping) {
-            this.addItemToInventory(backupWeaponsManager.getSpecialAttackWeapon(0));
-        } else {
-            this.removeItemFromInventory(backupWeaponsManager.getSpecialAttackWeapon(0));
-        }
+        setSpecialWeaponEquipped(specialWeapon, isEquipping);
     }
 
     @Override

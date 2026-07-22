@@ -9,9 +9,6 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actions.TalkAction;
-import game.behaviours.Behaviour;
-import java.util.HashMap;
-import java.util.Map;
 
 //Professor Oak, who you can visit after you have captured one of each pokemon.
 //2. Professor Oak👩‍⚕️
@@ -23,10 +20,6 @@ import java.util.Map;
 //    If you do not have all 3: “I want to see 3 different pokemon Ash! Gotta catch em all!”
 //    This should signify the end of assignment 1. Hint: Your system should have some way of keeping track of pokemon caught by the player to make this task simple.
 public class ProffesorOak extends NPC {
-  //FIXME: Change it to a sorted map (is it TreeMap? HashMap? LinkedHashMap?)
-  private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
-
-
   public ProffesorOak() {
     super("Professor Oak", '$', 500000);
   }
@@ -57,11 +50,6 @@ public class ProffesorOak extends NPC {
    */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-    for (Behaviour behaviour : behaviours.values()) {
-      Action action = behaviour.getAction(this, map);
-      if (action != null)
-        return action;
-    }
     return new DoNothingAction();
   }
 }

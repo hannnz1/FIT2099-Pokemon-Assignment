@@ -1,7 +1,5 @@
 package game.actors.pokemon;
 
-import static game.weapons.BackupWeaponsManager.backupWeaponsManager;
-
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
@@ -22,8 +20,11 @@ import game.behaviours.WanderBehaviour;
 import game.conditions.FavoriteAffection;
 import game.conditions.Status;
 import game.time.TimePerception;
-import java.util.HashMap;
+import game.weapons.BackupWeaponsManager;
+import game.weapons.SpecialAttackType;
+import game.weapons.SpecialAttackWeapon;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 //    Mudkip s
@@ -33,19 +34,19 @@ import java.util.Map;
 //    Intrinsic attack: "tackle" attack that deals 10 HP damage with a 50% chance to hit
 //    Special attack: If Mudkip is standing on the Water element ground or the enemy has a Fire element, it will equip "Water Blast", a weapon that can deal 25 HP damage with an 80% chance to hit ( "burbles").
 public class Mudkip extends Pokemon implements TimePerception {
-  //FIXME: Change it to a sorted map (is it TreeMap? HashMap? LinkedHashMap?)
-  private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
+  private final Map<Integer, Behaviour> behaviours = new TreeMap<>();
+  private final SpecialAttackWeapon specialWeapon;
 
   /**
    * Constructor.
    */
   public Mudkip() {
     super("Mudkip", 's', 100);
-    // HINT: add more relevant behaviours here
+    this.specialWeapon = BackupWeaponsManager.getInstance().createWeapon(SpecialAttackType.WATER_BLAST);
     this.addCapability(Element.WATER);
     this.behaviours.put(10, new WanderBehaviour());
     this.registerInstance();
-    this.behaviours.put(1, new AttackBehaviour()); // not sure for now: priority, behaviour
+    this.behaviours.put(1, new AttackBehaviour());
     this.addCapability(FavoriteAffection.CHEST_POUNDING);
   }
 
@@ -109,15 +110,9 @@ public class Mudkip extends Pokemon implements TimePerception {
     return new IntrinsicWeapon(10, "tackle");  }
   //    Special attack: If Mudkip is standing on the Water element ground or the enemy has a Fire element, it will equip "Water Blast", a weapon that can deal 25 HP damage with an 80% chance to hit ( "burbles").
 
-  /**
-   * @param isEquipping FIXME: develop a logic to toggle weapon (put a selected weapon to the inventory - used!);
-   */
+  @Override
   public void toggleWeapon(boolean isEquipping) {
-    if (isEquipping) {
-      this.addItemToInventory(backupWeaponsManager.getSpecialAttackWeapon(1));
-    } else {
-      this.removeItemFromInventory(backupWeaponsManager.getSpecialAttackWeapon(1));
-    }
+    setSpecialWeaponEquipped(specialWeapon, isEquipping);
   }
 
   //    When it is at day, at every turn:
@@ -143,4 +138,3 @@ public class Mudkip extends Pokemon implements TimePerception {
 //        TimePerceptionManager.getInstance().append(this);
 //    }
 }
-

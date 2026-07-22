@@ -49,9 +49,6 @@ public class PokemonWorld extends World {
         gameMap.tick();
       }
 
-      //Check errors for Req 5 after finishing other tasks
-      //TimePerceptionManager.getInstance().run();
-
       }
     display.println(endGameMessage());
   }

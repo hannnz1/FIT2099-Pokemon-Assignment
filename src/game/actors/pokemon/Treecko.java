@@ -1,7 +1,5 @@
 package game.actors.pokemon;
 
-import static game.weapons.BackupWeaponsManager.backupWeaponsManager;
-
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
@@ -22,8 +20,11 @@ import game.behaviours.WanderBehaviour;
 import game.conditions.FavoriteAffection;
 import game.conditions.Status;
 import game.time.TimePerception;
-import java.util.HashMap;
+import game.weapons.BackupWeaponsManager;
+import game.weapons.SpecialAttackType;
+import game.weapons.SpecialAttackWeapon;
 import java.util.Map;
+import java.util.TreeMap;
 
 //    Treecko b
 //    It is a Grass type Pokemon.
@@ -33,19 +34,19 @@ import java.util.Map;
 //    Special attack: If Treecko is standing on the Grass element ground, it will equip "Blade Cutter", a weapon that can deal 20 HP damage with a 90% chance to hit ("whips").
 
 public class Treecko extends Pokemon implements TimePerception {
-  //FIXME: Change it to a sorted map (is it TreeMap? HashMap? LinkedHashMap?)
-  private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
+  private final Map<Integer, Behaviour> behaviours = new TreeMap<>();
+  private final SpecialAttackWeapon specialWeapon;
 
   /**
    * Constructor.
    */
   public Treecko() {
-    super("Trecko", 'b', 100);
-    // HINT: add more relevant behaviours here
+    super("Treecko", 'b', 100);
+    this.specialWeapon = BackupWeaponsManager.getInstance().createWeapon(SpecialAttackType.BLADE_CUTTER);
     this.addCapability(Element.GRASS);
     this.behaviours.put(10, new WanderBehaviour());
     this.registerInstance();
-    this.behaviours.put(1, new AttackBehaviour()); // not sure for now: priority, behaviour
+    this.behaviours.put(1, new AttackBehaviour());
     this.addCapability(FavoriteAffection.DANCING);
   }
 
@@ -104,15 +105,9 @@ public class Treecko extends Pokemon implements TimePerception {
 
 
 
-  /**
-   * @param isEquipping FIXME: develop a logic to toggle weapon (put a selected weapon to the inventory - used!);
-   */
+  @Override
   public void toggleWeapon(boolean isEquipping) {
-    if (isEquipping) {
-      this.addItemToInventory(backupWeaponsManager.getSpecialAttackWeapon(2));
-    } else {
-      this.removeItemFromInventory(backupWeaponsManager.getSpecialAttackWeapon(2));
-    }
+    setSpecialWeaponEquipped(specialWeapon, isEquipping);
   }
 
   //    When it is at day, at every turn:
@@ -139,4 +134,3 @@ public class Treecko extends Pokemon implements TimePerception {
 //    }
 
 }
-

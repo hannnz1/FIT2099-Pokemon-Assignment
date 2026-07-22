@@ -71,7 +71,10 @@ The project demonstrates several object-oriented techniques and design ideas:
 - **Strategy-style behaviours:** autonomous actors can select between attack, follow, and wander behaviours.
 - **Inheritance and polymorphism:** concrete Pokemon and terrain types specialise shared base classes.
 - **Capability-based rules:** actor and element capabilities are used to decide which interactions are permitted.
-- **Manager components:** affection, time perception, world state, and backup weapons are separated from individual actors.
+- **Template Method:** affection interactions share one workflow while each action supplies its favourite capability.
+- **Observer:** time-aware actors and environments subscribe to a deterministic day/night cycle.
+- **Factory:** type-safe trade offers and special-attack definitions create independent item instances.
+- **Manager components:** affection and time-cycle state are separated from individual actors.
 
 Design material is available in the `docs` directory, including class diagrams and an attack-action sequence diagram.
 
@@ -115,11 +118,13 @@ push and pull request to `main`.
 
 ## Current Limitations
 
-This repository is being refactored from the original coursework submission into an
-OOP and testing portfolio project. The affection, NPC dialogue, and Candy trading
-workflows have been completed and covered by focused unit tests. Remaining work is
-primarily concentrated in the older time-perception and weapon-management template
-code, broader integration tests, and final removal of obsolete coursework comments.
+This repository has been refactored from the original coursework submission into an
+OOP and testing portfolio project. Affection, NPC dialogue, Candy trading, special
+weapons, deterministic behaviour priority, and the day/night observer workflow have
+been completed or reworked. Focused unit tests cover the main state transitions.
+Further improvement can concentrate on capture-policy variants, broader map-level
+integration tests, and replacing the remaining long-form coursework comments with
+concise API documentation.
 
 ## Team
 
