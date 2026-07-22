@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
+import game.actions.TalkAction;
 import game.behaviours.Behaviour;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class ProffesorOak extends NPC {
   public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
     ActionList actions = new ActionList();
     actions.add(new AttackAction(this, direction));
-    //FIXME: allow other actor to attack this Charmander (incl. Player). Please check requirement! :)
+    actions.add(new TalkAction(this, direction));
     return actions;
   }
 

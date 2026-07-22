@@ -13,7 +13,7 @@ import game.items.balls.Ball;
 //  Since there's unlimited Pokeballs, it means a Pokeball can be instantiated when the trainer is capturing it.
 public class Pokeball extends Ball {
 
-  Actor pokemon;
+  private Actor pokemon;
 
   public Pokeball() {
     super("Pokeball", 'o', true);
@@ -22,8 +22,22 @@ public class Pokeball extends Ball {
 
 
   public Pokeball capturePokemon(Actor pokemon){
+    if (pokemon == null) {
+      throw new IllegalArgumentException("pokemon cannot be null");
+    }
     this.pokemon = pokemon;
     return this;
+  }
+
+  public boolean containsPokemon() {
+    return pokemon != null;
+  }
+
+  public Actor getPokemon() {
+    if (pokemon == null) {
+      throw new IllegalStateException("Pokeball does not contain a Pokemon");
+    }
+    return pokemon;
   }
 
 
