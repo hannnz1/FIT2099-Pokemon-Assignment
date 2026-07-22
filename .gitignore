@@ -1,0 +1,14 @@
+# Compiled output
+out/
+*.class
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Nested duplicate of the submitted project
+Assignment2 Final Submission/
