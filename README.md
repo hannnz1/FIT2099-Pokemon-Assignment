@@ -1,5 +1,7 @@
 # FIT2099 Pokemon Console Game
 
+[![Java CI](https://github.com/hannnz1/FIT2099-Pokemon-Assignment/actions/workflows/build.yml/badge.svg)](https://github.com/hannnz1/FIT2099-Pokemon-Assignment/actions/workflows/build.yml)
+
 A turn-based Pokemon-inspired console game developed for Monash University's FIT2099 Object-Oriented Design and Implementation unit.
 
 The project was built on top of a teaching game engine and starter framework supplied by the unit. The engine provides reusable infrastructure such as actors, actions, maps, locations, items, weapons, menus, and the world loop. My work focused on extending that framework with the concrete Pokemon gameplay and domain logic required by the assignment.
@@ -77,40 +79,47 @@ Design material is available in the `docs` directory, including class diagrams a
 
 ```text
 src/
-├── edu/monash/fit2099/engine/  # Course-supplied reusable game engine
-└── game/                       # Pokemon assignment implementation
-    ├── actions/
-    ├── actors/
-    ├── behaviours/
-    ├── conditions/
-    ├── environments/
-    ├── items/
-    ├── positions/
-    ├── time/
-    └── weapons/
+|-- edu/monash/fit2099/engine/  # Course-supplied reusable game engine
+`-- game/                       # Pokemon assignment implementation
+    |-- actions/
+    |-- actors/
+    |-- behaviours/
+    |-- conditions/
+    |-- environments/
+    |-- items/
+    |-- positions/
+    |-- time/
+    `-- weapons/
+test/                           # JUnit 5 tests for assignment logic
 docs/                           # UML and design documentation
 ```
 
+## Build and Test
+
+The project uses Java 8, Maven, JUnit 5, and JaCoCo.
+
+```bash
+mvn clean verify
+```
+
+The command compiles the project, runs all tests, and generates a coverage report at
+`target/site/jacoco/index.html`. GitHub Actions runs the same verification for every
+push and pull request to `main`.
+
 ## Running the Project
 
-The repository currently uses an IntelliJ IDEA project configuration.
-
-1. Open the repository in IntelliJ IDEA.
-2. Configure a compatible Java SDK.
-3. Mark `src` as the source root if IntelliJ does not detect it automatically.
-4. Run `game.Application`.
-5. Follow the numbered commands displayed in the console.
+1. Install JDK 8 or later and Maven 3.8 or later.
+2. Run `mvn clean package` from the repository root.
+3. Open the project in IntelliJ IDEA and run `game.Application`.
+4. Follow the numbered commands displayed in the console.
 
 ## Current Limitations
 
-This repository preserves the coursework version of the project. Before treating it as a production-ready application, the following areas should be improved:
-
-- `TalkAction` and `TradeAction` still require complete execution logic.
-- Affection updates require correction and stronger validation.
-- Remaining template `TODO`, `FIXME`, and `HINT` comments should be resolved or removed.
-- The project does not currently include automated JUnit tests.
-- A Maven or Gradle build should be added for reproducible command-line builds.
-- Generated IDE output should be excluded from version control.
+This repository is being refactored from the original coursework submission into an
+OOP and testing portfolio project. The affection, NPC dialogue, and Candy trading
+workflows have been completed and covered by focused unit tests. Remaining work is
+primarily concentrated in the older time-perception and weapon-management template
+code, broader integration tests, and final removal of obsolete coursework comments.
 
 ## Team
 
