@@ -18,18 +18,9 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actions.TalkAction;
 import game.actions.TradeAction;
-import game.behaviours.Behaviour;
-import game.behaviours.WanderBehaviour;
-import game.conditions.Element;
 import game.items.TradeOffer;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Shopkeeper extends NPC {
-  //FIXME: Change it to a sorted map (is it TreeMap? HashMap? LinkedHashMap?)
-  private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
-
-
   public Shopkeeper() {
     super("Shopkeeper", '%', 500000);
   }
@@ -63,11 +54,6 @@ public class Shopkeeper extends NPC {
    */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-    for (Behaviour behaviour : behaviours.values()) {
-      Action action = behaviour.getAction(this, map);
-      if (action != null)
-        return action;
-    }
     return new DoNothingAction();
   }
 }

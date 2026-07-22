@@ -1,8 +1,10 @@
 package game.actors.pokemon;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import game.actions.SingingAction;
+import edu.monash.fit2099.engine.items.Item;
 import game.conditions.Status;
+
+import java.util.Objects;
 
 public abstract class Pokemon extends Actor {
 
@@ -27,7 +29,17 @@ public abstract class Pokemon extends Actor {
   @Override
   public void creatIntrinsicWeapon(){}
 
-  public void toggleWeapon(boolean isEquipping) {}
-}
+  public abstract void toggleWeapon(boolean isEquipping);
 
+  /** Equips or removes one Pokemon-owned special weapon without duplicates. */
+  protected final void setSpecialWeaponEquipped(Item specialWeapon, boolean isEquipping) {
+    Objects.requireNonNull(specialWeapon, "special weapon cannot be null");
+    boolean equipped = getInventory().contains(specialWeapon);
+    if (isEquipping && !equipped) {
+      addItemToInventory(specialWeapon);
+    } else if (!isEquipping && equipped) {
+      removeItemFromInventory(specialWeapon);
+    }
+  }
+}
 

@@ -1,127 +1,93 @@
 package game.time;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.Location;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * A global Singleton manager that gives time perception  on the affected instances.
- * TODO: you may modify (add or remove) methods in this class if you think they are not necessary.
- * HINT: refer to Bootcamp Week 5 about static factory method.
- *
- * Created by:
- * @author Riordan D. Alfredo
- * Modified by:
- *
+ * Coordinates the global five-turn day/night cycle and notifies registered
+ * {@link TimePerception} objects using the Observer pattern.
  */
-public class TimePerceptionManager {
-    /**
-     * A list of polymorph instances (any classes that implements TimePerception,
-     * such as, a Charmander implements TimePerception, it will be stored in here)
-     */
-    private final List<TimePerception> timePerceptionList;
+public final class TimePerceptionManager {
 
+    public static final int TURNS_PER_PERIOD = 5;
+
+    private static final TimePerceptionManager INSTANCE = new TimePerceptionManager();
+
+    private final List<TimePerception> observers = new ArrayList<>();
     private int turn;
+    private TimePeriod currentPeriod;
 
-    private TimePeriod shift; // DAY or NIGHT
-
-    /**
-     * A singleton instance
-     */
-    private static TimePerceptionManager instance = null;
-
-    /**
-     * Get the singleton instance of time perception manager
-     *
-     * @return TimePerceptionManager singleton instance
-     *
-     * FIXME: create a singleton instance.
-     */
-    public static TimePerceptionManager getInstance() {
-        if (instance == null) {
-            instance = new TimePerceptionManager();
-        }
-        return instance;
-    }
-
-    /**
-     * Private constructor
-     */
     private TimePerceptionManager() {
-        timePerceptionList = new ArrayList<>();
-        turn = 0;
+        reset();
     }
 
+    public static TimePerceptionManager getInstance() {
+        return INSTANCE;
+    }
+
+    /** Advances the clock and returns the period applying to the new turn. */
+    public TimePeriod advanceTurn() {
+        currentPeriod = periodAt(turn);
+        turn++;
+        return currentPeriod;
+    }
+
+    /** Compatibility entry point used by the console world. */
     public void manageTimePeriod(Display display) {
-        // track turn when 5 change to night when 10 change to night
-        if (turn % 10 == 0) {
-            shift = TimePeriod.DAY;
-        } else if (turn % 10 == 5) {
-            shift = TimePeriod.NIGHT;
-        }
-        if (shift == TimePeriod.DAY) {
-            display.println("It is a Day-time (turn " + turn + ")");
-        } else if (shift == TimePeriod.NIGHT) {
-            display.println(
-                "It is a Night-time (turn " + turn + ")");
-        }
-        turn += 1;
+        Objects.requireNonNull(display, "display cannot be null");
+        TimePeriod period = advanceTurn();
+        display.println("It is " + (period == TimePeriod.DAY ? "Day-time" : "Night-time")
+                + " (turn " + (turn - 1) + ")");
     }
 
-
-    /**
-     * Traversing through all instances in the list and execute them
-     * By doing this way, it will avoid using `instanceof` all over the place.
-     *
-     * FIXME: write a relevant logic (i.e., increment turns choose day or night) and call this method once at every turn.
-     */
-    //public void run() {
-    //public void run(Location location) {
+    /** Applies the current period's effect once to every registered observer. */
     public void run() {
-        if (shift == TimePeriod.DAY) {
-            for (TimePerception object : timePerceptionList) {
-                object.dayEffect();
+        List<TimePerception> snapshot = new ArrayList<>(observers);
+        for (TimePerception observer : snapshot) {
+            if (currentPeriod == TimePeriod.DAY) {
+                observer.dayEffect();
+            } else {
+                observer.nightEffect();
             }
-        } else if (shift == TimePeriod.NIGHT) {
-            for (TimePerception object : timePerceptionList) {
-                object.nightEffect();
-            }
-
-//            for (Iterator<TimePerception> iterator = timePerceptionList.iterator(); iterator.hasNext();) {
-//                TimePerception object = iterator.next();
-//                object.nightEffect();
         }
     }
 
-
-    /**
-     * Add the TimePerception instance to the list
-     * FIXME: add objInstance to the list.
-     * @param objInstance any instance that implements TimePerception
-     */
-    public void append (TimePerception objInstance) {
-        timePerceptionList.add(objInstance);
+    public void append(TimePerception observer) {
+        Objects.requireNonNull(observer, "observer cannot be null");
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
     }
 
-
-    /**
-     * Remove a TimePerception instance from the list
-     *
-     * FIXME: [OPTIONAL] run cleanUp once every turn if you don't want to
-     *        have too many instances in the list (e.g., memory leak)
-     * @param objInstance object instance
-     */
-    public void cleanUp(TimePerception objInstance) {
-        timePerceptionList.remove(objInstance);
+    public void cleanUp(TimePerception observer) {
+        observers.remove(observer);
     }
 
     public List<TimePerception> getTimePerceptionList() {
-        return Collections.unmodifiableList(timePerceptionList);
+        return Collections.unmodifiableList(new ArrayList<>(observers));
     }
 
+    public int getTurn() {
+        return turn;
+    }
+
+    public TimePeriod getCurrentPeriod() {
+        return currentPeriod;
+    }
+
+    private TimePeriod periodAt(int turnNumber) {
+        int periodIndex = (turnNumber / TURNS_PER_PERIOD) % 2;
+        return periodIndex == 0 ? TimePeriod.DAY : TimePeriod.NIGHT;
+    }
+
+    /** Restores a new-game state and removes stale observers. */
+    public void reset() {
+        observers.clear();
+        turn = 0;
+        currentPeriod = TimePeriod.DAY;
+    }
 }
-
-
