@@ -1,5 +1,7 @@
 package edu.monash.fit2099.engine.capabilities;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +43,7 @@ public class CapabilitySet implements Capable {
 	}
 
 	public List<Enum<?>> capabilitiesList(){
-		return List.copyOf(capabilitySet);
+		return Collections.unmodifiableList(new ArrayList<>(capabilitySet));
 	}
 
 	@SuppressWarnings("unchecked")
