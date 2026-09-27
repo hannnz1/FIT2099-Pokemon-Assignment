@@ -25,7 +25,7 @@ public class Tree extends SpawnerGrounds implements TimePerception {
     public Tree() {
         super('T');
         this.addCapability(Element.GRASS);
-        this.registerInstance();
+        // Time effects are scoped to active map tiles.
     }
     /**
      * go through one day and night turn, made some affection to special pokemons or
@@ -37,7 +37,7 @@ public class Tree extends SpawnerGrounds implements TimePerception {
 //    Tree is a spawning ground. Tree and Hay have Grass element. At every turn:
     @Override
     public void tick(Location location) {
-        Random rand = new Random();
+        game.runtime.RandomSource rand = location.map().context().random;
         //    IF there is also at least one (1) GRASS element ground in its surrounding.
         for (Exit exit : location.getExits()) {
             if (exit.getDestination().getGround().hasCapability(Element.GRASS)){
@@ -62,8 +62,8 @@ public class Tree extends SpawnerGrounds implements TimePerception {
      */
     @Override
     public void dayEffect() {
-        if (location != null) {
-            Random rand = new Random();
+        if (location != null && location.getGround() == this) {
+            game.runtime.RandomSource rand = location.map().context().random;
             if (rand.nextInt(100) <= 5) {
                 location.addItem(new Candy());
             }
@@ -82,8 +82,8 @@ public class Tree extends SpawnerGrounds implements TimePerception {
      */
     @Override
     public void nightEffect() {
-        if (location != null) {
-            Random rand = new Random();
+        if (location != null && location.getGround() == this) {
+            game.runtime.RandomSource rand = location.map().context().random;
             if (rand.nextInt(100) <= 10) {
                 for (Exit exit : location.getExits()) {
                     if (!(exit.getDestination().getGround().hasCapability(Element.GRASS))
@@ -103,7 +103,7 @@ public class Tree extends SpawnerGrounds implements TimePerception {
      * @return: return pokemon type or remain the situation
      */
     public Ground createSameElementGround(){
-        Random rand = new Random();
+        game.runtime.RandomSource rand = location.map().context().random;
         if (rand.nextInt(100) <= 10){
             return new Tree();
         } else {

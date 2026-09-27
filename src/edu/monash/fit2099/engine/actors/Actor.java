@@ -20,6 +20,9 @@ import java.util.List;
  * An entity that is alive by having hit points. It also holds inventory that stores items.
  */
 public abstract class Actor implements Capable, Printable {
+    public final int getHitPoints() { return hitPoints; }
+    public final int getMaxHitPoints() { return maxHitPoints; }
+    public final String getName() { return name; }
 
 	/**
 	 * Actor's name
@@ -185,8 +188,7 @@ public abstract class Actor implements Capable, Printable {
 	 * @param points number of hitpoints to add.
 	 */
 	public void heal(int points) {
-		hitPoints += points;
-		hitPoints = Math.min(hitPoints, maxHitPoints);
+		hitPoints = (int) Math.min(maxHitPoints, (long) hitPoints + Math.max(0, points));
 	}
 
 	/**
@@ -197,7 +199,7 @@ public abstract class Actor implements Capable, Printable {
 	 * @param points number of hitpoints to deduct.
 	 */
 	public void hurt(int points) {
-		hitPoints -= points;
+		hitPoints = (int) Math.max(0L, (long) hitPoints - Math.max(0, points));
 	}
 
 	/**

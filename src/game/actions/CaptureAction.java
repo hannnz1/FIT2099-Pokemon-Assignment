@@ -6,6 +6,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.items.balls.Pokeball;
 
 public class CaptureAction extends Action {
+    public Actor getTarget() { return targetActor; }
+
 
   private Actor targetActor;
 

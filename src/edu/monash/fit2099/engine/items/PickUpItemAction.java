@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
  * Action to allow items to be picked up.
  */
 public class PickUpItemAction extends Action {
+public Item getItem() { return item; }
+
 
 	private final Item item;
 

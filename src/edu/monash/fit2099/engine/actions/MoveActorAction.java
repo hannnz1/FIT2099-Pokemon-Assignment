@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.positions.Location;
  * An Action that moves the Actor.
  */
 public class MoveActorAction extends Action {
+public String getDirection() { return direction; }
+
 
 	/**
 	 * Target location

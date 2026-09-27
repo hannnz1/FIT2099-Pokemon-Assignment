@@ -18,7 +18,7 @@ public class Puddle extends Ground implements TimePerception {
     public Puddle() {
         super('~');
         this.addCapability(Element.WATER);
-        this.registerInstance();
+        // Time effects are scoped to active map tiles.
     }
 
     @Override
@@ -38,8 +38,8 @@ public class Puddle extends Ground implements TimePerception {
      */
     @Override
     public void dayEffect() {
-        if (location != null) {
-            Random rand = new Random();
+        if (location != null && location.getGround() == this) {
+            game.runtime.RandomSource rand = location.map().context().random;
             if (rand.nextInt(100) == 10 && !location.containsAnActor()) {
                 location.setGround(new Dirt());
             }
@@ -61,8 +61,8 @@ public class Puddle extends Ground implements TimePerception {
 //        if (location == !null) {
 //            TimePerceptionManager.getInstance().cleanUp(this);
 //        }
-        if (location != null) {
-            Random rand = new Random();
+        if (location != null && location.getGround() == this) {
+            game.runtime.RandomSource rand = location.map().context().random;
             if (rand.nextInt(100) == 10) {
                 for (Exit exit : location.getExits()) {
                     if (!(exit.getDestination().getGround().hasCapability(Element.WATER))

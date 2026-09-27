@@ -33,7 +33,7 @@ public class WanderBehaviour implements Behaviour {
         }
 
 		if (!actions.isEmpty()) {
-			return actions.get(random.nextInt(actions.size()));
+			return actions.get(map.context().random.nextInt(actions.size()));
 		}
 		else {
 			return null; // go to next behaviour

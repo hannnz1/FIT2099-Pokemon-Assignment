@@ -9,6 +9,8 @@ import java.util.Objects;
 
 /** Shared workflow for trainer interactions that modify Pokemon affection. */
 public abstract class AffectionAction extends Action {
+    public Actor getTarget() { return target; }
+
 
     private static final int FAVOURITE_BONUS = 10;
     private static final int NON_FAVOURITE_PENALTY = 20;
@@ -25,7 +27,7 @@ public abstract class AffectionAction extends Action {
 
     @Override
     public final String execute(Actor actor, GameMap map) {
-        AffectionManager manager = AffectionManager.getInstance();
+        AffectionManager manager = map == null ? AffectionManager.getInstance() : map.context().affection;
         manager.registerTrainer(actor);
         manager.registerPokemon(target);
 

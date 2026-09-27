@@ -33,7 +33,7 @@ public class Waterfall extends SpawnerGrounds {
       if (exit.getDestination().getGround().hasCapability(Element.WATER)) {
         count += 1;
         //  Waterfall has a 20% chance of spawning a Mudkip (see REQ2)
-        Random rand = new Random();
+        game.runtime.RandomSource rand = location.map().context().random;
         if (count >= 2 && rand.nextInt(100) <= percentSpawn && !location.containsAnActor()) {
           location.addActor(new Mudkip());
           break;

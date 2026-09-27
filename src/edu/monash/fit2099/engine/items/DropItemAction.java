@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
  * Special Action that allows Actors to drop items.
  */
 public class DropItemAction extends Action {
+public Item getItem() { return item; }
+
 
 	/**
 	 * Current item

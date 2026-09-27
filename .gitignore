@@ -13,3 +13,8 @@ Thumbs.db
 
 # Nested duplicate of the submitted project
 Assignment2 Final Submission/
+
+.superpowers/
+*.log
+web-client/node_modules/
+web-client/dist/

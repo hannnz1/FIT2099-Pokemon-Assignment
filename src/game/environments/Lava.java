@@ -17,7 +17,6 @@ import java.util.Random;
  *
  */
 public class Lava extends Ground implements TimePerception {
-    Random rand = new Random();
     private Location location;
 
     /**
@@ -26,7 +25,7 @@ public class Lava extends Ground implements TimePerception {
     public Lava() {
         super('^');
         this.addCapability(Element.FIRE);
-        this.registerInstance();
+        // Time effects are scoped to active map tiles.
     }
 
     @Override
@@ -47,8 +46,8 @@ public class Lava extends Ground implements TimePerception {
      */
     @Override
     public void dayEffect() {
-        if (location != null) {
-            Random rand = new Random();
+        if (location != null && location.getGround() == this) {
+            game.runtime.RandomSource rand = location.map().context().random;
             if (rand.nextInt(100) == 10) {
                 for (Exit exit : location.getExits()) {
                     if (!(exit.getDestination().getGround().hasCapability(Element.FIRE))
@@ -70,8 +69,8 @@ public class Lava extends Ground implements TimePerception {
      */
     @Override
     public void nightEffect() {
-        if (location != null) {
-            Random rand = new Random();
+        if (location != null && location.getGround() == this) {
+            game.runtime.RandomSource rand = location.map().context().random;
             if (rand.nextInt(100) == 10 && !location.containsAnActor()) {
                 location.setGround(new Dirt());
             }

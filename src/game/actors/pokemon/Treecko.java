@@ -45,7 +45,7 @@ public class Treecko extends Pokemon implements TimePerception {
     this.specialWeapon = BackupWeaponsManager.getInstance().createWeapon(SpecialAttackType.BLADE_CUTTER);
     this.addCapability(Element.GRASS);
     this.behaviours.put(10, new WanderBehaviour());
-    this.registerInstance();
+    // Active map traversal owns time effects; constructors have no global registration.
     this.behaviours.put(1, new AttackBehaviour());
     this.addCapability(FavoriteAffection.DANCING);
   }
@@ -80,6 +80,7 @@ public class Treecko extends Pokemon implements TimePerception {
    */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+    if (!isConscious() || !map.contains(this)) return new DoNothingAction();
     Location here = map.locationOf(this);
     if(here.getGround().hasCapability(Element.GRASS)) {
       this.toggleWeapon(true);}

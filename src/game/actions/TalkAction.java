@@ -14,6 +14,8 @@ import java.util.Set;
 
 /** Produces contextual NPC dialogue without coupling the NPC to console I/O. */
 public final class TalkAction extends Action {
+public Actor getTarget() { return target; }
+
 
     private final String direction;
     private final Actor target;

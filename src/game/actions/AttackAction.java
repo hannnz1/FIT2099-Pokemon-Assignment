@@ -17,6 +17,8 @@ import edu.monash.fit2099.engine.weapons.Weapon;
  * Modified by:
  */
 public class AttackAction extends Action {
+public Actor getTarget() { return target; }
+
 
     /**
      * The Actor that is to be attacked
@@ -48,13 +50,15 @@ public class AttackAction extends Action {
 
         Weapon weapon = actor.getWeapon();
 
-        if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
+        if (!(map.context().random.nextInt(100) <= weapon.chanceToHit())) {
+            map.context().event("MISS", actor, target, "鏀诲嚮钀界┖");
             return actor + " misses " + target + ".";
         }
 
         int damage = weapon.damage();
         String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
         target.hurt(damage);
+        map.context().event("ATTACK", actor, target, "命中：" + damage);
         if (!target.isConscious()) {
             ActionList dropActions = new ActionList();
             // drop all items

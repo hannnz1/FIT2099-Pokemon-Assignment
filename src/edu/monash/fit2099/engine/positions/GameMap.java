@@ -23,6 +23,10 @@ import java.util.Objects;
  * It's important to put the GameMap in the World before using it.
  */
 public class GameMap {
+    private game.runtime.GameContext context = new game.runtime.GameContext();
+    public game.runtime.GameContext context() { return context; }
+    public void setContext(game.runtime.GameContext value) { context = value; }
+
 
 	protected NumberRange heights;
 	protected NumberRange widths;
@@ -257,6 +261,7 @@ public class GameMap {
 	public void addActor(Actor actor, Location location) {
 		Objects.requireNonNull(actor);
 		actorLocations.add(actor, location);
+        context.id(actor);
 	}
 
 	/**

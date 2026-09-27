@@ -56,7 +56,7 @@ public class Torchic extends Pokemon implements TimePerception {
         this.specialWeapon = BackupWeaponsManager.getInstance().createWeapon(SpecialAttackType.EMBER);
         this.addCapability(Element.FIRE);
         this.behaviours.put(10, new WanderBehaviour());
-        this.registerInstance();
+        // Active map traversal owns time effects; constructors have no global registration.
         this.behaviours.put(1, new AttackBehaviour());
         this.addCapability(FavoriteAffection.SINGING);
     }
@@ -88,7 +88,8 @@ public class Torchic extends Pokemon implements TimePerception {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        Location here = map.locationOf(this);
+        if (!isConscious() || !map.contains(this)) return new DoNothingAction();
+    Location here = map.locationOf(this);
         if(here.getGround().hasCapability(Element.FIRE)) {
             this.toggleWeapon(true);}
         else {

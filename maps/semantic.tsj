@@ -1,0 +1,47 @@
+{
+  "type": "tileset",
+  "version": "1.10",
+  "name": "semantic",
+  "tilewidth": 32,
+  "tileheight": 32,
+  "tilecount": 9,
+  "columns": 0,
+  "tiles": [
+    {
+      "id": 0,
+      "type": "DIRT"
+    },
+    {
+      "id": 1,
+      "type": "WALL"
+    },
+    {
+      "id": 2,
+      "type": "FLOOR"
+    },
+    {
+      "id": 3,
+      "type": "HAY"
+    },
+    {
+      "id": 4,
+      "type": "TREE"
+    },
+    {
+      "id": 5,
+      "type": "PUDDLE"
+    },
+    {
+      "id": 6,
+      "type": "WATERFALL"
+    },
+    {
+      "id": 7,
+      "type": "LAVA"
+    },
+    {
+      "id": 8,
+      "type": "CRATER"
+    }
+  ]
+}

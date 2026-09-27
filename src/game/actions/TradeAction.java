@@ -13,6 +13,9 @@ import java.util.Objects;
 
 /** Exchanges a fixed number of Candy items for a product from the Shopkeeper. */
 public final class TradeAction extends Action {
+public Actor getTarget() { return shopkeeper; }
+ public TradeOffer getOffer() { return offer; }
+
 
     private final Actor shopkeeper;
     private final String direction;
