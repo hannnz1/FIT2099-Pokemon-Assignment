@@ -10,11 +10,12 @@ export async function request(path:string, options:RequestInit={}):Promise<any> 
 export class GameController {
  snapshot:Snapshot|null=null;state:InputState='REQUESTING';error='';onChange=()=>{};
  pending:{requestId:string;expectedRevision:number;actionId:string}|null=null;
- private transport:typeof request;private animate:(result:ActionResult)=>Promise<void>;
- constructor(transport:typeof request,animate:(result:ActionResult)=>Promise<void>){this.transport=transport;this.animate=animate;}
+ private transport:typeof request;private animate:(result:ActionResult)=>Promise<void>;private expectedMapVersion?:string;
+ constructor(transport:typeof request,animate:(result:ActionResult)=>Promise<void>,expectedMapVersion?:string){this.transport=transport;this.animate=animate;this.expectedMapVersion=expectedMapVersion;}
  private notify(){this.onChange();}
- async load(){this.state='REQUESTING';this.notify();try{this.snapshot=await this.transport('/api/games',{method:'POST',body:'{}'});this.pending=null;this.error='';this.state=this.snapshot?.phase==='ENDED'?'ENDED':'READY';}catch(e){this.state='ERROR';this.error=e instanceof Error?e.message:'无法连接服务器';}this.notify();}
- async refresh(){try{this.accept(await this.transport('/api/games/current'));this.pending=null;this.error='';this.state=this.snapshot?.phase==='ENDED'?'ENDED':'READY';}catch(e){this.error=e instanceof Error?e.message:'读取失败';this.state='ERROR';}this.notify();}
+ private settledState():InputState{if(this.expectedMapVersion&&this.snapshot?.map.version!==this.expectedMapVersion){this.error='地图版本不匹配，请重新构建前端和服务端。';return 'ERROR';}return this.snapshot?.phase==='ENDED'?'ENDED':'READY';}
+ async load(){this.state='REQUESTING';this.notify();try{this.snapshot=await this.transport('/api/games',{method:'POST',body:'{}'});this.pending=null;this.error='';this.state=this.settledState();}catch(e){this.state='ERROR';this.error=e instanceof Error?e.message:'无法连接服务器';}this.notify();}
+ async refresh(){if(this.state==='REQUESTING'||this.state==='ANIMATING')return;this.state='REQUESTING';this.notify();try{this.accept(await this.transport('/api/games/current'));this.pending=null;this.error='';this.state=this.settledState();}catch(e){this.error=e instanceof Error?e.message:'读取失败';this.state='ERROR';}this.notify();}
  accept(s:Snapshot){if(!this.snapshot||s.gameId!==this.snapshot.gameId||s.revision>=this.snapshot.revision)this.snapshot=s;}
  async act(actionId:string){if(this.state!=='READY')return;
   if(!this.snapshot)return;this.pending={requestId:crypto.randomUUID(),expectedRevision:this.snapshot.revision,actionId};await this.send();}
@@ -22,7 +23,7 @@ export class GameController {
  private async send(){if(!this.pending||!this.snapshot)return;this.state='REQUESTING';this.error='';this.notify();
   try {const result:ActionResult=await this.transport(`/api/games/${this.snapshot.gameId}/actions`,{method:'POST',body:JSON.stringify(this.pending)});
    const current=this.snapshot;if(result.snapshot.revision>=current.revision){this.accept(result.snapshot);if(!result.replayed){this.state='ANIMATING';this.notify();await this.animate(result);}}
-   this.pending=null;this.state=this.snapshot.phase==='ENDED'?'ENDED':'READY';
+   this.pending=null;this.state=this.settledState();
   }catch(e){this.state='ERROR';this.error=e instanceof Error?e.message:'网络错误';if(e instanceof ApiError&&e.status===409){await this.refresh();return;}if(e instanceof ApiError&&![429,500,502,503,504].includes(e.status))this.pending=null;}
   this.notify();
  }

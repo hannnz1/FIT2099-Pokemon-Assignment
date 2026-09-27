@@ -1,0 +1,17 @@
+
+> pokemon-java-web-demo@1.0.0 test
+> node --experimental-strip-types --test test/*.test.ts
+
+✔ only one pending action; response loss retries the exact same request (10.5588ms)
+✔ stale snapshots cannot overwrite current state; replay skips animation (0.4752ms)
+✔ input is locked during request and animation (0.4345ms)
+✔ loading an existing snapshot cannot admit an action (1.4686ms)
+✔ synchronizing locks actions until the read finishes (0.608ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 278.3039

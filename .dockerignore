@@ -6,3 +6,4 @@ web-client/.npm-cache
 web-client/dist
 web-client/test-results
 *.log
+web-client/.playwright

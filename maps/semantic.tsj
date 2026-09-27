@@ -5,7 +5,7 @@
   "tilewidth": 32,
   "tileheight": 32,
   "tilecount": 9,
-  "columns": 0,
+  "columns": 9,
   "tiles": [
     {
       "id": 0,
@@ -43,5 +43,8 @@
       "id": 8,
       "type": "CRATER"
     }
-  ]
+  ],
+  "image": "semantic.svg",
+  "imagewidth": 288,
+  "imageheight": 32
 }

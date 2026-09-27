@@ -13,7 +13,7 @@ jobs:
       - run: node tools/export-map.mjs
       - run: npm test --prefix web-client && npm run lint --prefix web-client && npm run build --prefix web-client
       - run: mvn -B clean verify
-      - run: npx --prefix web-client playwright install --with-deps chrome
+      - run: npx --prefix web-client playwright install --with-deps chromium
       - run: |
           java -jar target/fit2099-pokemon-assignment-1.0.0.jar > server.log 2>&1 &
           for i in $(seq 1 30); do curl -fsS http://localhost:8080/health && break || sleep 1; done

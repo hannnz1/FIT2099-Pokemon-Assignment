@@ -26,7 +26,7 @@ public final class SnapshotMapper {
     }
     private static ItemDto item(Item i,GameSession s) { ItemDto d=new ItemDto();d.id=s.context().id(i);d.kind=kind(i);d.name=i.toString();if(i instanceof Pokeball && ((Pokeball)i).containsPokemon())d.containedPokemon=actor(((Pokeball)i).getPokemon(),s);return d; }
     public static SnapshotDto map(GameSession s) {
-        SnapshotDto d=new SnapshotDto();d.gameId=s.gameId;d.revision=d.turn=s.turn();d.phase=s.ended()?"ENDED":"READY";d.period=s.period();d.nextActionPeriod=GameSession.periodAt(s.turn()+1);d.playerId=s.context().id(s.player());d.map.version=s.mapVersion;d.map.tileSize=s.tileSize;
+        SnapshotDto d=new SnapshotDto();d.gameId=s.gameId;d.revision=d.turn=s.turn();d.phase=s.ended()?"ENDED":"WAITING_FOR_PLAYER";d.period=s.period();d.nextActionPeriod=GameSession.periodAt(s.turn()+1);d.playerId=s.context().id(s.player());d.map.version=s.mapVersion;d.map.tileSize=s.tileSize;
         for(int y:s.map().getYRange())for(int x:s.map().getXRange()) {
             d.map.width=Math.max(d.map.width,x+1);d.map.height=Math.max(d.map.height,y+1);Location l=s.map().at(x,y);
             d.map.grounds.add(new Tile(x,y,kind(l.getGround())));
@@ -41,16 +41,21 @@ public final class SnapshotMapper {
         Map<String,ActorDto> old=new HashMap<>();for(ActorDto a:before.actors)old.put(a.id,a);
         Set<String> captured=new HashSet<>();for(ItemDto i:after.inventory)if(i.containedPokemon!=null)captured.add(i.containedPokemon.id);
         for(ActorDto a:after.actors) { ActorDto b=old.remove(a.id);
-            if(b==null)out.add(new EventDto("SPAWN",a.id,null,a.name));
-            else {if(a.x!=b.x||a.y!=b.y)out.add(new EventDto("MOVE",a.id,null,""));if(a.hp!=b.hp)out.add(new EventDto("HP_CHANGE",a.id,null,Integer.toString(a.hp-b.hp)));if(!Objects.equals(a.affection,b.affection))out.add(new EventDto("AFFECTION_CHANGE",a.id,null,String.valueOf(a.affection)));}
+            if(b==null){EventDto event=new EventDto("SPAWN",a.id,null,a.name);event.to=new EventDto.Position(a.x,a.y);out.add(event);}
+            else {
+                if(a.x!=b.x||a.y!=b.y)out.add(new EventDto("MOVE",a.id,null,"").positions(b.x,b.y,a.x,a.y));
+                if(a.hp!=b.hp)out.add(new EventDto("HP_CHANGE",a.id,null,"生命值变化").amount(a.hp-b.hp));
+                if(!Objects.equals(a.affection,b.affection))out.add(new EventDto("AFFECTION_CHANGE",a.id,null,"好感变化").amount((a.affection==null?0:a.affection)-(b.affection==null?0:b.affection)));
+            }
         }
         for(ActorDto a:old.values()) {
             String kind=captured.contains(a.id)?"CAPTURE":"REMOVE";
-            if(out.stream().noneMatch(e->e.kind.equals(kind)&&a.id.equals(e.actorId)))out.add(new EventDto(kind,a.id,null,a.name));
+            if(out.stream().noneMatch(e->e.kind.equals(kind)&&a.id.equals(e.actorId)))out.add(new EventDto(kind,a.id,kind.equals("CAPTURE")?after.playerId:null,a.name));
+            for(EventDto event:out)if(event.kind.equals(kind)&&a.id.equals(event.actorId))event.from=new EventDto.Position(a.x,a.y);
         }
-        for(int i=0;i<after.map.grounds.size();i++)if(!before.map.grounds.get(i).kind.equals(after.map.grounds.get(i).kind))out.add(new EventDto("GROUND_CHANGE",null,null,after.map.grounds.get(i).kind));
+        for(int i=0;i<after.map.grounds.size();i++)if(!before.map.grounds.get(i).kind.equals(after.map.grounds.get(i).kind)){Tile tile=after.map.grounds.get(i);EventDto event=new EventDto("GROUND_CHANGE",null,null,tile.kind);event.to=new EventDto.Position(tile.x,tile.y);out.add(event);}
         if(!before.period.equals(after.period))out.add(new EventDto("PERIOD_CHANGE",null,null,after.period));
         List<String> bi=new ArrayList<>(),ai=new ArrayList<>();for(ItemDto i:before.inventory)bi.add(i.id);for(ItemDto i:after.inventory)ai.add(i.id);
-        if(!bi.equals(ai))out.add(new EventDto("INVENTORY_CHANGE",after.playerId,null,"背包已更新"));
+        if(!bi.equals(ai))out.add(new EventDto("INVENTORY_CHANGE",after.playerId,null,"背包已更新").amount(ai.size()-bi.size()));
     }
 }

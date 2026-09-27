@@ -15,12 +15,12 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML=`
 <div class="legend"><span><i class="grass"></i>草系区域</span><span><i class="water"></i>水系区域</span><span><i class="fire"></i>火系区域</span><span>◆ 地面物品</span><span>▤ 墙体不可通行</span></div></section>
 <aside><section class="side-card"><div class="card-heading"><h2>附近的互动</h2><span id="state" class="status">连接中</span></div><div id="target" class="target">选择角色，查看血量和好感。</div><div id="actions" class="action-list"></div></section><section class="side-card inventory-card"><div class="card-heading"><h2>随身背包</h2><span id="inventory-count">0 件</span></div><div id="inventory"></div><p class="hint">球内精灵暂停行动与昼夜效果。</p></section></aside></div>
 <section class="journal"><div><span class="eyebrow">TRAVEL NOTES</span><h2>原野见闻</h2><p>世界的变化都留在这里。</p></div><div id="dialogue" hidden></div><ol id="logs" aria-live="polite"><li class="muted">你的旅程即将开始。</li></ol></section>
-<section id="help" hidden><h2>开始你的第一段探索</h2><p>出生点有糖果，可以逐个拾取。在相邻格与木守宫、水跃鱼互动或捕捉，向北寻找博士与商人。火稚鸡可与之互动，也可用 10 个糖果在商人处兑换。</p><p>木守宫喜欢跳舞，水跃鱼喜欢唱歌，火稚鸡喜欢拍胸脯。每个合法动作都会推进一回合；昼夜每五回合切换，精灵会自主移动、战斗，地形会生成与扩散。</p><p>高级球 3 糖果，大师球 6 糖果；首版只保留原引擎已有的交易与物品功能。游戏保存在服务器内存中，刷新可恢复；30 分钟无操作或服务器重启后需重新开始。此版本为桌面优先，所有角色均为标注名称的占位图形。</p></section>
+<section id="help" hidden><h2>开始你的第一段探索</h2><p>出生点有糖果，可以逐个拾取。在相邻格与木守宫、水跃鱼互动或捕捉，向北寻找博士与商人。火稚鸡可与之互动，也可用 10 个糖果在商人处兑换。</p><p>木守宫喜欢跳舞，水跃鱼喜欢拍胸脯，火稚鸡喜欢唱歌。每个合法动作都会推进一回合；昼夜每五回合切换，精灵会自主移动、战斗，地形会生成与扩散。</p><p>高级球 3 糖果，大师球 6 糖果；首版只保留原引擎已有的交易与物品功能。游戏保存在服务器内存中，刷新可恢复；30 分钟无操作或服务器重启后需重新开始。此版本为桌面优先，所有角色均为标注名称的占位图形。</p></section>
 <footer><span>口袋原野 / 引擎玩法验证版</span><span>最小素材 · 真实回合 · 持续生长</span></footer></main>`;
 const el=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(id) as T;
 const scene=new WorldScene();new Phaser.Game({type:Phaser.AUTO,parent:'board',width:map.width*map.tileSize,height:map.height*map.tileSize,backgroundColor:'#1f3229',pixelArt:true,antialias:false,scene:[scene],scale:{mode:Phaser.Scale.FIT,autoCenter:Phaser.Scale.CENTER_BOTH}});
 let selected:string|null=null,versionError=false;
-const controller=new GameController(request,async result=>{await scene.render(result.snapshot,true,result.events);const dialogue=result.events.find(e=>e.kind==='DIALOGUE');if(dialogue){el('dialogue').hidden=false;el('dialogue').textContent=dialogue.text;}});
+const controller=new GameController(request,async result=>{await scene.render(result.snapshot,true,result.events);const dialogue=result.events.find(e=>e.kind==='DIALOGUE');if(dialogue){el('dialogue').hidden=false;el('dialogue').textContent=dialogue.message;}},map.version);
 const directionKeys=['North-West','North','North-East','West','','East','South-West','South','South-East'];
 const arrows=['↖','↑','↗','←','·','→','↙','↓','↘'];
 directionKeys.forEach((direction,i)=>{const b=document.createElement('button');b.textContent=arrows[i];b.title=direction||'当前位置';b.dataset.direction=direction;b.setAttribute('aria-label',direction||'当前位置');b.onclick=()=>move(direction);el('pad').append(b);});
@@ -32,7 +32,7 @@ function renderInventory(items:Item[],actions:Action[]){const root=el('inventory
 function render(){const s=controller.snapshot;el('state').textContent=({READY:'可操作',REQUESTING:'请求中',ANIMATING:'动画中',ERROR:'待恢复',ENDED:'已结束'})[controller.state];el('state').dataset.state=controller.state;
  el('error').hidden=!controller.error&&!versionError;el('error-message').textContent=versionError?'地图版本不匹配，请重新构建前端和服务端。':controller.error;el('retry').hidden=!controller.pending;el<HTMLButtonElement>('restart').disabled=['REQUESTING','ANIMATING'].includes(controller.state);
  el<HTMLButtonElement>('refresh').disabled=['REQUESTING','ANIMATING'].includes(controller.state);
- if(!s)return;versionError=s.map.version!==map.version;if(versionError){el('error').hidden=false;el('error-message').textContent='地图版本不匹配，请重新构建前端和服务端。';return;}
+ if(!s)return;versionError=s.map.version!==map.version;if(versionError){for(const b of document.querySelectorAll<HTMLButtonElement>('#pad button,#actions button,#inventory button,#wait'))b.disabled=true;el('error').hidden=false;el('error-message').textContent='地图版本不匹配，请重新构建前端和服务端。';return;}
  el('loading').hidden=true;el('turn').textContent=String(s.turn);el('period').textContent=s.period==='DAY'?'☀ 白昼':'☾ 夜晚';el('next-period').textContent=`下一轮：${s.nextActionPeriod==='DAY'?'白昼':'夜晚'}`;
  const p=s.actors.find(a=>a.id===s.playerId);el('position').textContent=p?`训练家 (${p.x}, ${p.y})`:'本局已结束';
  if(controller.state==='READY'||controller.state==='ENDED')void scene.render(s);

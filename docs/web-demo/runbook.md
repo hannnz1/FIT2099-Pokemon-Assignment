@@ -27,12 +27,12 @@ java -jar target/fit2099-pokemon-assignment-1.0.0.jar
 ## 测试
 
 ```sh
-npm exec --prefix web-client playwright install chrome
+npm exec --prefix web-client playwright install chromium
 npm run e2e --prefix web-client
 node tools/load-test.mjs
 ```
 
-E2E 使用真实服务，无测试作弊接口。默认 localhost:8080；其他地址通过 `TEST_BASE_URL` 设置。需要本机 Chrome；可设置 `PLAYWRIGHT_CHANNEL=msedge`。
+E2E 使用真实服务，无测试作弊接口。默认 localhost:8080；其他地址通过 `TEST_BASE_URL` 设置。默认使用与 Playwright 1.58.2 配套的固定 Chromium（145）；可通过 PLAYWRIGHT_CHANNEL=chrome 或 msedge 改用本机浏览器，但本轮固定 Chromium 的复验更稳定。
 
 ## Docker
 

@@ -37,7 +37,7 @@ export class WorldScene extends Phaser.Scene {
    const bar=c.getByName('hp') as Phaser.GameObjects.Graphics;bar.clear();if(a.affection!==null){bar.fillStyle(0x21332a).fillRect(-12,14,24,3);bar.fillStyle(a.hp/a.maxHp>.3?0xbfe29a:0xe78b65).fillRect(-12,14,24*a.hp/a.maxHp,3);}
    c.setDepth(10+a.y);if(animate&&exists&&!this.reduceMotion&&(c.x!==(a.x+.5)*t||c.y!==(a.y+.5)*t)){const entity=c;promises.push(new Promise<void>(resolve=>this.tweens.add({targets:entity,x:(a.x+.5)*t,y:(a.y+.5)*t,duration:MOVE_MS,onComplete:()=>resolve()})));}else c.setPosition((a.x+.5)*t,(a.y+.5)*t);
   }
-  if(animate&&!this.reduceMotion)for(const e of events)if(e.kind==='HP_CHANGE'||e.kind==='AFFECTION_CHANGE'){const c=e.actorId?this.entities.get(e.actorId):null;if(c){const text=this.add.text(c.x,c.y-20,e.kind==='AFFECTION_CHANGE'?`♥ ${e.text}`:e.text,{fontSize:'13px',color:e.kind==='AFFECTION_CHANGE'?'#ffd5cf':'#fff3a8',stroke:'#243529',strokeThickness:3}).setOrigin(.5).setDepth(100);this.tweens.add({targets:text,y:text.y-25,alpha:0,duration:600,onComplete:()=>text.destroy()});}}
+  if(animate&&!this.reduceMotion)for(const e of events)if(e.kind==='HP_CHANGE'||e.kind==='AFFECTION_CHANGE'){const c=e.actorId?this.entities.get(e.actorId):null;if(c){const text=this.add.text(c.x,c.y-20,`${e.kind==='AFFECTION_CHANGE'?'♥ ':''}${(e.amount??0)>0?'+':''}${e.amount??0}`,{fontSize:'13px',color:e.kind==='AFFECTION_CHANGE'?'#ffd5cf':'#fff3a8',stroke:'#243529',strokeThickness:3}).setOrigin(.5).setDepth(100);this.tweens.add({targets:text,y:text.y-25,alpha:0,duration:600,onComplete:()=>text.destroy()});}}
   this.cameras.main.setAlpha(s.period==='NIGHT'?.78:1);this.last=s;await Promise.all(promises);
  }
  skip(){this.tweens.getTweens().forEach(t=>t.complete());}

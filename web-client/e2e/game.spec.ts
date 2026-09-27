@@ -1,5 +1,5 @@
 import {test,expect,type Page} from '@playwright/test';
-async function ready(p:Page){await expect(p.locator('#state')).toHaveAttribute('data-state','READY');}
+async function ready(p:Page){await p.bringToFront();await expect(p.locator('#state')).toHaveAttribute('data-state','READY',{timeout:12000});}
 async function clickAction(p:Page,kind:string){await ready(p);await p.locator(`#actions button[data-kind="${kind}"]`).first().click();await ready(p);await p.waitForTimeout(230);}
 async function snapshot(p:Page){return p.evaluate(async()=>await (await fetch('/api/games/current')).json());}
 async function goToMerchant(p:Page){

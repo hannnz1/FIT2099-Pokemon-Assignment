@@ -2,9 +2,9 @@
   "status": "PASS",
   "sessions": 20,
   "actions": 2000,
-  "durationSeconds": 23.4073807,
-  "p50Ms": 53.44380000000092,
-  "p95Ms": 305.066899999998,
-  "maxMs": 558.1963999999989,
+  "durationSeconds": 44.6758305,
+  "p50Ms": 57.91949999999997,
+  "p95Ms": 759.3950999999979,
+  "maxMs": 2935.546100000003,
   "isolation": "20 distinct gameIds, each exactly 100 turns, inventories remain independent"
 }

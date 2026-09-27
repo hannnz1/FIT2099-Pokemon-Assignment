@@ -1,3 +1,8 @@
+> 网页 Demo 已实现：真实 Java 引擎 + Phaser 最小素材前端。
+>
+> 从源码：`npm ci --prefix web-client` → `node tools/export-map.mjs` → `npm run build --prefix web-client` → `mvn clean verify` → `java -jar target/fit2099-pokemon-assignment-1.0.0.jar`。
+>
+> 打开 `http://localhost:8080`。详见 [运行与部署](docs/web-demo/runbook.md)、[验收报告](docs/web-demo/acceptance.md)、[接口](docs/web-demo/api.md) 和 [素材说明](docs/web-demo/upstream.md)。下面保留原项目说明。
 # FIT2099 Pokemon Console Game
 
 [![Java CI](https://github.com/hannnz1/FIT2099-Pokemon-Assignment/actions/workflows/build.yml/badge.svg)](https://github.com/hannnz1/FIT2099-Pokemon-Assignment/actions/workflows/build.yml)
@@ -135,3 +140,4 @@ concise API documentation.
 ## Academic Attribution
 
 This project was created for educational purposes as part of FIT2099 at Monash University. The engine and starter framework were supplied by the teaching team. Pokemon-related names and concepts belong to their respective rights holders. This repository is intended only as a coursework and portfolio demonstration.
+

@@ -21,3 +21,4 @@ web-client/dist/
 web-client/.npm-cache/
 web-client/test-results/
 resources/public/
+web-client/.playwright/

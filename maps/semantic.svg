@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="288" height="32" viewBox="0 0 288 32">
+<rect x="0" width="32" height="32" fill="#526b49"/><text x="16" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">.</text>
+<rect x="32" width="32" height="32" fill="#394646"/><text x="48" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">#</text>
+<rect x="64" width="32" height="32" fill="#b6a780"/><text x="80" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">F</text>
+<rect x="96" width="32" height="32" fill="#6b8a45"/><text x="112" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">H</text>
+<rect x="128" width="32" height="32" fill="#365f3c"/><text x="144" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">T</text>
+<rect x="160" width="32" height="32" fill="#4d889b"/><text x="176" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">~</text>
+<rect x="192" width="32" height="32" fill="#8dc5ca"/><text x="208" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">W</text>
+<rect x="224" width="32" height="32" fill="#a45538"/><text x="240" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">L</text>
+<rect x="256" width="32" height="32" fill="#6e4637"/><text x="272" y="23" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0efd4">C</text>
+</svg>
