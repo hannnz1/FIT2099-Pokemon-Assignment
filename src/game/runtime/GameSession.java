@@ -39,6 +39,7 @@ public final class GameSession extends World {
         result.sort(Comparator.comparingLong(a->context().order(a)));return result;
     }
     public void appendLog(String text) {
+        context().event("LOG",null,null,text);
         log.addLast(new SnapshotDto.LogEntry("l"+(++logSequence),turn+1,text));
         while(log.size()>200) log.removeFirst();
     }
@@ -76,9 +77,15 @@ public final class GameSession extends World {
             for(int i=0;i<grounds.size();i++) if(locations.get(i).getGround()==grounds.get(i) && grounds.get(i) instanceof TimePerception) effect((TimePerception)grounds.get(i),day);
             cleanup();turn++;
             SnapshotMapper.diff(before,snapshot(),context().events);
+            Set<Object> retained=Collections.newSetFromMap(new IdentityHashMap<Object,Boolean>());
+            retained.add(player);
+            for(Actor a:activeActors()) { retained.add(a);for(Item i:a.getInventory())retainItem(i,retained); }
+            for(int y:map.getYRange())for(int x:map.getXRange())for(Item i:map.at(x,y).getItems())retainItem(i,retained);
+            context().retain(retained);context().affection.retain(retained);lastActionMap.keySet().removeIf(a -> !map.contains(a));
             return new ArrayList<>(context().events);
         } catch(RuntimeException error) { ended=true;throw error; }
     }
     private static void effect(TimePerception p,boolean day) { if(day)p.dayEffect();else p.nightEffect(); }
+    private static void retainItem(Item item,Set<Object> retained) {retained.add(item);if(item instanceof game.items.balls.Pokeball){Actor a=((game.items.balls.Pokeball)item).getPokemon();if(a!=null){retained.add(a);for(Item i:a.getInventory())retainItem(i,retained);}}}
     public synchronized SnapshotDto snapshot() { return SnapshotMapper.map(this); }
 }

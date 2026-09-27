@@ -1,0 +1,2 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {GameController} from '../src/api/controller.ts';
+test('loading an existing snapshot cannot admit an action',async()=>{let calls=0;const c=new GameController(async()=>{calls++;return new Promise(()=>{});},async()=>{});c.snapshot={gameId:'g',revision:0} as any;c.state='REQUESTING';void c.act('wait');assert.equal(calls,0);});

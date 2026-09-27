@@ -51,7 +51,9 @@ public final class GameHttpServer implements AutoCloseable {
                 if(parts.length==4&&method.equals("DELETE")){store.delete(owner,id);send(e,204,null);return;}
                 if(parts.length==5&&method.equals("POST")) {
                     JsonNode b=body(e);if(b.size()!=3||!b.path("requestId").isTextual()||!b.path("actionId").isTextual()||!b.path("expectedRevision").isIntegralNumber()||!b.path("expectedRevision").canConvertToInt())throw new ApiException(400,"MALFORMED","动作字段格式错误");
-                    send(e,200,store.action(owner,id,b.get("requestId").asText(),b.get("expectedRevision").asInt(),b.get("actionId").asText()));return;
+                    SessionStore.Result result=store.action(owner,id,b.get("requestId").asText(),b.get("expectedRevision").asInt(),b.get("actionId").asText());
+                    System.out.println("action requestId="+result.requestId+" gameId="+id+" revision="+result.appliedRevision+" replayed="+result.replayed);
+                    send(e,200,result);return;
                 }
             }
             if(method.equals("GET")&&!path.startsWith("/api/")) {

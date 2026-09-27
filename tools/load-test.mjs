@@ -1,0 +1,9 @@
+import fs from 'node:fs';
+const base=process.env.TEST_BASE_URL??'http://localhost:8080',latencies=[],start=performance.now();
+const sessions=await Promise.all(Array.from({length:20},async(_,index)=>{
+ const created=await fetch(base+'/api/games',{method:'POST',headers:{Origin:base,'Content-Type':'application/json'},body:'{}'});if(!created.ok)throw Error(`create ${created.status}`);const cookie=created.headers.get('set-cookie').split(';')[0];let state=await created.json();const id=state.gameId;
+ for(let turn=0;turn<100;turn++){const begin=performance.now(),action=state.availableActions.find(a=>a.kind==='WAIT');const response=await fetch(`${base}/api/games/${id}/actions`,{method:'POST',headers:{Cookie:cookie,Origin:base,'Content-Type':'application/json'},body:JSON.stringify({requestId:`load_${index}_${turn}`,expectedRevision:turn,actionId:action.id})});const result=await response.json();if(!response.ok)throw Error(`${response.status} ${JSON.stringify(result)}`);state=result.snapshot;if(state.gameId!==id||state.turn!==turn+1||state.inventory.length!==0)throw Error('Session cross-talk or turn mismatch');latencies.push(performance.now()-begin);await new Promise(r=>setTimeout(r,Math.max(0,215-(performance.now()-begin))));}
+ await fetch(`${base}/api/games/${id}`,{method:'DELETE',headers:{Cookie:cookie,Origin:base}});return {gameId:id,turn:state.turn};
+}));
+latencies.sort((a,b)=>a-b);const result={status:'PASS',sessions:sessions.length,actions:latencies.length,durationSeconds:(performance.now()-start)/1000,p50Ms:latencies[Math.floor(latencies.length*.5)],p95Ms:latencies[Math.floor(latencies.length*.95)],maxMs:latencies.at(-1),isolation:'20 distinct gameIds, each exactly 100 turns, inventories remain independent'};
+fs.mkdirSync(new URL('../docs/web-demo/results/',import.meta.url),{recursive:true});fs.writeFileSync(new URL('../docs/web-demo/results/load.json',import.meta.url),JSON.stringify(result,null,2));console.log(result);

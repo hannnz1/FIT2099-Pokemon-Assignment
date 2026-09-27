@@ -27,6 +27,12 @@ public Actor getTarget() { return target; }
 
     @Override
     public String execute(Actor actor, GameMap map) {
+        String text=dialogue(actor);
+        if(map!=null)map.context().event("DIALOGUE",actor,target,text);
+        return text;
+    }
+
+    private String dialogue(Actor actor) {
         if (target instanceof ProffesorOak) {
             return hasAllElements(actor)
                     ? "Professor Oak: Congratulations " + actor + "! Here is a Pokedex for you."

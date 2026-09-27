@@ -31,6 +31,7 @@ public Actor getTarget() { return shopkeeper; }
     public String execute(Actor actor, GameMap map) {
         List<Item> candies = findCandies(actor);
         if (candies.size() < offer.getCandyCost()) {
+            if(map!=null)map.context().event("TRADE",actor,shopkeeper,"糖果不足：需要 "+offer.getCandyCost()+" 个");
             return actor + " needs " + offer.getCandyCost() + " candies to trade for " + offer
                     + " (currently has " + candies.size() + ").";
         }
@@ -40,6 +41,7 @@ public Actor getTarget() { return shopkeeper; }
         }
         Item product = offer.createProduct();
         actor.addItemToInventory(product);
+        if(map!=null)map.context().event("TRADE",actor,shopkeeper,"兑换成功："+offer);
         return actor + " trades " + offer.getCandyCost() + " candies with " + shopkeeper
                 + " for " + offer + ".";
     }

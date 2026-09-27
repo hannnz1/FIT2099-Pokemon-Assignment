@@ -15,6 +15,8 @@ public final class GameContext {
     public String id(Object value) { return ids.computeIfAbsent(value, k -> "e" + (++sequence)); }
     public long order(Object value) { return Long.parseLong(id(value).substring(1)); }
     public void forget(Object value) { ids.remove(value); }
+    public int retainedCount() { return ids.size(); }
+    public void retain(Set<Object> active) { ids.keySet().removeIf(o -> !active.contains(o)); }
     public void event(String kind, Object actor, Object target, String text) {
         events.add(new EventDto(kind, actor == null ? null : id(actor), target == null ? null : id(target), text));
     }

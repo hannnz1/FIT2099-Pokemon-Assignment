@@ -86,6 +86,7 @@ public final class AffectionManager {
 
     /** Clears game-session state. Primarily useful when starting a new game or test. */
     public void forget(Actor actor) { affectionPoints.remove(actor); }
+    public void retain(java.util.Set<Object> active) { affectionPoints.keySet().removeIf(a -> !active.contains(a)); }
 
     public void reset() {
         affectionPoints.clear();

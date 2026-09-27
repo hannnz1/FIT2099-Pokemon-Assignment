@@ -1,0 +1,8 @@
+.git
+.superpowers
+target
+web-client/node_modules
+web-client/.npm-cache
+web-client/dist
+web-client/test-results
+*.log

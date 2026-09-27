@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "sessions": 20,
+  "actions": 2000,
+  "durationSeconds": 23.4073807,
+  "p50Ms": 53.44380000000092,
+  "p95Ms": 305.066899999998,
+  "maxMs": 558.1963999999989,
+  "isolation": "20 distinct gameIds, each exactly 100 turns, inventories remain independent"
+}

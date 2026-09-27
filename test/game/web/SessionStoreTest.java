@@ -28,4 +28,5 @@ class SessionStoreTest {
         SessionStore store=new SessionStore(this::game,System::currentTimeMillis,2,100,100);GameSession s=store.create("a");String id=waitId(s);ExecutorService pool=Executors.newFixedThreadPool(2);
         try {Callable<Integer> c=()->{try{store.action("a",s.gameId,java.util.UUID.randomUUID().toString(),0,id);return 200;}catch(ApiException e){return e.status;}};java.util.List<Future<Integer>> f=pool.invokeAll(java.util.Arrays.asList(c,c));assertEquals(609,f.get(0).get()+f.get(1).get());assertEquals(1,s.turn());}finally{pool.shutdownNow();}
     }
+    @Test void perIdentityRateWindowResetsAndCloseReleasesGames(){AtomicLong time=new AtomicLong();SessionStore store=new SessionStore(this::game,time::get,10,100,5);GameSession s=store.create("a");for(int i=0;i<5;i++)store.action("a",s.gameId,"r"+i,i,waitId(s));assertEquals(429,assertThrows(ApiException.class,()->store.action("a",s.gameId,"r5",5,waitId(s))).status);time.set(1000);store.action("a",s.gameId,"r5",5,waitId(s));assertEquals(6,s.turn());store.close();assertEquals(0,store.size());}
 }

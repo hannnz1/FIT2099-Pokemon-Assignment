@@ -44,7 +44,10 @@ public final class SnapshotMapper {
             if(b==null)out.add(new EventDto("SPAWN",a.id,null,a.name));
             else {if(a.x!=b.x||a.y!=b.y)out.add(new EventDto("MOVE",a.id,null,""));if(a.hp!=b.hp)out.add(new EventDto("HP_CHANGE",a.id,null,Integer.toString(a.hp-b.hp)));if(!Objects.equals(a.affection,b.affection))out.add(new EventDto("AFFECTION_CHANGE",a.id,null,String.valueOf(a.affection)));}
         }
-        for(ActorDto a:old.values())out.add(new EventDto(captured.contains(a.id)?"CAPTURE":"REMOVE",a.id,null,a.name));
+        for(ActorDto a:old.values()) {
+            String kind=captured.contains(a.id)?"CAPTURE":"REMOVE";
+            if(out.stream().noneMatch(e->e.kind.equals(kind)&&a.id.equals(e.actorId)))out.add(new EventDto(kind,a.id,null,a.name));
+        }
         for(int i=0;i<after.map.grounds.size();i++)if(!before.map.grounds.get(i).kind.equals(after.map.grounds.get(i).kind))out.add(new EventDto("GROUND_CHANGE",null,null,after.map.grounds.get(i).kind));
         if(!before.period.equals(after.period))out.add(new EventDto("PERIOD_CHANGE",null,null,after.period));
         List<String> bi=new ArrayList<>(),ai=new ArrayList<>();for(ItemDto i:before.inventory)bi.add(i.id);for(ItemDto i:after.inventory)ai.add(i.id);
