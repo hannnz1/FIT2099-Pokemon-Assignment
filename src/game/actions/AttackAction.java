@@ -48,6 +48,8 @@ public Actor getTarget() { return target; }
     @Override
     public String execute(Actor actor, GameMap map) {
 
+        if(target instanceof game.actors.npc.NPC)return "友好 NPC 不能被攻击。";
+
         Weapon weapon = actor.getWeapon();
 
         if (!(map.context().random.nextInt(100) <= weapon.chanceToHit())) {

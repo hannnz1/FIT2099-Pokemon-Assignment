@@ -25,9 +25,7 @@ public class Crater extends SpawnerGrounds {
   public void tick(Location location) {
     game.runtime.RandomSource rand = location.map().context().random;
     //  Crater has a 10% chance of spawning a Torchic (see REQ2).
-    if(rand.nextInt(100) <= percentSpawn && !location.containsAnActor()){
-      location.addActor(new Torchic());
-    }
+    if(rand.nextInt(100) <= percentSpawn)game.runtime.WorldPopulation.trySpawn(location,new Torchic());
   }
 
 }

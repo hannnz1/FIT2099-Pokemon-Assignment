@@ -10,7 +10,7 @@ public final class AvailableActionCollector {
         ActionList actions=new ActionList();
         if (!map.contains(actor) || !actor.isConscious()) return actions;
         Location here=map.locationOf(actor);
-        for(Item item:actor.getInventory()) { actions.add(item.getAllowableActions()); actions.add(item.getDropAction(actor)); }
+        for(Item item:actor.getInventory()) { actions.add(item.getAllowableActions()); if(!(item instanceof game.items.Candy)||WorldPopulation.canPlaceCandy(here))actions.add(item.getDropAction(actor)); }
         actions.add(here.getGround().allowableActions(actor,here,""));
         for(Exit exit:here.getExits()) {
             Location dest=exit.getDestination();

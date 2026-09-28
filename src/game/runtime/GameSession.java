@@ -46,7 +46,7 @@ public final class GameSession extends World {
     private void cleanup() {
         for(Actor a:activeActors()) if(!a.isConscious()) {
             Location location=map.locationOf(a);
-            for(Item item:new ArrayList<>(a.getInventory())) { a.removeItemFromInventory(item); if(item.getDropAction(a)!=null) location.addItem(item); }
+            for(Item item:new ArrayList<>(a.getInventory())) { a.removeItemFromInventory(item); if(item.getDropAction(a)!=null) {if(item instanceof game.items.Candy)WorldPopulation.tryPlaceCandy(location,(game.items.Candy)item);else location.addItem(item);} }
             map.removeActor(a);lastActionMap.remove(a);context().affection.forget(a);
             context().event("REMOVE",a,null,"失去战斗能力");
             if(a==player) ended=true;
@@ -75,7 +75,7 @@ public final class GameSession extends World {
             boolean day=periodAt(turn+1).equals("DAY");
             for(Actor a:actors) if(map.contains(a) && a.isConscious() && a instanceof TimePerception) { effect((TimePerception)a,day); cleanup(); }
             for(int i=0;i<grounds.size();i++) if(locations.get(i).getGround()==grounds.get(i) && grounds.get(i) instanceof TimePerception) effect((TimePerception)grounds.get(i),day);
-            cleanup();turn++;
+            cleanup();if(!ended)WorldPopulation.replenishCandy(this);turn++;
             SnapshotMapper.diff(before,snapshot(),context().events);
             for(int i=0;i<context().events.size();i++){EventDto event=context().events.get(i);event.revision=turn;event.order=i;event.id=gameId+":"+turn+":"+i;}
             Set<Object> retained=Collections.newSetFromMap(new IdentityHashMap<Object,Boolean>());

@@ -1,6 +1,6 @@
 {
   "id": "demo",
-  "version": "45b282d16eedb4de",
+  "version": "e226ec08457b7ac0",
   "width": 40,
   "height": 40,
   "tileSize": 32,
@@ -76,106 +76,6 @@
       "kind": "TORCHIC",
       "x": 12,
       "y": 36
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
-    },
-    {
-      "kind": "CANDY",
-      "x": 11,
-      "y": 35
     }
   ],
   "kinds": [

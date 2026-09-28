@@ -11,7 +11,7 @@ if(tiles.some((id,i)=>(id===2)!==collides.has(obstacles[i])))throw Error('Visual
 if(!Number.isInteger(m.width)||!Number.isInteger(m.height)||m.width<3||m.height<3||m.width>100||m.height>100||tiles.length!==m.width*m.height||tiles.some(t=>!Number.isInteger(t)||t<1||t>9))throw Error('Invalid terrain');
 const seen=new Set();const entities=objects.map(o=>{const x=o.x/m.tilewidth,y=o.y/m.tileheight;
  if(!Number.isInteger(x)||!Number.isInteger(y)||x<0||y<0||x>=m.width||y>=m.height||tiles[y*m.width+x]===2)throw Error('Invalid entity spawn');
- if(!['PLAYER','PROFESSOR','MERCHANT','TREECKO','MUDKIP','TORCHIC','CANDY'].includes(o.type))throw Error('Invalid entity type');
+ if(!['PLAYER','PROFESSOR','MERCHANT','TREECKO','MUDKIP','TORCHIC'].includes(o.type))throw Error('Invalid entity type');
  if(o.type!=='CANDY'){const key=`${x},${y}`;if(seen.has(key))throw Error('Duplicate actor spawn');seen.add(key);}return {kind:o.type,x,y};});
 if(entities.filter(e=>e.kind==='PLAYER').length!==1)throw Error('Need one player');
 for(const kind of ['PROFESSOR','MERCHANT','TREECKO','MUDKIP','TORCHIC'])if(!entities.some(e=>e.kind===kind))throw Error(`Missing ${kind}`);

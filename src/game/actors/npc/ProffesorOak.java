@@ -7,7 +7,7 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actions.AttackAction;
+
 import game.actions.TalkAction;
 
 //Professor Oak, who you can visit after you have captured one of each pokemon.
@@ -33,7 +33,6 @@ public class ProffesorOak extends NPC {
   @Override
   public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
     ActionList actions = new ActionList();
-    actions.add(new AttackAction(this, direction));
     actions.add(new TalkAction(this, direction));
     return actions;
   }

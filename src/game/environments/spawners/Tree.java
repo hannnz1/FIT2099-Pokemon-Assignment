@@ -7,7 +7,7 @@ import game.conditions.Element;
 import game.actors.pokemon.Treecko;
 import game.environments.Hay;
 import game.environments.structures.StructuralGrounds;
-import game.items.Candy;
+
 import game.time.TimePerception;
 import game.time.TimePerceptionManager;
 import java.util.Random;
@@ -42,8 +42,7 @@ public class Tree extends SpawnerGrounds implements TimePerception {
         for (Exit exit : location.getExits()) {
             if (exit.getDestination().getGround().hasCapability(Element.GRASS)){
                 //    Tree has a 15% chance will spawn a Treecko (see REQ2)
-                if(rand.nextInt(100) <= percentSpawn && !location.containsAnActor()){
-                    location.addActor(new Treecko());
+                if(rand.nextInt(100) <= percentSpawn && game.runtime.WorldPopulation.trySpawn(location,new Treecko())){
                     break;
                 }
             }
@@ -53,7 +52,7 @@ public class Tree extends SpawnerGrounds implements TimePerception {
     }
 
     //    When it is at day, at every turn:
-    //    Trees T have a 5% chance of dropping a Candy.
+    //    Candy spawning is owned by WorldPopulation, independently of trees.
     /**
      * made the day shift effect specially for Tree
      * ground things
@@ -62,12 +61,7 @@ public class Tree extends SpawnerGrounds implements TimePerception {
      */
     @Override
     public void dayEffect() {
-        if (location != null && location.getGround() == this) {
-            game.runtime.RandomSource rand = location.map().context().random;
-            if (rand.nextInt(100) <= 5) {
-                location.addItem(new Candy());
-            }
-        }
+        // Candy is replenished once per world turn at random reachable locations.
     }
 
     //    When it is at night, at every turn:

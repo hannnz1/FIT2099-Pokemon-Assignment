@@ -2,9 +2,9 @@
 
 日期：2026-09-28。交付范围：本地可玩的 Java + Phaser demo、可执行 JAR、源码、Docker 构建和发布文档。公网发布尚未执行。
 
-## 当前视觉整合版验证
+## 当前数量限制与 NPC 修复版验证
 
-44 Java、7 前端、9 真实浏览器测试通过；实际发布包 localhost:8080 已更新。地图与人物使用 Phaser RPG 原始资源，详见 [visual-integration.md](visual-integration.md)。
+54 Java、7 前端、9 真实浏览器测试通过；实际发布包 localhost:8080 已更新。每种地图精灵最多 3 只，地图 Candy 最多 2 颗随机补充，博士只对话、商人只交易。详见 [population-fixes.md](population-fixes.md)。视觉整合记录见 [visual-integration.md](visual-integration.md)。
 
 ## 前一版实测汇总（历史记录）
 

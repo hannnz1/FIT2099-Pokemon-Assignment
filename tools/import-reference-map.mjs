@@ -11,7 +11,7 @@ for(const [cx,cy,id,ground] of [[4,30,5,4],[22,33,7,6],[29,33,9,8]]){
  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)put(cx+dx,cy+dy,ground);
  put(cx,cy,id);
 }
-const entities=[['PLAYER',11,35],['PROFESSOR',12,32],['MERCHANT',13,32],['TREECKO',10,35],['MUDKIP',12,35],['TORCHIC',12,36],...Array.from({length:20},()=>['CANDY',11,35])];
+const entities=[['PLAYER',11,35],['PROFESSOR',12,32],['MERCHANT',13,32],['TREECKO',10,35],['MUDKIP',12,35],['TORCHIC',12,36]];
 town.tilesets[0].image='../web-client/public/assets/phaser-rpg/tuxemon-sample-32px-extruded.png';
 town.tilesets.push({firstgid:1001,source:'semantic.tsj'});
 town.layers.push({id:100,name:'terrain',type:'tilelayer',visible:false,opacity:1,width:40,height:40,x:0,y:0,data:terrain});
