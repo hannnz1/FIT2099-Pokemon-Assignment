@@ -1,6 +1,7 @@
 import {test,expect,type Page} from '@playwright/test';
 async function ready(p:Page){await p.bringToFront();await expect(p.locator('#state')).toHaveAttribute('data-state','READY',{timeout:12000});}
-async function clickAction(p:Page,kind:string){await ready(p);await p.locator(`#actions button[data-kind="${kind}"]`).first().click();await ready(p);await p.waitForTimeout(230);}
+async function selectFor(p:Page,kind:string){const s=await snapshot(p);const a=s.availableActions.find((a:any)=>a.kind===kind);if(a?.targetId)await p.locator(`#targets [data-target-id="${a.targetId}"]`).click();}
+async function clickAction(p:Page,kind:string){await ready(p);await selectFor(p,kind);await p.locator(`#actions button[data-kind="${kind}"]`).first().click();await ready(p);await p.waitForTimeout(230);}
 async function snapshot(p:Page){return p.evaluate(async()=>await (await fetch('/api/games/current')).json());}
 const deltas:Record<string,[number,number]>={'North':[0,-1],'North-East':[1,-1],'East':[1,0],'South-East':[1,1],'South':[0,1],'South-West':[-1,1],'West':[-1,0],'North-West':[-1,-1]};
 function limits(s:any){for(const kind of ['TREECKO','MUDKIP','TORCHIC'])expect(s.actors.filter((a:any)=>a.kind===kind).length).toBeLessThanOrEqual(3);expect(s.groundItems.filter((i:any)=>i.item.kind==='CANDY').length).toBeLessThanOrEqual(2);}
@@ -28,7 +29,7 @@ test('real Java exploration, capture, random candy, role-specific NPCs, trade an
  test.setTimeout(180000);
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await ready(page);await expect(page.locator('canvas')).toBeVisible();await expect(page.locator('#turn')).toHaveText('0');
  const initial=await snapshot(page);expect(initial.groundItems.filter((i:any)=>i.item.kind==='CANDY')).toHaveLength(2);limits(initial);
- await page.locator('#actions [data-kind="CAPTURE"]').filter({hasText:'Treecko'}).click();await ready(page);await page.waitForTimeout(230);await expect(page.locator('#inventory')).toContainText('木守宫');
+ await page.locator(`#targets [data-target-id="${initial.actors.find((a:any)=>a.kind==='TREECKO').id}"]`).click();await page.locator('#actions [data-kind="CAPTURE"]').click();await ready(page);await page.waitForTimeout(230);await expect(page.locator('#inventory')).toContainText('木守宫');
  const captured=(await snapshot(page)).inventory.find((i:any)=>i.containedPokemon).containedPokemon;
  if(await page.locator('#actions [data-kind="SING"]').count())await clickAction(page,'SING');
  await page.locator('#motion').check();
@@ -39,7 +40,7 @@ test('real Java exploration, capture, random candy, role-specific NPCs, trade an
   const actions=nearby.availableActions.filter((a:any)=>a.targetId===npc.id);expect(actions.every((a:any)=>a.kind===(npc.kind==='PROFESSOR'?'TALK':'TRADE'))).toBeTruthy();
  }
  await expect(page.locator('#actions [data-kind="ATTACK"]')).toHaveCount(0);
- await page.locator('#actions [data-kind="TRADE"]').filter({hasText:'GreatBall'}).click();await ready(page);
+ await selectFor(page,'TRADE');await page.locator('#actions [data-kind="TRADE"]').filter({hasText:'GreatBall'}).click();await ready(page);
  const s=await snapshot(page);expect(s.inventory.filter((i:any)=>i.kind==='CANDY')).toHaveLength(0);expect(s.inventory.some((i:any)=>i.kind==='GREAT_BALL')).toBeTruthy();expect(s.inventory.find((i:any)=>i.containedPokemon?.id===captured.id).containedPokemon.hp).toBe(captured.hp);
  await page.reload();await ready(page);await expect(page.locator('#turn')).toHaveText(String(s.turn));await expect(page.locator('#inventory')).toContainText('GreatBall');expect(errors).toEqual([]);
  await page.screenshot({path:'test-results/game-1366.png',fullPage:true});await page.setViewportSize({width:1920,height:1080});await page.screenshot({path:'test-results/game-1920.png',fullPage:true});
@@ -56,4 +57,20 @@ test('independent visitors and shared-cookie tabs are isolated correctly',async(
  const tab=await a.newPage();await tab.goto('/');await ready(tab);await p.locator('#wait').click();await ready(p);await tab.locator('#wait').click();await ready(tab);await expect(tab.locator('#turn')).toHaveText('1');await expect(q.locator('#turn')).toHaveText('0');
  const denied=await q.evaluate(async id=>(await fetch('/api/games/'+id)).status,sa.gameId);expect(denied).toBe(404);
  }finally{await a.close();await b.close();}
+});
+
+test('choose a target before an interaction; selection does not advance a turn',async({page})=>{
+ await page.goto('/');await ready(page);const s=await snapshot(page);
+ await expect(page.locator('#actions button')).toHaveCount(0);
+ const treecko=s.actors.find((a:any)=>a.kind==='TREECKO'),mudkip=s.actors.find((a:any)=>a.kind==='MUDKIP');
+ await page.locator(`#targets [data-target-id="${mudkip.id}"]`).click();
+ await expect(page.locator('#target')).toContainText('水跃鱼');
+ await expect(page.locator('#actions')).not.toContainText('Treecko');
+ await expect(page.locator('#turn')).toHaveText('0');
+ await page.locator(`#targets [data-target-id="${treecko.id}"]`).click();
+ await expect(page.locator('#actions')).not.toContainText('Mudkip');
+ await page.locator('#actions [data-kind="CAPTURE"]').click();await ready(page);
+ await expect(page.locator('#inventory')).toContainText('木守宫');
+ await expect(page.locator('#targets [aria-pressed="true"]')).toHaveCount(0);
+ await expect(page.locator('#actions button')).toHaveCount(0);
 });

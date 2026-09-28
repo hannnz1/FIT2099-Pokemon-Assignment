@@ -18,6 +18,8 @@ export class WorldScene extends Phaser.Scene {
  readonly ready=new Promise<void>((resolve,reject)=>{this.readyResolve=resolve;this.readyReject=reject;});
  onSelect=(id:string)=>{};
  reduceMotion=false;
+ private selectedTarget:string|null=null;
+ selectTarget(id:string|null){this.selectedTarget=id;for(const [key,c] of this.entities)(c.getByName('selection') as Phaser.GameObjects.Graphics).setVisible(key===id);}
  constructor(){super('world');}
  preload(){
   this.load.on('loaderror',(file:Phaser.Loader.File)=>this.readyReject(new Error(`场景素材加载失败：${file.key}，请刷新页面重试。`)));
@@ -44,6 +46,7 @@ export class WorldScene extends Phaser.Scene {
  }
  private entity(a:Actor,tile:number){
   const asset=assetFor(a.kind),c=this.add.container((a.x+.5)*tile,(a.y+.5)*tile).setDepth(100+a.y*tile);
+  c.add(this.add.graphics().lineStyle(2,0xffdf7a).strokeRoundedRect(-16,-20,32,40,5).setName('selection').setVisible(a.id===this.selectedTarget));
   c.add(this.add.ellipse(0,10,23,9,0x152621,.3));
   if(humans.has(a.kind)){
    const sprite=this.add.sprite(0,16,'misa','misa-front').setOrigin(.5,1).setName('sprite');

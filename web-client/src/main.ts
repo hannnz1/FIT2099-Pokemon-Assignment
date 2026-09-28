@@ -13,7 +13,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML=`
 <div class="layout"><section class="field-panel"><div class="field-top"><span><i class="live-dot"></i> Tuxemon 小镇 <small>40 × 40</small></span><div><span id="period">☀ 白昼</span><span class="divider">/</span><span>回合 <b id="turn">0</b></span></div></div><div id="board"><div id="loading">正在连接游戏世界…</div></div><div class="field-bottom"><span id="position">等待连接</span><span id="next-period">下一轮：白昼</span><label><input id="motion" type="checkbox"> 简化动画</label></div>
 <div class="controls"><div class="pad" id="pad"></div><div class="control-copy"><strong>每一步，都让世界向前。</strong><p>WASD / 方向键移动 · 空格等待<br>上下左右四向移动 · 点击角色查看详情</p><div class="control-buttons"><button id="wait" class="primary">等待一回合 <kbd>SPACE</kbd></button></div></div><span class="compass">N<br>✧<br>S</span></div>
 <div class="legend"><span><i class="grass"></i>草系区域</span><span><i class="water"></i>水系区域</span><span><i class="fire"></i>火系区域</span><span>◆ 地面物品</span><span>▤ 墙体不可通行</span></div></section>
-<aside><section class="side-card"><div class="card-heading"><h2>附近的互动</h2><span id="state" class="status">连接中</span></div><div id="target" class="target">选择角色，查看血量和好感。</div><div id="actions" class="action-list"></div></section><section class="side-card inventory-card"><div class="card-heading"><h2>随身背包</h2><span id="inventory-count">0 件</span></div><div id="inventory"></div><p class="hint">球内精灵暂停行动与昼夜效果。</p><p id="candy-locations" class="hint"></p></section><section class="side-card journal" aria-labelledby="results-heading"><div class="card-heading"><h2 id="results-heading">互动结果</h2><span class="hint">最新在上</span></div><div id="dialogue" role="status" hidden></div><ol id="logs" aria-live="polite"><li class="muted">你的旅程即将开始。</li></ol></section></aside></div>
+<aside><section class="side-card"><div class="card-heading"><h2>附近的互动</h2><span id="state" class="status">连接中</span></div><p class="interaction-step">1 · 选择互动目标</p><div id="targets" class="target-list"></div><div id="target" class="target">请先选择附近的目标。</div><p class="interaction-step">2 · 选择互动方式</p><div id="actions" class="action-list"></div></section><section class="side-card inventory-card"><div class="card-heading"><h2>随身背包</h2><span id="inventory-count">0 件</span></div><div id="inventory"></div><p class="hint">球内精灵暂停行动与昼夜效果。</p><p id="candy-locations" class="hint"></p></section><section class="side-card journal" aria-labelledby="results-heading"><div class="card-heading"><h2 id="results-heading">互动结果</h2><span class="hint">最新在上</span></div><div id="dialogue" role="status" hidden></div><ol id="logs" aria-live="polite"><li class="muted">你的旅程即将开始。</li></ol></section></aside></div>
 
 <section id="help" hidden><h2>开始你的第一段探索</h2><p>地图随机放置最多 2 颗糖果，拾取后会在可到达的空位随机补充。背包旁显示糖果坐标。在相邻格与木守宫、水跃鱼互动或捕捉，向北寻找博士对话、与商人交易。火稚鸡可与之互动，也可用 10 个糖果在商人处兑换。</p><p>木守宫喜欢跳舞，水跃鱼喜欢拍胸脯，火稚鸡喜欢唱歌。每个合法动作都会推进一回合；昼夜每五回合切换，精灵会自主移动、战斗，地形会生成与扩散。地图上的木守宫、水跃鱼和火稚鸡各最多 3 只，球内精灵不计入。博士只对话，商人只交易，友好 NPC 不可攻击。</p><p>高级球 3 糖果，大师球 6 糖果；首版只保留原引擎已有的交易与物品功能。游戏保存在服务器内存中，刷新可恢复；30 分钟无操作或服务器重启后需重新开始。此版本为桌面优先，地图与人物来自 Phaser RPG；宝可梦、道具和专属效果暂用标注占位素材。</p></section>
 <footer><span>口袋原野 / 引擎玩法验证版</span><span><a href="/credits.html" target="_blank" rel="noopener">素材来源与许可 ↗</a></span></footer></main>`;
@@ -38,15 +38,29 @@ function render(){const s=controller.snapshot;el('state').textContent=({READY:'�
  if(controller.state==='READY'||controller.state==='ENDED')void scene.render(s);
  for(const b of el('pad').querySelectorAll('button'))b.disabled=controller.state!=='READY'||!s.availableActions.some(a=>a.kind==='MOVE'&&a.direction===b.dataset.direction);
  el<HTMLButtonElement>('wait').disabled=controller.state!=='READY'||!s.availableActions.some(a=>a.kind==='WAIT');
- const target=s.actors.find(a=>a.id===selected);if(target){const appearance=assetFor(target.kind);el('target').textContent=`${appearance.label} · ${target.name}\nHP ${target.hp}/${target.maxHp}${target.affection===null?'':` · 好感 ${target.affection}`} · (${target.x}, ${target.y})`;}else{selected=null;el('target').textContent='点击地图角色可查看状态；下方显示当前可用动作。';}
- const actionsRoot=el('actions');actionsRoot.replaceChildren();const shown=new Set<string>();for(const a of s.availableActions){if(['MOVE','WAIT','DROP'].includes(a.kind))continue;if(selected&&a.targetId&&a.targetId!==selected&&a.kind!=='PICK_UP')continue;const key=a.kind==='PICK_UP'?a.label:a.id;if(shown.has(key))continue;shown.add(key);actionsRoot.append(button(a));}
- if(!actionsRoot.children.length)actionsRoot.textContent='附近暂无可用互动，靠近角色或物品试试。';if(selected){const b=document.createElement('button');b.className='quiet';b.textContent='显示全部附近动作';b.onclick=()=>{selected=null;render();};actionsRoot.append(b);}
+ const interactions=s.availableActions.filter(a=>!['MOVE','WAIT','DROP'].includes(a.kind));
+ const targets=new Map<string,{label:string;detail:string}>();
+ for(const a of interactions){if(!a.targetId)continue;const actor=s.actors.find(v=>v.id===a.targetId),item=s.groundItems.find(v=>v.item.id===a.targetId);
+  if(actor)targets.set(actor.id,{label:`${assetFor(actor.kind).label} (${actor.x}, ${actor.y})`,detail:`${assetFor(actor.kind).label} · ${actor.name}\nHP ${actor.hp}/${actor.maxHp}${actor.affection===null?'':` · 好感 ${actor.affection}`} · (${actor.x}, ${actor.y})`});
+  else if(item)targets.set(item.item.id,{label:`${item.item.kind==='CANDY'?'糖果':item.item.name} (${item.x}, ${item.y})`,detail:`地面物品 · ${item.item.kind==='CANDY'?'糖果':item.item.name} · (${item.x}, ${item.y})`});
+ }
+ const lost=!!selected&&!targets.has(selected);if(lost)selected=null;
+ scene.selectTarget(selected);
+ const targetsRoot=el('targets');targetsRoot.replaceChildren();
+ for(const [id,t] of targets){const b=document.createElement('button');b.className='target-choice';b.textContent=t.label;b.dataset.targetId=id;b.setAttribute('aria-pressed',String(selected===id));b.disabled=controller.state!=='READY';b.onclick=()=>{selected=id;render();};targetsRoot.append(b);}
+ if(!targets.size)targetsRoot.textContent='附近没有可互动目标，请靠近角色或物品。';
+ el('target').textContent=selected?`当前目标：${targets.get(selected)!.detail}`:lost?'原目标已离开范围或不再可互动，请重新选择。':'请先点击上方目标，或点击地图上附近的角色。';
+ const actionsRoot=el('actions');actionsRoot.replaceChildren();
+ if(selected)for(const a of interactions.filter(a=>a.targetId===selected))actionsRoot.append(button(a));
+ if(!selected)actionsRoot.textContent='选择目标后显示互动方式。';
+ // Targetless continuation actions remain accessible when required by the engine.
+ for(const a of interactions.filter(a=>!a.targetId))actionsRoot.append(button(a));
  const candies=s.groundItems.filter(i=>i.item.kind==='CANDY');el('candy-locations').textContent='地图糖果 '+candies.length+'/2：'+candies.map(i=>'('+i.x+', '+i.y+')').join('、')+'。地图满额时不可丢下糖果。';
  el('inventory-count').textContent=`${s.inventory.length} 件`;renderInventory(s.inventory,s.availableActions);
  const logs=el('logs');logs.replaceChildren();for(const log of s.log.slice(-30).reverse()){const li=document.createElement('li'),stamp=document.createElement('small');stamp.textContent=`T${String(log.turn).padStart(3,'0')}`;li.append(stamp,document.createTextNode(log.text));logs.append(li);}if(!s.log.length)logs.textContent='旅程开始。寻找散落在小镇的糖果，结识身边的新朋友。';
  if(s.phase==='ENDED'){el('error').hidden=false;el('error-message').textContent='本局已结束，请重新开始。';}
 }
-scene.onSelect=id=>{selected=id;render();};controller.onChange=render;
+scene.onSelect=id=>{if(controller.state!=='READY')return;const valid=controller.snapshot?.availableActions.some(a=>a.targetId===id&&!['MOVE','WAIT','DROP'].includes(a.kind));if(valid){selected=id;render();}else{selected=null;render();el('target').textContent='该角色当前不可互动，请先靠近并从目标列表选择。';}};controller.onChange=render;
 el('wait').onclick=()=>{const a=controller.snapshot?.availableActions.find(a=>a.kind==='WAIT');if(a)void controller.act(a.id);};
 el('retry').onclick=()=>void controller.retry();
 el('recover').onclick=()=>controller.snapshot?void controller.refresh():void controller.load();

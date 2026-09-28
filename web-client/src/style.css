@@ -9,3 +9,5 @@ aside .journal h2{margin:0}
 aside .journal ol{height:180px;overflow-wrap:anywhere}
 aside .journal #dialogue{margin-bottom:10px;white-space:pre-line;overflow-wrap:anywhere}
 @media(max-width:760px){aside .journal{grid-column:1/-1}}
+
+.interaction-step{font-size:11px;color:#e9d8b0;margin:10px 0 7px}.target-list{display:grid;gap:6px;max-height:160px;overflow-y:auto;font-size:11px;color:#acb5c3;margin-bottom:10px}.target-choice{text-align:left;font-size:11px;padding:8px}.target-choice[aria-pressed=true]{border-color:#ffdf7a;background:#4d4939;color:#fff1bc}#actions:empty{color:#acb5c3}
