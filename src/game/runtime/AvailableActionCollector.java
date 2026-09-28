@@ -16,7 +16,7 @@ public final class AvailableActionCollector {
             Location dest=exit.getDestination();
             if(dest.containsAnActor()) actions.add(dest.getActor().allowableActions(actor,exit.getName(),map));
             else actions.add(dest.getGround().allowableActions(actor,dest,exit.getName()));
-            actions.add(dest.getMoveAction(actor,exit.getName(),exit.getHotKey()));
+            if(GridMovement.isCardinal(here,dest)) actions.add(dest.getMoveAction(actor,exit.getName(),exit.getHotKey()));
         }
         for(Item item:here.getItems()) { actions.add(item.getAllowableActions()); actions.add(item.getPickUpAction(actor)); }
         actions.add(new DoNothingAction()); return actions;

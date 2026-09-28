@@ -27,7 +27,7 @@ public class WanderBehaviour implements Behaviour {
 		
 		for (Exit exit : map.locationOf(actor).getExits()) {
             Location destination = exit.getDestination();
-            if (destination.canActorEnter(actor)) {
+            if (game.runtime.GridMovement.isCardinal(map.locationOf(actor), destination) && destination.canActorEnter(actor)) {
             	actions.add(exit.getDestination().getMoveAction(actor, "around", exit.getHotKey()));
             }
         }

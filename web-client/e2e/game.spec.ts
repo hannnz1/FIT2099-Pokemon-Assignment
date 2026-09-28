@@ -16,7 +16,7 @@ async function travel(p:Page,goal:'CANDY'|'MERCHANT'|'PROFESSOR'){
   for(const a of s.actors)if(a.id!==s.playerId)blocked.add(`${a.x},${a.y}`);
   const queue=[{x:me.x,y:me.y,first:''}],seen=new Set([`${me.x},${me.y}`]);let direction='';
   for(const cell of queue){if(goals.has(`${cell.x},${cell.y}`)){direction=cell.first;break;}
-   for(const [d,[dx,dy]] of Object.entries(deltas)){const x=cell.x+dx,y=cell.y+dy,k=`${x},${y}`;if(x>=0&&y>=0&&x<s.map.width&&y<s.map.height&&!blocked.has(k)&&!seen.has(k)){seen.add(k);queue.push({x,y,first:cell.first||d});}}
+   for(const [d,[dx,dy]] of Object.entries(deltas)){if(Math.abs(dx)+Math.abs(dy)!==1)continue;const x=cell.x+dx,y=cell.y+dy,k=`${x},${y}`;if(x>=0&&y>=0&&x<s.map.width&&y<s.map.height&&!blocked.has(k)&&!seen.has(k)){seen.add(k);queue.push({x,y,first:cell.first||d});}}
   }
   if(direction)await p.locator(`#pad [data-direction="${direction}"]`).click();else await p.locator('#wait').click();
   await ready(p);await p.waitForTimeout(230);

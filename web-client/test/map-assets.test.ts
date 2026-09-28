@@ -18,6 +18,7 @@ test('all demo actors and ecology are reachable without crossing reference build
  const m=read('../src/generated/map.json'),p=m.entities.find((e:any)=>e.kind==='PLAYER');
  const todo=[p],seen=new Set([`${p.x},${p.y}`]);
  for(const a of todo)for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+  if(Math.abs(dx)+Math.abs(dy)!==1)continue;
   const x=a.x+dx,y=a.y+dy,k=`${x},${y}`;
   if(x>=0&&y>=0&&x<m.width&&y<m.height&&m.rows[y][x]!=='#'&&!seen.has(k)){seen.add(k);todo.push({x,y});}
  }

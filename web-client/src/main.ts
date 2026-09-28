@@ -11,7 +11,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML=`
 <main><div class="title-row"><div><span class="eyebrow">TUXEMON TOWN</span><h1>小镇与原野</h1><p class="intro">探索环境、结识精灵，让世界随你的每一步变化。</p></div><div class="session-actions"><button id="refresh" class="quiet">同步状态</button><button id="restart" class="quiet danger">重新开始</button></div></div>
 <div id="error" role="alert" hidden><span id="error-message"></span><button id="retry">重试原请求</button><button id="recover">重新读取</button></div>
 <div class="layout"><section class="field-panel"><div class="field-top"><span><i class="live-dot"></i> Tuxemon 小镇 <small>40 × 40</small></span><div><span id="period">☀ 白昼</span><span class="divider">/</span><span>回合 <b id="turn">0</b></span></div></div><div id="board"><div id="loading">正在连接游戏世界…</div></div><div class="field-bottom"><span id="position">等待连接</span><span id="next-period">下一轮：白昼</span><label><input id="motion" type="checkbox"> 简化动画</label></div>
-<div class="controls"><div class="pad" id="pad"></div><div class="control-copy"><strong>每一步，都让世界向前。</strong><p>WASD / 方向键移动 · 空格等待<br>数字键盘支持斜向 · 点击角色查看详情</p><div class="control-buttons"><button id="wait" class="primary">等待一回合 <kbd>SPACE</kbd></button><button id="skip" class="quiet">跳过动画</button></div></div><span class="compass">N<br>✧<br>S</span></div>
+<div class="controls"><div class="pad" id="pad"></div><div class="control-copy"><strong>每一步，都让世界向前。</strong><p>WASD / 方向键移动 · 空格等待<br>上下左右四向移动 · 点击角色查看详情</p><div class="control-buttons"><button id="wait" class="primary">等待一回合 <kbd>SPACE</kbd></button></div></div><span class="compass">N<br>✧<br>S</span></div>
 <div class="legend"><span><i class="grass"></i>草系区域</span><span><i class="water"></i>水系区域</span><span><i class="fire"></i>火系区域</span><span>◆ 地面物品</span><span>▤ 墙体不可通行</span></div></section>
 <aside><section class="side-card"><div class="card-heading"><h2>附近的互动</h2><span id="state" class="status">连接中</span></div><div id="target" class="target">选择角色，查看血量和好感。</div><div id="actions" class="action-list"></div></section><section class="side-card inventory-card"><div class="card-heading"><h2>随身背包</h2><span id="inventory-count">0 件</span></div><div id="inventory"></div><p class="hint">球内精灵暂停行动与昼夜效果。</p><p id="candy-locations" class="hint"></p></section></aside></div>
 <section class="journal"><div><span class="eyebrow">TRAVEL NOTES</span><h2>原野见闻</h2><p>世界的变化都留在这里。</p></div><div id="dialogue" hidden></div><ol id="logs" aria-live="polite"><li class="muted">你的旅程即将开始。</li></ol></section>
@@ -21,8 +21,8 @@ const el=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById
 const scene=new WorldScene();new Phaser.Game({type:Phaser.AUTO,parent:'board',width:768,height:512,backgroundColor:'#1f3229',pixelArt:true,antialias:false,scene:[scene],scale:{mode:Phaser.Scale.RESIZE,autoCenter:Phaser.Scale.CENTER_BOTH}});
 let selected:string|null=null,versionError=false;
 const controller=new GameController(request,async result=>{await scene.render(result.snapshot,true,result.events);const dialogue=result.events.find(e=>e.kind==='DIALOGUE');if(dialogue){el('dialogue').hidden=false;el('dialogue').textContent=dialogue.message;}},map.version);
-const directionKeys=['North-West','North','North-East','West','','East','South-West','South','South-East'];
-const arrows=['↖','↑','↗','←','·','→','↙','↓','↘'];
+const directionKeys=['North','West','East','South'];
+const arrows=['↑','←','→','↓'];
 directionKeys.forEach((direction,i)=>{const b=document.createElement('button');b.textContent=arrows[i];b.title=direction||'当前位置';b.dataset.direction=direction;b.setAttribute('aria-label',direction||'当前位置');b.onclick=()=>move(direction);el('pad').append(b);});
 function move(direction:string){const a=controller.snapshot?.availableActions.find(a=>a.kind==='MOVE'&&a.direction===direction);if(a)void controller.act(a.id);}
 function button(a:Action){const b=document.createElement('button');b.className='action';b.textContent=a.label;b.dataset.kind=a.kind;b.dataset.actionId=a.id;b.disabled=controller.state!=='READY'||versionError||!a.enabled;b.onclick=()=>void controller.act(a.id);return b;}
@@ -52,8 +52,8 @@ el('retry').onclick=()=>void controller.retry();
 el('recover').onclick=()=>controller.snapshot?void controller.refresh():void controller.load();
 el('refresh').onclick=()=>void controller.refresh();
 el('restart').onclick=()=>{if(confirm('结束本局并重新开始？当前背包与进度会清空。')){selected=null;el('dialogue').hidden=true;void controller.restart();}};
-el('skip').onclick=()=>scene.skip();el<HTMLInputElement>('motion').onchange=e=>{scene.reduceMotion=(e.target as HTMLInputElement).checked;scene.skip();};
+el<HTMLInputElement>('motion').onchange=e=>{scene.reduceMotion=(e.target as HTMLInputElement).checked;scene.skip();};
 el('help-toggle').onclick=()=>{el('help').hidden=!el('help').hidden;if(!el('help').hidden)el('help').scrollIntoView({behavior:'smooth'});};
-const keys:Record<string,string>={w:'North',ArrowUp:'North',s:'South',ArrowDown:'South',a:'West',ArrowLeft:'West',d:'East',ArrowRight:'East',Numpad8:'North',Numpad9:'North-East',Numpad6:'East',Numpad3:'South-East',Numpad2:'South',Numpad1:'South-West',Numpad4:'West',Numpad7:'North-West'};
+const keys:Record<string,string>={w:'North',ArrowUp:'North',s:'South',ArrowDown:'South',a:'West',ArrowLeft:'West',d:'East',ArrowRight:'East',Numpad8:'North',Numpad6:'East',Numpad2:'South',Numpad4:'West'};
 window.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement||e.ctrlKey||e.metaKey||e.altKey)return;const direction=keys[e.code]??keys[e.key];if(direction||e.code==='Space'){e.preventDefault();if(controller.state==='READY'){if(direction)move(direction);else el('wait').click();}}});
 void scene.ready.then(()=>controller.load()).catch(error=>{versionError=true;el('loading').textContent=error.message;el('error').hidden=false;el('error-message').textContent=error.message;el('state').textContent='素材加载失败';for(const b of document.querySelectorAll<HTMLButtonElement>('#pad button,#wait,#refresh,#restart,#retry,#recover'))b.disabled=true;});

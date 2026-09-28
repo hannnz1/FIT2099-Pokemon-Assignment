@@ -53,7 +53,7 @@ public final class WorldPopulation {
             if(!cell.containsAnActor()&&cell.getItems().isEmpty()&&(ground instanceof Dirt||ground instanceof Hay||ground instanceof Floor))candidates.add(cell);
             for(Exit exit:cell.getExits()) {
                 Location next=exit.getDestination();
-                if(next.getGround().canActorEnter(player)&&!(next.containsAnActor()&&next.getActor() instanceof NPC)&&visited.add(next))queue.addLast(next);
+                if(GridMovement.isCardinal(cell,next)&&next.getGround().canActorEnter(player)&&!(next.containsAnActor()&&next.getActor() instanceof NPC)&&visited.add(next))queue.addLast(next);
             }
         }
         while(missing>0&&!candidates.isEmpty()) {

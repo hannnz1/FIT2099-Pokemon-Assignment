@@ -16,7 +16,7 @@ const seen=new Set();const entities=objects.map(o=>{const x=o.x/m.tilewidth,y=o.
 if(entities.filter(e=>e.kind==='PLAYER').length!==1)throw Error('Need one player');
 for(const kind of ['PROFESSOR','MERCHANT','TREECKO','MUDKIP','TORCHIC'])if(!entities.some(e=>e.kind===kind))throw Error(`Missing ${kind}`);
 const start=entities.find(e=>e.kind==='PLAYER'),reachable=new Set([`${start.x},${start.y}`]),queue=[start];
-for(const e of queue)for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){let x=e.x+dx,y=e.y+dy,key=`${x},${y}`;if(x>=0&&y>=0&&x<m.width&&y<m.height&&tiles[y*m.width+x]!==2&&!reachable.has(key)){reachable.add(key);queue.push({x,y});}}
+for(const e of queue)for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(Math.abs(dx)+Math.abs(dy)!==1)continue;let x=e.x+dx,y=e.y+dy,key=`${x},${y}`;if(x>=0&&y>=0&&x<m.width&&y<m.height&&tiles[y*m.width+x]!==2&&!reachable.has(key)){reachable.add(key);queue.push({x,y});}}
 if(entities.some(e=>!reachable.has(`${e.x},${e.y}`)))throw Error('Unreachable entity');
 for(const [idx,id] of tiles.entries())if([5,7].includes(id)){let count=0,x=idx%m.width,y=Math.floor(idx/m.width);for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)if((dx||dy)&&x+dx>=0&&x+dx<m.width&&y+dy>=0&&y+dy<m.height&& (id===5?[4,5]:[6,7]).includes(tiles[(y+dy)*m.width+x+dx]))count++;if(count<(id===5?1:2))throw Error('Unsatisfied spawner condition');}
 const data={id:'demo',version:crypto.createHash('sha256').update(source).digest('hex').slice(0,16),width:m.width,height:m.height,tileSize:m.tilewidth,rows:Array.from({length:m.height},(_,y)=>tiles.slice(y*m.width,(y+1)*m.width).map(t=>'.#_,T~W^C'[t-1]).join('')),entities,kinds};

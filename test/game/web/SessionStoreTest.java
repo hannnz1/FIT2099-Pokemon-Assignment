@@ -21,8 +21,8 @@ class SessionStoreTest {
     @Test void limitsAndInvalidRequestsDoNotAdvance() {
         SessionStore store=new SessionStore(this::game,()->0L,2,1,5);GameSession s=store.create("a");
         assertEquals(422,assertThrows(ApiException.class,()->store.action("a",s.gameId,"bad",0,"nope")).status);assertEquals(0,s.turn());
-        store.action("a",s.gameId,"ok",0,waitId(s));assertEquals(429,assertThrows(ApiException.class,()->store.action("a",s.gameId,"cap",1,waitId(s))).status);
-        assertTrue(store.action("a",s.gameId,"ok",0,"0:8").replayed);
+        String originalWait=waitId(s);store.action("a",s.gameId,"ok",0,originalWait);assertEquals(429,assertThrows(ApiException.class,()->store.action("a",s.gameId,"cap",1,waitId(s))).status);
+        assertTrue(store.action("a",s.gameId,"ok",0,originalWait).replayed);
     }
     @Test void concurrentSameRevisionAcceptsExactlyOne() throws Exception {
         SessionStore store=new SessionStore(this::game,System::currentTimeMillis,2,100,100);GameSession s=store.create("a");String id=waitId(s);ExecutorService pool=Executors.newFixedThreadPool(2);
