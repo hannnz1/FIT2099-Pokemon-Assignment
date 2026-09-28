@@ -1,4 +1,4 @@
-/** All first-release assets are original programmatic placeholders, keyed by semantics. */
+/** Semantic labels and Pokemon placeholders. WorldScene uses the reference atlas for humans. */
 export interface Asset {label:string;short:string;color:number;shape:'person'|'round'|'leaf'|'drop'|'flame';file?:string;frame?:number;frameWidth?:number;frameHeight?:number;scale:number;anchor:[number,number]}
 export const assets:Record<string,Asset>={
  PLAYER:{label:'训练家',short:'你',color:0xeebd62,shape:'person',scale:1,anchor:[.5,1]},

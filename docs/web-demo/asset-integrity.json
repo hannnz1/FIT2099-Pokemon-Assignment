@@ -1,0 +1,10 @@
+{
+  "upstream": "https://github.com/remarkablegames/phaser-rpg",
+  "commit": "b75f53223367df40379a785b861b705241145f7a",
+  "files": {
+    "atlas.png": "0597c6634e6977063b35dbe05e14cebf63bb1298ff940c06ea10463f1ef5c05b",
+    "atlas.json": "b71cd8e3169d6fd9fcbe965028f3cb34664e39b12654eb4411d907d533dd96c8",
+    "tuxemon-sample-32px-extruded.png": "f61019250cf88448f52b907842c32d912167ac028e12d9ffb5da7cbc1abf031b",
+    "tuxemon-town.json": "380dd728c5db70d4baacef8629b844ed791f33acbf91414c6d7dac7a5896857b"
+  }
+}
