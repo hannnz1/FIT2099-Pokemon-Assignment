@@ -32,8 +32,7 @@ public Actor getTarget() { return shopkeeper; }
         List<Item> candies = findCandies(actor);
         if (candies.size() < offer.getCandyCost()) {
             if(map!=null)map.context().event("TRADE",actor,shopkeeper,"糖果不足：需要 "+offer.getCandyCost()+" 个");
-            return actor + " needs " + offer.getCandyCost() + " candies to trade for " + offer
-                    + " (currently has " + candies.size() + ").";
+            return "兑换" + offer + "需要 " + offer.getCandyCost() + " 颗糖果，当前只有 " + candies.size() + " 颗。";
         }
 
         for (int index = 0; index < offer.getCandyCost(); index++) {
@@ -42,8 +41,7 @@ public Actor getTarget() { return shopkeeper; }
         Item product = offer.createProduct();
         actor.addItemToInventory(product);
         if(map!=null)map.context().event("TRADE",actor,shopkeeper,"兑换成功："+offer);
-        return actor + " trades " + offer.getCandyCost() + " candies with " + shopkeeper
-                + " for " + offer + ".";
+        return actor + "花费 " + offer.getCandyCost() + " 颗糖果，从商人处兑换了" + offer + "。";
     }
 
     private List<Item> findCandies(Actor actor) {

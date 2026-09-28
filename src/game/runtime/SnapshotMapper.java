@@ -19,12 +19,12 @@ public final class SnapshotMapper {
         return name.toUpperCase(Locale.ROOT);
     }
     private static ActorDto actor(Actor a,GameSession s) {
-        ActorDto d=new ActorDto();d.id=s.context().id(a);d.kind=kind(a);d.name=a.getName();d.hp=a.getHitPoints();d.maxHp=a.getMaxHitPoints();
+        ActorDto d=new ActorDto();d.id=s.context().id(a);d.kind=kind(a);d.name=GameText.chinese(a.getName());d.hp=a.getHitPoints();d.maxHp=a.getMaxHitPoints();
         for(Element e:a.findCapabilitiesByType(Element.class))d.elements.add(e.name());
         if(a instanceof Pokemon) d.affection=s.context().affection.isRegistered(a)?s.context().affection.getAffectionPoint(a):0;
         if(s.map().contains(a)) {Location l=s.map().locationOf(a);d.x=l.x();d.y=l.y();}return d;
     }
-    private static ItemDto item(Item i,GameSession s) { ItemDto d=new ItemDto();d.id=s.context().id(i);d.kind=kind(i);d.name=i.toString();if(i instanceof Pokeball && ((Pokeball)i).containsPokemon())d.containedPokemon=actor(((Pokeball)i).getPokemon(),s);return d; }
+    private static ItemDto item(Item i,GameSession s) { ItemDto d=new ItemDto();d.id=s.context().id(i);d.kind=kind(i);d.name=GameText.chinese(i.toString());if(i instanceof Pokeball && ((Pokeball)i).containsPokemon())d.containedPokemon=actor(((Pokeball)i).getPokemon(),s);return d; }
     public static SnapshotDto map(GameSession s) {
         SnapshotDto d=new SnapshotDto();d.gameId=s.gameId;d.revision=d.turn=s.turn();d.phase=s.ended()?"ENDED":"WAITING_FOR_PLAYER";d.period=s.period();d.nextActionPeriod=GameSession.periodAt(s.turn()+1);d.playerId=s.context().id(s.player());d.map.version=s.mapVersion;d.map.tileSize=s.tileSize;
         for(int y:s.map().getYRange())for(int x:s.map().getXRange()) {

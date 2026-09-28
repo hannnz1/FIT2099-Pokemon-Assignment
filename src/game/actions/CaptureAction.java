@@ -19,7 +19,7 @@ public class CaptureAction extends Action {
   public String execute(Actor actor, GameMap map) {
     map.removeActor(targetActor);
     actor.addItemToInventory(new Pokeball().capturePokemon(targetActor));
-    return actor + " captured a "+ targetActor;
+    return actor + "成功捕获了"+ targetActor;
   }
 
   @Override

@@ -37,7 +37,7 @@ class TradeActionTest {
 
         assertEquals(1, countItems(player, Candy.class));
         assertEquals(0, countItems(player, GreatBall.class));
-        assertTrue(result.contains("needs 3 candies"));
+        assertTrue(result.contains("需要 3 颗糖果"));
     }
 
     private long countItems(Player player, Class<? extends Item> type) {

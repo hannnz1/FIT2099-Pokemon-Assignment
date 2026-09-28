@@ -39,8 +39,8 @@ public abstract class AffectionAction extends Action {
             manager.decreaseAffection(target, points);
         }
 
-        return target + (favourite ? " likes it! +" : " dislikes it! -")
-                + points + " affection points. " + manager.getAffectionPoint(target) + "AP";
+        return target + (favourite ? "很喜欢这次互动！好感度 +" : "不喜欢这次互动。好感度 -")
+                + points + "，当前好感度：" + manager.getAffectionPoint(target);
     }
 
     @Override

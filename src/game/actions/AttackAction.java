@@ -53,12 +53,12 @@ public Actor getTarget() { return target; }
         Weapon weapon = actor.getWeapon();
 
         if (!(map.context().random.nextInt(100) <= weapon.chanceToHit())) {
-            map.context().event("MISS", actor, target, "鏀诲嚮钀界┖");
-            return actor + " misses " + target + ".";
+            map.context().event("MISS", actor, target, "攻击落空");
+            return actor + "对" + target + "的攻击落空了。";
         }
 
         int damage = weapon.damage();
-        String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
+        String result = actor + "攻击了" + target + "，造成 " + damage + " 点伤害。";
         target.hurt(damage);
         map.context().event("ATTACK", actor, target, "命中：" + damage);
         if (!target.isConscious()) {
@@ -70,7 +70,7 @@ public Actor getTarget() { return target; }
                 drop.execute(target, map);
             // remove actor
             map.removeActor(target);
-            result += System.lineSeparator() + target + " is killed.";
+            result += System.lineSeparator() + target + "失去了战斗能力。";
         }
 
         return result;

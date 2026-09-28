@@ -46,6 +46,6 @@ public Item getItem() { return item; }
 	 */
 	@Override
 	public String menuDescription(Actor actor) {
-		return actor + " picks up the " + item;
+		return actor + "拾取了" + item;
 	}
 }

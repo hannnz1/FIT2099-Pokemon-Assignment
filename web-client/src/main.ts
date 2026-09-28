@@ -27,7 +27,7 @@ directionKeys.forEach((direction,i)=>{const b=document.createElement('button');b
 function move(direction:string){const a=controller.snapshot?.availableActions.find(a=>a.kind==='MOVE'&&a.direction===direction);if(a)void controller.act(a.id);}
 function button(a:Action){const b=document.createElement('button');b.className='action';b.textContent=a.label;b.dataset.kind=a.kind;b.dataset.actionId=a.id;b.disabled=controller.state!=='READY'||versionError||!a.enabled;b.onclick=()=>void controller.act(a.id);return b;}
 function renderInventory(items:Item[],actions:Action[]){const root=el('inventory');root.replaceChildren();if(!items.length){root.textContent='背包还很轻，按下方坐标寻找糖果。';root.classList.add('muted');return;}root.classList.remove('muted');const groups=new Map<string,Item[]>();for(const item of items){const key=item.containedPokemon?item.id:item.kind;groups.set(key,[...(groups.get(key)??[]),item]);}
- for(const group of groups.values()){const item=group[0],row=document.createElement('div');row.className='item';const label=document.createElement('span');label.textContent=item.containedPokemon?`◒ ${assetFor(item.containedPokemon.kind).label} · HP ${item.containedPokemon.hp}/${item.containedPokemon.maxHp} · ♥ ${item.containedPokemon.affection}`:`${item.kind==='CANDY'?'◆':'◒'} ${item.name} × ${group.length}`;row.append(label);const drop=actions.find(a=>a.kind==='DROP'&&a.targetId===item.id);if(drop){const b=button(drop);b.textContent='丢下 1';row.append(b);}root.append(row);}
+ for(const group of groups.values()){const item=group[0],row=document.createElement('div');row.className='item';const label=document.createElement('span');label.textContent=item.containedPokemon?`◒ ${assetFor(item.containedPokemon.kind).label} · 生命 ${item.containedPokemon.hp}/${item.containedPokemon.maxHp} · ♥ ${item.containedPokemon.affection}`:`${item.kind==='CANDY'?'◆':'◒'} ${item.name} × ${group.length}`;row.append(label);const drop=actions.find(a=>a.kind==='DROP'&&a.targetId===item.id);if(drop){const b=button(drop);b.textContent='丢下 1';row.append(b);}root.append(row);}
 }
 function render(){const s=controller.snapshot;el('state').textContent=({READY:'可操作',REQUESTING:'请求中',ANIMATING:'动画中',ERROR:'待恢复',ENDED:'已结束'})[controller.state];el('state').dataset.state=controller.state;
  el('error').hidden=!controller.error&&!versionError;el('error-message').textContent=versionError?'地图版本不匹配，请重新构建前端和服务端。':controller.error;el('retry').hidden=!controller.pending;el<HTMLButtonElement>('restart').disabled=['REQUESTING','ANIMATING'].includes(controller.state);
@@ -41,7 +41,7 @@ function render(){const s=controller.snapshot;el('state').textContent=({READY:'�
  const interactions=s.availableActions.filter(a=>!['MOVE','WAIT','DROP'].includes(a.kind));
  const targets=new Map<string,{label:string;detail:string}>();
  for(const a of interactions){if(!a.targetId)continue;const actor=s.actors.find(v=>v.id===a.targetId),item=s.groundItems.find(v=>v.item.id===a.targetId);
-  if(actor)targets.set(actor.id,{label:`${assetFor(actor.kind).label} (${actor.x}, ${actor.y})`,detail:`${assetFor(actor.kind).label} · ${actor.name}\nHP ${actor.hp}/${actor.maxHp}${actor.affection===null?'':` · 好感 ${actor.affection}`} · (${actor.x}, ${actor.y})`});
+  if(actor)targets.set(actor.id,{label:`${assetFor(actor.kind).label} (${actor.x}, ${actor.y})`,detail:`${assetFor(actor.kind).label} · ${actor.name}\n生命 ${actor.hp}/${actor.maxHp}${actor.affection===null?'':` · 好感 ${actor.affection}`} · (${actor.x}, ${actor.y})`});
   else if(item)targets.set(item.item.id,{label:`${item.item.kind==='CANDY'?'糖果':item.item.name} (${item.x}, ${item.y})`,detail:`地面物品 · ${item.item.kind==='CANDY'?'糖果':item.item.name} · (${item.x}, ${item.y})`});
  }
  const lost=!!selected&&!targets.has(selected);if(lost)selected=null;
@@ -57,7 +57,7 @@ function render(){const s=controller.snapshot;el('state').textContent=({READY:'�
  for(const a of interactions.filter(a=>!a.targetId))actionsRoot.append(button(a));
  const candies=s.groundItems.filter(i=>i.item.kind==='CANDY');el('candy-locations').textContent='地图糖果 '+candies.length+'/2：'+candies.map(i=>'('+i.x+', '+i.y+')').join('、')+'。地图满额时不可丢下糖果。';
  el('inventory-count').textContent=`${s.inventory.length} 件`;renderInventory(s.inventory,s.availableActions);
- const logs=el('logs');logs.replaceChildren();for(const log of s.log.slice(-30).reverse()){const li=document.createElement('li'),stamp=document.createElement('small');stamp.textContent=`T${String(log.turn).padStart(3,'0')}`;li.append(stamp,document.createTextNode(log.text));logs.append(li);}if(!s.log.length)logs.textContent='旅程开始。寻找散落在小镇的糖果，结识身边的新朋友。';
+ const logs=el('logs');logs.replaceChildren();for(const log of s.log.slice(-30).reverse()){const li=document.createElement('li'),stamp=document.createElement('small');stamp.textContent=`第${log.turn}回合 `;li.append(stamp,document.createTextNode(log.text));logs.append(li);}if(!s.log.length)logs.textContent='旅程开始。寻找散落在小镇的糖果，结识身边的新朋友。';
  if(s.phase==='ENDED'){el('error').hidden=false;el('error-message').textContent='本局已结束，请重新开始。';}
 }
 scene.onSelect=id=>{if(controller.state!=='READY')return;const valid=controller.snapshot?.availableActions.some(a=>a.targetId===id&&!['MOVE','WAIT','DROP'].includes(a.kind));if(valid){selected=id;render();}else{selected=null;render();el('target').textContent='该角色当前不可互动，请先靠近并从目标列表选择。';}};controller.onChange=render;

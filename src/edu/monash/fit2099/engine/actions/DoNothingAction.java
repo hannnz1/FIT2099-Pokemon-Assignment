@@ -23,7 +23,7 @@ public class DoNothingAction extends Action {
 
 	@Override
 	public String menuDescription(Actor actor) {
-		return actor + " does nothing";
+		return actor + "等待了一回合。";
 	}
 	
 	@Override

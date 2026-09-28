@@ -81,7 +81,7 @@ public String getDirection() { return direction; }
 	 */
 	@Override
 	public String menuDescription(Actor actor) {
-		return actor + " moves " + direction;
+		return actor + "向" + direction + "移动了一格。";
 	}
 
 	/**

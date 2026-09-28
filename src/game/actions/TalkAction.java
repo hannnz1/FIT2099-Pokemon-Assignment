@@ -35,13 +35,13 @@ public Actor getTarget() { return target; }
     private String dialogue(Actor actor) {
         if (target instanceof ProffesorOak) {
             return hasAllElements(actor)
-                    ? "Professor Oak: Congratulations " + actor + "! Here is a Pokedex for you."
-                    : "Professor Oak: I want to see 3 different Pokemon, " + actor + "! Gotta catch 'em all!";
+                    ? "大木博士：恭喜你，" + actor + "！你已经集齐草、水、火三种属性的精灵！"
+                    : "大木博士：我想看看草、水、火三种属性的精灵。去收集它们吧，" + actor + "！";
         }
         if (target instanceof Shopkeeper) {
-            return "Shopkeeper: Bring me Candy to trade for GreatBalls, MasterBalls, or a Torchic.";
+            return "商人：带糖果来，可以兑换高级球、大师球，或装有火稚鸡的精灵球。";
         }
-        return target + " has nothing to say.";
+        return target + "暂时没有想说的话。";
     }
 
     private boolean hasAllElements(Actor actor) {

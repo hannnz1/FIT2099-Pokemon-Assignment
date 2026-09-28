@@ -40,9 +40,9 @@ test('real Java exploration, capture, random candy, role-specific NPCs, trade an
   const actions=nearby.availableActions.filter((a:any)=>a.targetId===npc.id);expect(actions.every((a:any)=>a.kind===(npc.kind==='PROFESSOR'?'TALK':'TRADE'))).toBeTruthy();
  }
  await expect(page.locator('#actions [data-kind="ATTACK"]')).toHaveCount(0);
- await selectFor(page,'TRADE');await page.locator('#actions [data-kind="TRADE"]').filter({hasText:'GreatBall'}).click();await ready(page);
+ await selectFor(page,'TRADE');await page.locator('#actions [data-kind="TRADE"]').filter({hasText:'高级球'}).click();await ready(page);
  const s=await snapshot(page);expect(s.inventory.filter((i:any)=>i.kind==='CANDY')).toHaveLength(0);expect(s.inventory.some((i:any)=>i.kind==='GREAT_BALL')).toBeTruthy();expect(s.inventory.find((i:any)=>i.containedPokemon?.id===captured.id).containedPokemon.hp).toBe(captured.hp);
- await page.reload();await ready(page);await expect(page.locator('#turn')).toHaveText(String(s.turn));await expect(page.locator('#inventory')).toContainText('GreatBall');expect(errors).toEqual([]);
+ await page.reload();await ready(page);await expect(page.locator('#turn')).toHaveText(String(s.turn));await expect(page.locator('#inventory')).toContainText('高级球');expect(errors).toEqual([]);
  await page.screenshot({path:'test-results/game-1366.png',fullPage:true});await page.setViewportSize({width:1920,height:1080});await page.screenshot({path:'test-results/game-1920.png',fullPage:true});
 });
 
@@ -65,12 +65,22 @@ test('choose a target before an interaction; selection does not advance a turn',
  const treecko=s.actors.find((a:any)=>a.kind==='TREECKO'),mudkip=s.actors.find((a:any)=>a.kind==='MUDKIP');
  await page.locator(`#targets [data-target-id="${mudkip.id}"]`).click();
  await expect(page.locator('#target')).toContainText('水跃鱼');
- await expect(page.locator('#actions')).not.toContainText('Treecko');
+ await expect(page.locator('#actions')).not.toContainText('木守宫');
  await expect(page.locator('#turn')).toHaveText('0');
  await page.locator(`#targets [data-target-id="${treecko.id}"]`).click();
- await expect(page.locator('#actions')).not.toContainText('Mudkip');
+ await expect(page.locator('#actions')).not.toContainText('水跃鱼');
  await page.locator('#actions [data-kind="CAPTURE"]').click();await ready(page);
  await expect(page.locator('#inventory')).toContainText('木守宫');
  await expect(page.locator('#targets [aria-pressed="true"]')).toHaveCount(0);
  await expect(page.locator('#actions button')).toHaveCount(0);
+});
+
+test('interaction labels and result messages are Chinese',async({page})=>{
+ await page.goto('/');await ready(page);
+ await page.locator('#targets button').filter({hasText:'木守宫'}).click();
+ await expect(page.locator('#actions')).toContainText('跳舞');
+ await page.locator('#actions [data-kind="DANCE"]').click();await ready(page);
+ await expect(page.locator('#logs')).toContainText('好感度 +10');
+ const text=await page.locator('#logs').innerText();expect(text).not.toMatch(/[A-Za-z]/);
+ await expect(page.locator('#targets')).not.toContainText('Treecko');
 });

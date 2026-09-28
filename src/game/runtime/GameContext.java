@@ -18,6 +18,6 @@ public final class GameContext {
     public int retainedCount() { return ids.size(); }
     public void retain(Set<Object> active) { ids.keySet().removeIf(o -> !active.contains(o)); }
     public void event(String kind, Object actor, Object target, String text) {
-        events.add(new EventDto(kind, actor == null ? null : id(actor), target == null ? null : id(target), text));
+        events.add(new EventDto(kind, actor == null ? null : id(actor), target == null ? null : id(target), GameText.chinese(text)));
     }
 }

@@ -39,6 +39,7 @@ public final class GameSession extends World {
         result.sort(Comparator.comparingLong(a->context().order(a)));return result;
     }
     public void appendLog(String text) {
+        text=GameText.chinese(text);
         context().event("LOG",null,null,text);
         log.addLast(new SnapshotDto.LogEntry("l"+(++logSequence),turn+1,text));
         while(log.size()>200) log.removeFirst();

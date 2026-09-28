@@ -27,7 +27,7 @@ public final class ActionCatalog {
             else throw new IllegalStateException("Unmapped action "+a.getClass());
             if(target!=null) {d.targetId=s.context().id(target);d.label+=" · "+target.getName();}
             else if(object!=null) d.targetId=s.context().id(object);
-            result.add(new Entry(a,d));
+            d.label=GameText.chinese(d.label);result.add(new Entry(a,d));
         }
         return result;
     }
