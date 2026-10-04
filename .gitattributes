@@ -3,3 +3,6 @@
 *.wav binary
 *.png binary
 *.pdf binary
+
+# Map provenance hashes require original source bytes
+client/assets/data/*.json -text
