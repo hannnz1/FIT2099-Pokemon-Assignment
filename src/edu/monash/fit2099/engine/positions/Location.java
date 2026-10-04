@@ -104,13 +104,13 @@ public class Location implements Printable {
 
 	/**
 	 * Set the Ground type at the given Location
-	 * 
+	 *
 	 * @param ground Ground type to set
 	 */
 	public void setGround(Ground ground) {
 		this.ground = ground;
 	}
-	
+
 	/**
 	 * Called once per turn, so that Locations can experience the passage time. If that's
 	 * important to them.
@@ -139,7 +139,7 @@ public class Location implements Printable {
 	public Actor getActor() {
 		return map.getActorAt(this);
 	}
-	
+
 	/**
 	 * Add an Actor to the Location.
 	 * This is really only here for consistency for the Location API.
@@ -150,8 +150,8 @@ public class Location implements Printable {
 		Objects.requireNonNull(actor);
 		map.addActor(actor, this);
 	}
-	
-	
+
+
 	/**
 	 * Returns a MoveActorAction that will move actor to location if the terrain type allows.
 	 * @param actor the Actor to move
@@ -163,10 +163,10 @@ public class Location implements Printable {
 	public MoveActorAction getMoveAction(Actor actor, String direction, String hotKey) {
 		if(canActorEnter(actor))
 			return new MoveActorAction(this, direction, hotKey);
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Returns true if an Actor can enter this location.
 	 *
@@ -190,14 +190,14 @@ public class Location implements Printable {
 	@Override
 	public char getDisplayChar() {
 		Printable thing;
-		
-		if(this.containsAnActor()) 
+
+		if(this.containsAnActor())
 			thing = this.getActor();
 		else if (items.size() > 0)
 			thing = items.get(items.size() - 1);
 		else
 			thing = ground;
-		
+
 		return thing.getDisplayChar();
 	}
 
@@ -250,7 +250,7 @@ public class Location implements Printable {
 	public void addExit(Exit exit) {
 		exits.add(exit);
 	}
-	
+
 	/**
 	 * Remove an exit from this Location.
 	 *

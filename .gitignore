@@ -13,3 +13,19 @@ Thumbs.db
 
 # Nested duplicate of the submitted project
 Assignment2 Final Submission/
+
+# Private runtime state and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+agent-saves/
+saves/
+.ai-budget*
+ai-budget.json
+node_modules/
+*.log
+*.jar
+*.zip
+*.tar.gz

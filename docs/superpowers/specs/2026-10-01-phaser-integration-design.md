@@ -1,0 +1,9 @@
+# Phaser RPG live Demo integration
+
+User explicitly requests connecting existing Phaser and RPG assets after identifying missing integration. Continue inline under existing authorization. Use current Java quest/training APIs and trusted AgentClient, not the older Echo fixture or unrelated chapter protocol. No game rules move to JS.
+
+Keep existing Chinese task/approval/collection controls. Replace primary symbol map with Phaser.Canvas presentation backed by immutable live snapshots; accessible grid remains an alternate text view. Render native coordinates/terrain, quest NPCs, quest leader, owned deployment, WILD targets and actual HP. Pointer selects targets using existing server-command UI; keyboard uses same manual commands only when corresponding control enabled, ignored in form fields. Never move locally before response. Source creatures are upstream placeholders explicitly labeled, not authentic Pokemon artwork.
+
+Use existing local Phaser3.60, grass/bush/map sample textures, AxulArt character sheet, monster art and existing battle background. Only chosen resource manifest paths are served from Java with correct MIME/limited binary sizes; preserve asset licenses. Real Java map determines placement/collision; never show an unrelated reference map as authoritative. Fail asset load visibly while text controls remain available.
+
+Client pure projection tests check bounds, real coordinates, capture removal, distinct owned identity, HP, missing position, keyboard gating. Java HTTP tests verify offline vendor/art serving MIME and deny arbitrary traversal/unlisted assets. Production resource script and Maven include same manifest. Fresh complete Java/client regressions, packaged browser movement/capture/transfer/summon/partner/restart across both scenes and final archives/screenshots. No new model calls.

@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {entranceViews} from '../../agent/growth-entrance.mjs';
+import {boundaryDescription,boundaryLayout} from '../../agent/map-boundary.mjs';
+test('entrance presentation uses real coordinates and actual unlock state',()=>{const world={region:'forest',map:{exits:[{regionId:'river',x:13,y:5,arrival:{x:3,y:10}},{regionId:'lab',x:9,y:10}]},regions:[{id:'river',unlocked:false},{id:'lab',unlocked:true}]};const before=structuredClone(world),g=entranceViews(world,{river:'浅溪河岸',lab:'研究室'});assert.equal(g[0].locked,true);assert.match(g[0].label,/未解锁/);assert.equal(g[0].direction,'E');assert.equal(g[0].x,13);assert.equal(g[1].locked,false);assert.deepEqual(world,before);});
+test('normal growth legend describes paths without showing debug hatching as normal gameplay',()=>{const b=boundaryLayout({width:20,height:12});const text=boundaryDescription(b,{showBlocked:false,exitLabel:'木质路牌：走到入口自动切换'});assert.doesNotMatch(text,/斜线格|金色门/);assert.match(text,/自动切换/);assert.match(boundaryDescription(b),/斜线格/);});

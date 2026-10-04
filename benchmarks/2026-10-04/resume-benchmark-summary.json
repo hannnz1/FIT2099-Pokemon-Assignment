@@ -1,0 +1,188 @@
+{
+  "date": "2026-10-04",
+  "seedsBaseline": [
+    11,
+    23,
+    35,
+    47,
+    59,
+    71,
+    83,
+    95,
+    107,
+    119,
+    131,
+    143,
+    155,
+    167,
+    179,
+    191,
+    203,
+    215,
+    227,
+    239
+  ],
+  "seedsLive": [
+    11,
+    23,
+    35
+  ],
+  "model": "gpt-6-luna",
+  "provider": "openai",
+  "limits": {
+    "decisions": 100,
+    "wallSeconds": 180,
+    "questWorldTurns": 60
+  },
+  "baseline": {
+    "cases": 100,
+    "completed": 100,
+    "completionRate": 1.0,
+    "wilson95": [
+      0.9630065017930163,
+      1
+    ],
+    "actionSteps": 1244,
+    "rejectedActions": 20,
+    "injectedFaults": 20,
+    "recoveredFaults": 20,
+    "providerCalls": 689,
+    "providerSuccess": 689,
+    "providerLatencyMeanMs": 0.11602177068214804,
+    "providerLatencyP50Ms": 0.0467,
+    "providerLatencyP95Ms": 0.3541,
+    "totalTokens": null,
+    "taskWallMeanMs": 13.261647,
+    "taskWallP95Ms": 26.3386
+  },
+  "live": {
+    "cases": 15,
+    "completed": 13,
+    "completionRate": 0.8666666666666667,
+    "wilson95": [
+      0.6211801716767842,
+      0.9626387408969335
+    ],
+    "actionSteps": 285,
+    "rejectedActions": 6,
+    "injectedFaults": 3,
+    "recoveredFaults": 3,
+    "providerCalls": 147,
+    "providerSuccess": 147,
+    "providerLatencyMeanMs": 1327.8782346938776,
+    "providerLatencyP50Ms": 1192.6547,
+    "providerLatencyP95Ms": 2032.6888,
+    "totalTokens": 292032,
+    "taskWallMeanMs": 13463.002886666667,
+    "taskWallP95Ms": 38875.1883
+  },
+  "liveByScenario": {
+    "competition": {
+      "cases": 3,
+      "completed": 2,
+      "completionRate": 0.6666666666666666,
+      "wilson95": [
+        0.20765960080205476,
+        0.9385080552796012
+      ],
+      "actionSteps": 103,
+      "rejectedActions": 3,
+      "injectedFaults": 0,
+      "recoveredFaults": 0,
+      "providerCalls": 45,
+      "providerSuccess": 45,
+      "providerLatencyMeanMs": 1253.1063266666667,
+      "providerLatencyP50Ms": 1176.7999,
+      "providerLatencyP95Ms": 1732.7847,
+      "totalTokens": 64266,
+      "taskWallMeanMs": 19445.211900000002,
+      "taskWallP95Ms": 38875.1883
+    },
+    "fault": {
+      "cases": 3,
+      "completed": 3,
+      "completionRate": 1.0,
+      "wilson95": [
+        0.4385029682449681,
+        1
+      ],
+      "actionSteps": 40,
+      "rejectedActions": 3,
+      "injectedFaults": 3,
+      "recoveredFaults": 3,
+      "providerCalls": 30,
+      "providerSuccess": 30,
+      "providerLatencyMeanMs": 1410.9173333333333,
+      "providerLatencyP50Ms": 1211.6124,
+      "providerLatencyP95Ms": 3226.8997,
+      "totalTokens": 89666,
+      "taskWallMeanMs": 14435.409466666668,
+      "taskWallP95Ms": 16069.1867
+    },
+    "forest": {
+      "cases": 3,
+      "completed": 3,
+      "completionRate": 1.0,
+      "wilson95": [
+        0.4385029682449681,
+        1
+      ],
+      "actionSteps": 37,
+      "rejectedActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0,
+      "providerCalls": 27,
+      "providerSuccess": 27,
+      "providerLatencyMeanMs": 1487.116711111111,
+      "providerLatencyP50Ms": 1331.6032,
+      "providerLatencyP95Ms": 2953.0023,
+      "totalTokens": 80842,
+      "taskWallMeanMs": 13932.825866666668,
+      "taskWallP95Ms": 16746.3018
+    },
+    "information": {
+      "cases": 3,
+      "completed": 3,
+      "completionRate": 1.0,
+      "wilson95": [
+        0.4385029682449681,
+        1
+      ],
+      "actionSteps": 6,
+      "rejectedActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0,
+      "providerCalls": 6,
+      "providerSuccess": 6,
+      "providerLatencyMeanMs": 1487.1129,
+      "providerLatencyP50Ms": 1258.6956,
+      "providerLatencyP95Ms": 2167.6388,
+      "totalTokens": 3141,
+      "taskWallMeanMs": 3041.499766666667,
+      "taskWallP95Ms": 3838.2522
+    },
+    "shared": {
+      "cases": 3,
+      "completed": 2,
+      "completionRate": 0.6666666666666666,
+      "wilson95": [
+        0.20765960080205476,
+        0.9385080552796012
+      ],
+      "actionSteps": 99,
+      "rejectedActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0,
+      "providerCalls": 39,
+      "providerSuccess": 39,
+      "providerLatencyMeanMs": 1215.5376205128205,
+      "providerLatencyP50Ms": 1140.7809,
+      "providerLatencyP95Ms": 1707.4506,
+      "totalTokens": 54117,
+      "taskWallMeanMs": 16460.067433333334,
+      "taskWallP95Ms": 30323.4824
+    }
+  },
+  "baselineReproducible": 100,
+  "pairedInitialFingerprintMatch": 15
+}

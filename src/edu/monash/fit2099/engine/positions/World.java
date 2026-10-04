@@ -26,7 +26,7 @@ public class World {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param display the Display that will display this World.
 	 */
 	public World(Display display) {
@@ -46,7 +46,7 @@ public class World {
 
 	/**
 	 * Set an actor as the player. The map is drawn just before this Actor's turn
-	 * 
+	 *
 	 * @param player   the player to add
 	 * @param location the Location where the player is to be added
 	 */
@@ -144,7 +144,7 @@ public class World {
 
 		Action action = actor.playTurn(actions, lastActionMap.get(actor), map, display);
 		lastActionMap.put(actor, action);
-		
+
 		String result = action.execute(actor, map);
 		display.println(result);
 	}

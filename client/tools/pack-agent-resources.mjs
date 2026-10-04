@@ -1,0 +1,4 @@
+import {mkdir,copyFile,readdir,readFile} from 'node:fs/promises';import {fileURLToPath} from 'node:url';import path from 'node:path';
+const client=fileURLToPath(new URL('../',import.meta.url)),destination=path.resolve(process.argv[2]??'');if(!process.argv[2])throw Error('Expected destination web directory');await mkdir(destination,{recursive:true});
+for(const name of await readdir(path.join(client,'agent'))){if(!name.match(/\.(html|css|mjs|json)$/))continue;await copyFile(path.join(client,'agent',name),path.join(destination,name));}
+const assets=JSON.parse(await readFile(path.join(client,'agent/rpg-assets.json'),'utf8'));for(const name of assets){if(name.includes('..')||path.isAbsolute(name))throw Error('Invalid asset path');const target=path.join(destination,'rpg',name);await mkdir(path.dirname(target),{recursive:true});await copyFile(path.join(client,name),target);}console.log(`Packaged ${assets.length} RPG resources in ${destination}`);

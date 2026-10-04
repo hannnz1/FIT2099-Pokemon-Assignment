@@ -19,7 +19,7 @@ import java.util.Objects;
  * map that the player is currently on will be displayed, but Actors on all maps
  * will be queried on each turn for their moves -- that is, time does not stop
  * when the player leaves a map.
- * 
+ *
  * It's important to put the GameMap in the World before using it.
  */
 public class GameMap {
@@ -66,7 +66,7 @@ public class GameMap {
 		this.groundFactory = groundFactory;
 		createMapFromStrings(groundFactory, lines);
 	}
-	
+
 	/**
 	 * Constructor that reads a map from file.
 	 *
@@ -146,12 +146,12 @@ public class GameMap {
 
 	/**
 	 * Creates a new Location.
-	 * 
+	 *
 	 * Override this method if you want a map based around different Location types.
 	 *
 	 * @param x X coordinate
 	 * @param y Y coordinate
-	 * @return a new Location. 
+	 * @return a new Location.
 	 */
 	protected Location makeNewLocation(int x, int y) {
 		return new Location(this, x, y);
@@ -159,10 +159,10 @@ public class GameMap {
 
 	/**
 	 * Display the current GameMap.
-	 * 
+	 *
 	 * Draws Actors, then locations. These need to be printed in rows because that's the way the
 	 * console works.
-	 * 
+	 *
 	 * @param display Display that will draw the state of the game
 	 */
 	public void draw(Display display) {
@@ -186,7 +186,7 @@ public class GameMap {
 
 	/**
 	 * Set the Ground type in a rectangle
-	 * 
+	 *
 	 * @param groundChar the character representing the Ground to set
 	 * @param xs the range of X coordinates
 	 * @param ys the range of Y coordinates
@@ -198,10 +198,10 @@ public class GameMap {
 			}
 		}
 	}
-	
+
 	/**
-	 * Returns an enumerable NumberRange representing the valid X values of the game map. 
-	 * 
+	 * Returns an enumerable NumberRange representing the valid X values of the game map.
+	 *
 	 * @return the valid X indices
 	 */
 	public NumberRange getXRange() {
@@ -209,8 +209,8 @@ public class GameMap {
 	}
 
 	/**
-	 * Returns an enumerable NumberRange representing the valid Y values of the game map. 
-	 * 
+	 * Returns an enumerable NumberRange representing the valid Y values of the game map.
+	 *
 	 * @return the valid Y indices
 	 */
 	public NumberRange getYRange() {
@@ -241,7 +241,7 @@ public class GameMap {
 	 * Returns a reference to the Actor at the given location, if there is one.
 	 *
 	 * @param location the location to check
-	 * @return a reference to the Actor, or null if there isn't one 
+	 * @return a reference to the Actor, or null if there isn't one
 	 */
 	public Actor getActorAt(Location location) {
 		return actorLocations.getActorAt(location);
@@ -302,7 +302,7 @@ public class GameMap {
 
 	/**
 	 * Is the given Actor on this GameMap?
-	 * 
+	 *
 	 * @param actor the actor
 	 * @return true if the Actor is on this GameMap
 	 */

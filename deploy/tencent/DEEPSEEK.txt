@@ -1,0 +1,29 @@
+DeepSeek game adapter - 2026-10-04
+
+This archive contains no credentials. The existing .env.deepseek stays on the server.
+Model: deepseek-flash, thinking disabled, output limit 2048 tokens per request.
+Web configuration: LLM_PROVIDER=deepseek, DEEPSEEK_API_KEY, DEEPSEEK_MODEL,
+DEEPSEEK_TIMEOUT_MS. Official HTTPS Chat Completions only; redirects disabled.
+
+1. Upload pokemon-tencent-deepseek-20261004.tar.gz to /home/ubuntu/.
+2. Extract:
+   mkdir -p /home/ubuntu/pokemon-demo/deepseek-update-20261004
+   tar -xzf /home/ubuntu/pokemon-tencent-deepseek-20261004.tar.gz -C /home/ubuntu/pokemon-demo/deepseek-update-20261004
+3. Run isolated paid acceptance (maximum 24 requests, 120 second quest loop):
+   sudo bash /home/ubuntu/pokemon-demo/deepseek-update-20261004/verify-deepseek.sh
+   Success requires actual delivery of 3 berries and no spending in the real Java scene.
+   It does not read or write website saves and does not restart the website.
+4. update.sh optionally deploys the adapter code with PUBLIC AI DISABLED.
+   It backs up the current compose and image, preserves agent-saves, and retains rollback.
+   sudo bash /home/ubuntu/pokemon-demo/deepseek-update-20261004/update.sh
+
+Do not manually enable public AI yet: player authentication/invitations, daily quotas,
+global concurrency and daily budget management remain separate work.
+No API key is baked into the image or sent to the browser.
+
+Coverage: provider selection, task and battle interpretation, function calls, local
+schema/range checks, quota/auth errors, usage counters, berry quest, arena capture,
+native growth level-up, evaluation provider routing. Offline fixtures do not prove
+the paid model can complete every gameplay task.
+Live DeepSeek Python connectivity/generation was verified by the user before this bundle.
+This bundle's live Java gameplay acceptance must still be run on the server.

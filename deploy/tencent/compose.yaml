@@ -1,0 +1,29 @@
+services:
+  game:
+    image: pokemon-agent-web:20261004
+    container_name: pokemon-web-game
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.75
+    environment:
+      PUBLIC_ORIGIN: https://pokemon.hanzhu-lab.online
+      AGENT_BIND_ADDRESS: 0.0.0.0
+      AGENT_PORT: "8080"
+      AGENT_STORAGE: file
+      AGENT_SAVE_DIR: /saves
+      LLM_PROVIDER: disabled
+    volumes:
+      - /home/ubuntu/pokemon-demo/agent-saves:/saves
+    networks:
+      edge:
+        aliases:
+          - pokemon-game
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  edge:
+    external: true
+    name: morris-demo_default
