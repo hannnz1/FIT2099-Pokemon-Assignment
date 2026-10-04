@@ -67,7 +67,7 @@ public class Puddle extends Ground implements TimePerception {
                 for (Exit exit : location.getExits()) {
                     if (!(exit.getDestination().getGround().hasCapability(Element.WATER))
                         && !(exit.getDestination().getGround() instanceof StructuralGrounds)) {
-                        exit.getDestination().setGround(new Puddle());
+                        exit.getDestination().setGround(createExpansion());
                     }
                 }
             }
@@ -78,4 +78,6 @@ public class Puddle extends Ground implements TimePerception {
     public void registerInstance() {
         TimePerception.super.registerInstance();
     }
+    /** World-local subclasses keep newly expanded terrain in their own clock. */
+    protected Puddle createExpansion(){return new Puddle();}
 }

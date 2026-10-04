@@ -1,0 +1,35 @@
+[
+  {
+    "name": "mindcraft",
+    "repo": "mindcraft-bots/mindcraft",
+    "sha": "5f3acc87b479864124173de444f31fa5538f94a6",
+    "files": [
+      "src/agent/commands/index.js",
+      "src/agent/commands/actions.js",
+      "src/agent/action_manager.js",
+      "src/agent/self_prompter.js",
+      "LICENSE"
+    ]
+  },
+  {
+    "name": "ai-town",
+    "repo": "a16z-infra/ai-town",
+    "sha": "8e05997f2409275669c8344b84a51692e83f3f33",
+    "files": [
+      "convex/aiTown/agent.ts",
+      "convex/aiTown/agentInputs.ts",
+      "convex/aiTown/movement.ts",
+      "LICENSE"
+    ]
+  },
+  {
+    "name": "generative-agents",
+    "repo": "joonspk-research/generative_agents",
+    "sha": "fe05a71d3e4ed7d10bf68aa4eda6dd995ec070f4",
+    "files": [
+      "reverie/backend_server/persona/cognitive_modules/perceive.py",
+      "reverie/backend_server/persona/memory_structures/associative_memory.py",
+      "LICENSE"
+    ]
+  }
+]

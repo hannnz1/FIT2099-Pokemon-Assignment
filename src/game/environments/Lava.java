@@ -53,7 +53,7 @@ public class Lava extends Ground implements TimePerception {
                 for (Exit exit : location.getExits()) {
                     if (!(exit.getDestination().getGround().hasCapability(Element.FIRE))
                         && !(exit.getDestination().getGround() instanceof StructuralGrounds)) {
-                        exit.getDestination().setGround(new Lava());
+                        exit.getDestination().setGround(createExpansion());
                     }
                 }
             }
@@ -83,6 +83,8 @@ public class Lava extends Ground implements TimePerception {
     public void registerInstance() {
         TimePerception.super.registerInstance();
     }
+    /** World-local subclasses keep newly expanded terrain in their own clock. */
+    protected Lava createExpansion(){return new Lava();}
 
 //    @Override
 //    public void registerInstance() {
@@ -93,4 +95,3 @@ public class Lava extends Ground implements TimePerception {
 //        TimePerceptionManager.getInstance().append(this);
 //    }
 }
-

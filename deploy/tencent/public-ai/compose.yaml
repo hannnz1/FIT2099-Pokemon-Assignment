@@ -1,0 +1,38 @@
+services:
+  game:
+    image: pokemon-agent-web:public-ai-settled-20261004
+    container_name: pokemon-web-game
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.75
+    env_file:
+      - /home/ubuntu/pokemon-demo/.env.deepseek
+    environment:
+      PUBLIC_ORIGIN: https://pokemon.hanzhu-lab.online
+      AGENT_BIND_ADDRESS: 0.0.0.0
+      AGENT_PORT: "8080"
+      AGENT_STORAGE: file
+      AGENT_SAVE_DIR: /saves
+      LLM_PROVIDER: deepseek
+      DEEPSEEK_MODEL: deepseek-flash
+      DEEPSEEK_TIMEOUT_MS: "15000"
+      AI_BUDGET_FILE: /saves/ai-budget.json
+      AI_DAILY_TOKENS: "500000"
+      AI_MONTHLY_TOKENS: "2000000"
+      AI_REQUESTS_PER_MINUTE: "12"
+      AI_CONCURRENCY: "2"
+    volumes:
+      - /home/ubuntu/pokemon-demo/agent-saves:/saves
+    networks:
+      edge:
+        aliases:
+          - pokemon-game
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  edge:
+    external: true
+    name: morris-demo_default

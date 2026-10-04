@@ -34,6 +34,11 @@ import edu.monash.fit2099.engine.positions.World;
 public class Application {
 
     public static void main(String[] args) {
+        if(args.length==1 && "--agent-v1".equals(args[0])) {
+            try {game.agent.web.AgentWebServer.main(new String[0]);}
+            catch(Exception failure){throw new IllegalStateException("Agent V1 could not start",failure);}
+            return;
+        }
         //World controls and manages the main game loop. It contains one or more GameMap.
         //Display is responsible for printing
         //World world = new World(new Display());

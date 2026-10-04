@@ -47,7 +47,7 @@ public class Display  {
 
 	/**
 	 * Read a char from the keyboard.
-	 * 
+	 *
 	 * @return the first char of the next entered string.
 	 */
 	public char readChar() {

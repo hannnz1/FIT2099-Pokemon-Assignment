@@ -1,0 +1,385 @@
+{
+  "repository": "https://github.com/PokeAPI/sprites",
+  "retrieved": "2026-10-03",
+  "note": "Repository hosting/license is not a blanket grant of Pokemon artwork rights. Official artwork and Gen III Emerald sprites; local demo reference assets.",
+  "assets": [
+    {
+      "species": "TREECKO",
+      "dex": 252,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/treecko.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/252.png",
+      "sha256": "eecfd2507ad6a4d32e074dbeaa7bdeb55938a97ff89cb878f5f13870357b9091",
+      "bytes": 125497
+    },
+    {
+      "species": "TREECKO",
+      "dex": 252,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/treecko.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/252.png",
+      "sha256": "76208df936a1b8c91f38f513c4b5c54b8bf840d6517e265f4e5dfd18b9546cf2",
+      "bytes": 635
+    },
+    {
+      "species": "GROVYLE",
+      "dex": 253,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/grovyle.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/253.png",
+      "sha256": "743a3fbf0bdaeac46d08f035de3e46d6616c5a157a7e765db373bd089d7c201c",
+      "bytes": 137688
+    },
+    {
+      "species": "GROVYLE",
+      "dex": 253,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/grovyle.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/253.png",
+      "sha256": "7afbc9e2a53615af2a861ac4d4e5c72ad535ebd1446e8d449ccb7ebe61bc2186",
+      "bytes": 970
+    },
+    {
+      "species": "SCEPTILE",
+      "dex": 254,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/sceptile.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/254.png",
+      "sha256": "f0d143504a9da150a51c88c0a8c5deb2fc7a0c95717b003fd45de27ad95f43ed",
+      "bytes": 151728
+    },
+    {
+      "species": "SCEPTILE",
+      "dex": 254,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/sceptile.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/254.png",
+      "sha256": "8f050d4d58954927933b97f22415aa35d612557ade101cfdd3331627226628c7",
+      "bytes": 1047
+    },
+    {
+      "species": "TORCHIC",
+      "dex": 255,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/torchic.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/255.png",
+      "sha256": "2725e8ffcf7bc5b2c1dc99b25817261b865c06e150bdcaa08f16007c48effb7f",
+      "bytes": 86015
+    },
+    {
+      "species": "TORCHIC",
+      "dex": 255,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/torchic.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/255.png",
+      "sha256": "bc15d6f17ece3b5a9f565b52827f440751be01226ea53a40c8d9f3c6dbb19b20",
+      "bytes": 548
+    },
+    {
+      "species": "COMBUSKEN",
+      "dex": 256,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/combusken.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/256.png",
+      "sha256": "181995b21ba821c494ce379546d7d15e182cf7fa2326dc71002ae943591e8289",
+      "bytes": 128231
+    },
+    {
+      "species": "COMBUSKEN",
+      "dex": 256,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/combusken.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/256.png",
+      "sha256": "48146ff542359d2bd0922f38df186d02997caadcb38793de88cde3c23483bd8f",
+      "bytes": 838
+    },
+    {
+      "species": "BLAZIKEN",
+      "dex": 257,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/blaziken.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/257.png",
+      "sha256": "56fc2d08ad58031fa04af4453f5998b95c5817d68f552f5c760682f07c99c91c",
+      "bytes": 122531
+    },
+    {
+      "species": "BLAZIKEN",
+      "dex": 257,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/blaziken.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/257.png",
+      "sha256": "8a9fb582d07176c22166312341fdf7daef21d4bfc518eab63b71ba9a38590c53",
+      "bytes": 967
+    },
+    {
+      "species": "MUDKIP",
+      "dex": 258,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/mudkip.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/258.png",
+      "sha256": "9c53813ed963d5df84156ed48a023e1b9a4bddd4edae31fdd3e762c11bc89705",
+      "bytes": 124303
+    },
+    {
+      "species": "MUDKIP",
+      "dex": 258,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/mudkip.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/258.png",
+      "sha256": "096d9b1f4e8de55c284dae5a201b2e371ee15a5954b3e0b49cd5b7df77b61074",
+      "bytes": 572
+    },
+    {
+      "species": "MARSHTOMP",
+      "dex": 259,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/marshtomp.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/259.png",
+      "sha256": "64da6402a0c9610fee0d1fb11adc6fa4d7d0ba84e95e60092ebbe51e2d32b092",
+      "bytes": 124970
+    },
+    {
+      "species": "MARSHTOMP",
+      "dex": 259,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/marshtomp.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/259.png",
+      "sha256": "1d5c9b19892655f0a9047c3c11507950d4b7e72a30ce9cf33cffd21cb30a7147",
+      "bytes": 736
+    },
+    {
+      "species": "SWAMPERT",
+      "dex": 260,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/swampert.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/260.png",
+      "sha256": "c812815f91ebfb092870f933d24c0c82a5bc8f0ba8fc971d68d38496640bc101",
+      "bytes": 137412
+    },
+    {
+      "species": "SWAMPERT",
+      "dex": 260,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/swampert.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/260.png",
+      "sha256": "d1e1fa8e1b924a0e995755b1626df04e38643a8b8b052d41f431cf3b11b5e076",
+      "bytes": 1160
+    },
+    {
+      "species": "POOCHYENA",
+      "dex": 261,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/poochyena.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/261.png",
+      "sha256": "873bbafdcd5dcdece62547621b29abb411f4c9125e642be05c90696e02d35b2f",
+      "bytes": 131452
+    },
+    {
+      "species": "POOCHYENA",
+      "dex": 261,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/poochyena.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/261.png",
+      "sha256": "33802c1d4ccbe01420c1aaf97a602a268767fe2e5dc8b55290999d470537a867",
+      "bytes": 570
+    },
+    {
+      "species": "MIGHTYENA",
+      "dex": 262,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/mightyena.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/262.png",
+      "sha256": "f904be2a76a9385433f0e84c858f8a2435ac84581cefcf138f9d536a1e40492b",
+      "bytes": 136862
+    },
+    {
+      "species": "MIGHTYENA",
+      "dex": 262,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/mightyena.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/262.png",
+      "sha256": "0d82810b061e1589b116fe835d396f3108cccaf4951f25b6fa1d5f1cb52859b5",
+      "bytes": 854
+    },
+    {
+      "species": "ZIGZAGOON",
+      "dex": 263,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/zigzagoon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/263.png",
+      "sha256": "2587bc54bd69a091a09d33f04f24dd202115fea9599c66827258afaed8287810",
+      "bytes": 117893
+    },
+    {
+      "species": "ZIGZAGOON",
+      "dex": 263,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/zigzagoon.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/263.png",
+      "sha256": "52de03c90f18ea7550823c4e248f756be796d89ce6cc55b7cad4a44397c325c1",
+      "bytes": 797
+    },
+    {
+      "species": "LINOONE",
+      "dex": 264,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/linoone.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/264.png",
+      "sha256": "4afba50af747202cff1327b4ae677830e02cd323aa4385818a10c2fa140effb6",
+      "bytes": 73062
+    },
+    {
+      "species": "LINOONE",
+      "dex": 264,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/linoone.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/264.png",
+      "sha256": "6bcbe52c2ad653b191c84269ccb889fe0267de76fa2172a6d9c33ac2a4c7d152",
+      "bytes": 703
+    },
+    {
+      "species": "TAILLOW",
+      "dex": 276,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/taillow.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/276.png",
+      "sha256": "8e8947c3171eecabb477e3261ff6bdac3b5c4b7d52d4e7b23e67d57d52c9b8d0",
+      "bytes": 129746
+    },
+    {
+      "species": "TAILLOW",
+      "dex": 276,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/taillow.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/276.png",
+      "sha256": "9c1f53d908b7cb03bbb636cc03e4ef4420949950aa7c83c60d6caa67c82637cb",
+      "bytes": 508
+    },
+    {
+      "species": "SWELLOW",
+      "dex": 277,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/swellow.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/277.png",
+      "sha256": "555f18276aae56f5c16f94956fc45afbc149e1f3c92a2dc73fe720257f125b13",
+      "bytes": 106601
+    },
+    {
+      "species": "SWELLOW",
+      "dex": 277,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/swellow.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/277.png",
+      "sha256": "4a415100ee8a57ba516a1b3f09f31c92d8ee59dd07c7589d4be6c62a70550b6e",
+      "bytes": 816
+    },
+    {
+      "species": "WINGULL",
+      "dex": 278,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/wingull.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/278.png",
+      "sha256": "7871854a74aff9730678fdf779197ab3510b9c599f49b71dc4b50e2a80ae9683",
+      "bytes": 54923
+    },
+    {
+      "species": "WINGULL",
+      "dex": 278,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/wingull.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/278.png",
+      "sha256": "dbbe82330c54823b91ae548b9030c00f7e827097e77e975039ab73d48c616b3f",
+      "bytes": 471
+    },
+    {
+      "species": "PELIPPER",
+      "dex": 279,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/pelipper.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/279.png",
+      "sha256": "fcfd21fd7c13cae911b888cef149d2f6c76c81624efaa2db7ec00b34ade1d14e",
+      "bytes": 130668
+    },
+    {
+      "species": "PELIPPER",
+      "dex": 279,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/pelipper.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/279.png",
+      "sha256": "886a0f0bf482068a56ae7faccc29bdef0b09c782b4ead2c03cc21f542afcc8f2",
+      "bytes": 771
+    },
+    {
+      "species": "SHROOMISH",
+      "dex": 285,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/shroomish.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/285.png",
+      "sha256": "2ae36069b07ecdc3c989780741837f93640f977fdec9abb0abc824e31d520bf0",
+      "bytes": 123900
+    },
+    {
+      "species": "SHROOMISH",
+      "dex": 285,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/shroomish.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/285.png",
+      "sha256": "25553d9b91b6c3c2ee8771fe1f1e109a28bf12dbc195dc3a46b09cd5a3a27c52",
+      "bytes": 493
+    },
+    {
+      "species": "BRELOOM",
+      "dex": 286,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/breloom.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/286.png",
+      "sha256": "5659f40bc559caa407b3cd31a7ff248ef90070e00cd2a808aa483819514b6bba",
+      "bytes": 123409
+    },
+    {
+      "species": "BRELOOM",
+      "dex": 286,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/breloom.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/286.png",
+      "sha256": "ff5d8c2a81d0f2db8b0fa9a86ce3d5b09c9d7457c4e1db8c83bd94e93085e996",
+      "bytes": 849
+    },
+    {
+      "species": "ELECTRIKE",
+      "dex": 309,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/electrike.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/309.png",
+      "sha256": "cc9d5db0f015b850ec6165ce1f92d08c717e510393370d873b7ab74a3069b452",
+      "bytes": 131011
+    },
+    {
+      "species": "ELECTRIKE",
+      "dex": 309,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/electrike.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/309.png",
+      "sha256": "2b733c6394b1142effbaa42f7d03e04b3411330257efbe5d9e1b58530ee26ef6",
+      "bytes": 511
+    },
+    {
+      "species": "MANECTRIC",
+      "dex": 310,
+      "style": "portraits",
+      "path": "assets/images/pokemon/portraits/manectric.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/310.png",
+      "sha256": "f09e58377f721f09fb02cc8b532921d911d10003ae9b515a0884fd2c6d84dfb9",
+      "bytes": 126810
+    },
+    {
+      "species": "MANECTRIC",
+      "dex": 310,
+      "style": "sprites",
+      "path": "assets/images/pokemon/sprites/manectric.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/310.png",
+      "sha256": "324b340a4d9af1cad15a7bf2843bcbf0e8ac169d7d066f8a2e402c85a542345f",
+      "bytes": 685
+    }
+  ]
+}

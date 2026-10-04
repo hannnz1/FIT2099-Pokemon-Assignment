@@ -1,0 +1,1 @@
+{"name":"echo-islands-client","private":true,"type":"module","scripts":{"start":"node tools/serve.mjs","test":"node --test test/unit/*.test.mjs"}}

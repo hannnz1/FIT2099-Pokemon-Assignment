@@ -1,0 +1,11 @@
+# Battle/capture training stage
+
+Continue development with one independent playable Java arena before connecting the browser and natural-language capture task parser. Reuse AttackAction and CaptureAction; do not change V1 or legacy capture rules. The current engine permits unlimited ordinary Pokeballs for Mudkip/Treecko and does not enforce affection/low-health capture; Torchic offers no capture action. The adapter must use actual allowableActions, not invent conventional Pokemon rules.
+
+The arena has one companion, a server-owned capture trainer inventory and two trusted wild target IDs. Every attack/capture requires active control, conscious actor, actual adjacency and allowed locations. NO_ACTIVE_BATTLE denies initiated attack; peaceful capture is allowed. Successful attack includes an actual enemy retaliation in the same atomic world action; hits/misses use existing random attack rules. Unknown/NPC/removed/fainted targets reject before mutation. Registry provides bounded idempotency.
+
+Expose observe_combat, attack and capture through AgentLoop. Goal completion checks an actual captured Pokeball owned by the trainer. Manual console commands can move/attack/capture; AI mode is explicit --live, using existing server-side OpenAI config, without silent scripted fallback. Offline demo is explicitly labelled scripted provider, actual capture rules.
+
+Arena checkpoints persist position/health, live/defeated/captured state and owned balls; reject inconsistent/out-of-range data. Restore fresh task identity paused, never pending model decisions or action receipts. Existing WorldStore can save these checkpoints. V1 browser remains a peaceful berry quest and is not labelled battle-enabled.
+
+Acceptance: attack and retaliation have actual health effects, idempotent repeat; no-battle blocks damage; range/area/type checks; Torchic uncapturable; true ball capture and goal completion; checkpoint recovery; pause/manual ownership; Java8 and existing full tests remain green. No new dependencies, automatic commits or unrelated database changes.

@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {respawnHint} from '../../agent/growth-view.mjs';
+test('respawn UI distinguishes alive count, cooldown, occupied point and limit',()=>{const r={id:'forest',remaining:3,wildLimit:3};const w={region:'forest',regions:[r]};assert.match(respawnHint(w),/3 \/ 3/);r.remaining=0;r.respawnMoves=10;assert.match(respawnHint(w),/10.*刷新/);r.respawnBlocked=true;assert.match(respawnHint(w),/离开出生点/);r.respawnLimitReached=true;assert.match(respawnHint(w),/上限/);assert.equal(respawnHint({...w,region:'lab'}),'');});

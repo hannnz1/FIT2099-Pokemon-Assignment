@@ -33,15 +33,15 @@ public class ActorLocationsIterator implements Iterable<Actor> {
 	}
 
 	/**
-	 * Adds an Actor and identifies it as the player. 
+	 * Adds an Actor and identifies it as the player.
 	 * The player always gets to go first in any turn.
 	 * @param player the player
 	 */
 	public void setPlayer(Actor player) {
 		this.player = player;
 	}
-			
-			
+
+
 	/**
 	 * Add a new Actor at the given Location.
 	 *
@@ -54,7 +54,7 @@ public class ActorLocationsIterator implements Iterable<Actor> {
 			throw new IllegalArgumentException();
 		if(locationToActor.containsKey(location))
 			throw new IllegalArgumentException();
-		
+
 		actorToLocation.put(actor, location);
 		locationToActor.put(location, actor);
 	}
@@ -111,7 +111,7 @@ public class ActorLocationsIterator implements Iterable<Actor> {
 	 * Returns a reference to the Actor at the given location, if there is one.
 	 *
 	 * @param location the location to check
-	 * @return a reference to the Actor, or null if there isn't one 
+	 * @return a reference to the Actor, or null if there isn't one
 	 */
 	public Actor getActorAt(Location location) {
 		return locationToActor.get(location);
@@ -142,8 +142,8 @@ public class ActorLocationsIterator implements Iterable<Actor> {
 		public ActorIterator(Map<Actor, Location> actorLocations) {
 			this.actorLocations = actorLocations;
 			actors = new ArrayList<Actor>(actorLocations.keySet());
-			
-			// Make sure the player is first. 
+
+			// Make sure the player is first.
 			if(actors.contains(player)) {
 				actors.remove(player);
 				actors.add(0, player);

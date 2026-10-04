@@ -1,0 +1,5 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {questTaskPresentation} from '../../agent/battle-view.mjs';
+const v={taskKind:'MIXED',goalSteps:[{kind:'COMPLETE_QUEST',targetId:null},{kind:'CAPTURE',targetId:'field-treecko'}],delivered:3,wild:[{id:'field-treecko',state:'WILD',hp:100}],world:{},status:'RUNNING'};
+test('delivered berries leave wild stage pending',()=>{const p=questTaskPresentation(v);assert.equal(p.label,'混合委托 1/2');assert.match(p.progress,/当前 2/);assert.equal(p.result,'');});
+test('terminal label verifies actual berries and captured individual',()=>{assert.match(questTaskPresentation({...v,status:'COMPLETED'}).result,/核对/);assert.match(questTaskPresentation({...v,status:'COMPLETED',wild:[{id:'field-treecko',state:'CAPTURED'}]}).result,/全部完成/);});
+test('owned mixed confirmation explains distinct stage executors and deadline',()=>{const p=questTaskPresentation({...v,aiPartner:'owned-id',aiPartnerState:{species:'MUDKIP',hp:100},customDeadline:45});assert.match(p.confirmation,/树果阶段由水跃鱼/);assert.match(p.confirmation,/野外阶段由你的水跃鱼/);assert.match(p.confirmation,/45/);});

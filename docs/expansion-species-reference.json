@@ -1,0 +1,300 @@
+{
+  "source": "https://github.com/PokeAPI/api-data",
+  "retrieved": "2026-10-03",
+  "species": [
+    {
+      "id": "POOCHYENA",
+      "dex": 261,
+      "name": "土狼犬",
+      "base": [
+        35,
+        55,
+        35,
+        30,
+        30,
+        35
+      ],
+      "types": [
+        "DARK"
+      ],
+      "ev": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "MIGHTYENA",
+      "dex": 262,
+      "name": "大狼犬",
+      "base": [
+        70,
+        90,
+        70,
+        60,
+        60,
+        70
+      ],
+      "types": [
+        "DARK"
+      ],
+      "ev": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "ZIGZAGOON",
+      "dex": 263,
+      "name": "蛇纹熊",
+      "base": [
+        38,
+        30,
+        41,
+        30,
+        41,
+        60
+      ],
+      "types": [
+        "NORMAL"
+      ],
+      "ev": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "LINOONE",
+      "dex": 264,
+      "name": "直冲熊",
+      "base": [
+        78,
+        70,
+        61,
+        50,
+        61,
+        100
+      ],
+      "types": [
+        "NORMAL"
+      ],
+      "ev": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+      ]
+    },
+    {
+      "id": "TAILLOW",
+      "dex": 276,
+      "name": "傲骨燕",
+      "base": [
+        40,
+        55,
+        30,
+        30,
+        30,
+        85
+      ],
+      "types": [
+        "NORMAL",
+        "FLYING"
+      ],
+      "ev": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "SWELLOW",
+      "dex": 277,
+      "name": "大王燕",
+      "base": [
+        60,
+        85,
+        60,
+        75,
+        50,
+        125
+      ],
+      "types": [
+        "NORMAL",
+        "FLYING"
+      ],
+      "ev": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+      ]
+    },
+    {
+      "id": "WINGULL",
+      "dex": 278,
+      "name": "长翅鸥",
+      "base": [
+        40,
+        30,
+        30,
+        55,
+        30,
+        85
+      ],
+      "types": [
+        "WATER",
+        "FLYING"
+      ],
+      "ev": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "PELIPPER",
+      "dex": 279,
+      "name": "大嘴鸥",
+      "base": [
+        60,
+        50,
+        100,
+        95,
+        70,
+        65
+      ],
+      "types": [
+        "WATER",
+        "FLYING"
+      ],
+      "ev": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "SHROOMISH",
+      "dex": 285,
+      "name": "蘑蘑菇",
+      "base": [
+        60,
+        40,
+        60,
+        40,
+        60,
+        35
+      ],
+      "types": [
+        "GRASS"
+      ],
+      "ev": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "BRELOOM",
+      "dex": 286,
+      "name": "斗笠菇",
+      "base": [
+        60,
+        130,
+        80,
+        60,
+        60,
+        70
+      ],
+      "types": [
+        "GRASS",
+        "FIGHTING"
+      ],
+      "ev": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "ELECTRIKE",
+      "dex": 309,
+      "name": "落雷兽",
+      "base": [
+        40,
+        45,
+        40,
+        65,
+        40,
+        65
+      ],
+      "types": [
+        "ELECTRIC"
+      ],
+      "ev": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "MANECTRIC",
+      "dex": 310,
+      "name": "雷电兽",
+      "base": [
+        70,
+        75,
+        60,
+        105,
+        60,
+        105
+      ],
+      "types": [
+        "ELECTRIC"
+      ],
+      "ev": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+      ]
+    }
+  ],
+  "note": "Base stats/types referenced; short learnsets, experience yields, one-point EV rewards are Demo custom rules."
+}

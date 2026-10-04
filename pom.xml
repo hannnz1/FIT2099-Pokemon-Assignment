@@ -20,6 +20,16 @@
     <build>
         <sourceDirectory>src</sourceDirectory>
         <testSourceDirectory>test</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>client/agent</directory>
+                <targetPath>web</targetPath>
+                <includes>
+                    <include>*.html</include><include>*.css</include><include>*.mjs</include><include>*.json</include>
+                </includes>
+            </resource>
+            <resource><directory>client</directory><targetPath>web/rpg</targetPath><includes><include>assets/ui/npcs/*.svg</include><include>assets/ui/world/*.svg</include><include>assets/images/pokemon/**</include><include>vendor/phaser-3.60.0.min.js</include><include>vendor/PHASER-LICENSE.md</include><include>assets/images/monster-tamer/map/buildings/building_1_level_background.png</include><include>assets/images/monster-tamer/map/buildings/building_1_level_foreground.png</include><include>assets/images/monster-tamer/map/forest_1_level_background.png</include><include>assets/images/monster-tamer/map/forest_1_level_foreground.png</include><include>assets/images/monster-tamer/monsters/jivy.png</include><include>assets/images/monster-tamer/monsters/frostsaber.png</include><include>assets/images/monster-tamer/monsters/Ignivolt.png</include><include>assets/images/monster-tamer/map/main_1_level_background.png</include><include>assets/images/monster-tamer/map/bushes.png</include><include>assets/images/monster-tamer/battle-backgrounds/forest-background.png</include><include>assets/images/monster-tamer/monsters/aquavalor.png</include><include>assets/images/monster-tamer/monsters/carnodusk.png</include><include>assets/images/monster-tamer/monsters/iguanignite.png</include><include>assets/images/axulart/character/custom.png</include><include>assets/images/axulart/character/license.txt</include><include>LICENSE</include><include>THIRD_PARTY_NOTICES.md</include><include>UPSTREAM.md</include><include>assets/images/pokemon/portraits/treecko.png</include><include>assets/images/pokemon/sprites/treecko.png</include><include>assets/images/pokemon/portraits/grovyle.png</include><include>assets/images/pokemon/sprites/grovyle.png</include><include>assets/images/pokemon/portraits/sceptile.png</include><include>assets/images/pokemon/sprites/sceptile.png</include><include>assets/images/pokemon/portraits/torchic.png</include><include>assets/images/pokemon/sprites/torchic.png</include><include>assets/images/pokemon/portraits/combusken.png</include><include>assets/images/pokemon/sprites/combusken.png</include><include>assets/images/pokemon/portraits/blaziken.png</include><include>assets/images/pokemon/sprites/blaziken.png</include><include>assets/images/pokemon/portraits/mudkip.png</include><include>assets/images/pokemon/sprites/mudkip.png</include><include>assets/images/pokemon/portraits/marshtomp.png</include><include>assets/images/pokemon/sprites/marshtomp.png</include><include>assets/images/pokemon/portraits/swampert.png</include><include>assets/images/pokemon/sprites/swampert.png</include><include>assets/images/pokemon/sources.json</include><include>assets/images/pokemon/UPSTREAM-LICENCE.txt</include><include>assets/images/pokemon/portraits/poochyena.png</include><include>assets/images/pokemon/sprites/poochyena.png</include><include>assets/images/pokemon/portraits/mightyena.png</include><include>assets/images/pokemon/sprites/mightyena.png</include><include>assets/images/pokemon/portraits/zigzagoon.png</include><include>assets/images/pokemon/sprites/zigzagoon.png</include><include>assets/images/pokemon/portraits/linoone.png</include><include>assets/images/pokemon/sprites/linoone.png</include><include>assets/images/pokemon/portraits/taillow.png</include><include>assets/images/pokemon/sprites/taillow.png</include><include>assets/images/pokemon/portraits/swellow.png</include><include>assets/images/pokemon/sprites/swellow.png</include><include>assets/images/pokemon/portraits/wingull.png</include><include>assets/images/pokemon/sprites/wingull.png</include><include>assets/images/pokemon/portraits/pelipper.png</include><include>assets/images/pokemon/sprites/pelipper.png</include><include>assets/images/pokemon/portraits/shroomish.png</include><include>assets/images/pokemon/sprites/shroomish.png</include><include>assets/images/pokemon/portraits/breloom.png</include><include>assets/images/pokemon/sprites/breloom.png</include><include>assets/images/pokemon/portraits/electrike.png</include><include>assets/images/pokemon/sprites/electrike.png</include><include>assets/images/pokemon/portraits/manectric.png</include><include>assets/images/pokemon/sprites/manectric.png</include><include>assets/ui/world/orchard.svg</include><include>assets/ui/world/berry.svg</include><include>assets/ui/world/recovery.svg</include><include>assets/ui/world/gate.svg</include><include>assets/ui/npcs/professor.svg</include><include>assets/ui/npcs/merchant.svg</include></includes></resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -53,6 +63,12 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.11</version>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

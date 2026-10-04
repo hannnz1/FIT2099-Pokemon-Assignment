@@ -1,0 +1,26 @@
+✔ socket close during snapshot fetch cannot produce a successful connection (11.8128ms)
+✔ same-room reconnect preserves unacknowledged command payload (1.9925ms)
+✔ late resync from previous room cannot seed the new state (2.3425ms)
+✔ events received during resync are buffered and applied after snapshot (4.173ms)
+✔ all panels reject disabled, pending, disconnected and frozen actions (1.1957ms)
+✔ definitive 403 rejection unlocks input instead of trapping pending forever (1.5327ms)
+✔ state ignores old events and requests resync on missing sequence (2.8942ms)
+✔ old sessions, duplicate events and stale snapshots cannot overwrite current state (0.7027ms)
+✔ views are immutable and unsubscribed listeners do not fire (1.2298ms)
+✔ unsupported map or protocol never enters state (0.9358ms)
+✔ legacy localStorage assets cannot become preferences or game state (2.3997ms)
+✔ entity identity and grid mapping do not merge same-species companions (0.7408ms)
+✔ quest projection never invents evidence or double counts rescued babies (0.5203ms)
+✔ transport retries use identical command payload and request ID (1.8952ms)
+✔ HTTP rejection is surfaced and is never a local success (0.8548ms)
+✔ borrowing from dialog enters battle and capture enters return dialogue (1.7668ms)
+✔ background state messages do not steal focus from inventory (0.386ms)
+✔ confirmed events play once and cancelling prevents queued old events (3.5403ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 621.5896
