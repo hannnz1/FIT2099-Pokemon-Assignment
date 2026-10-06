@@ -1,0 +1,63 @@
+{
+  "realAi": true,
+  "model": "gpt-6-luna",
+  "completed": 3,
+  "planned": 3,
+  "realModelCalls": 62,
+  "tokens": 34280,
+  "invalidRealActions": 0,
+  "meanModelLatencyMs": 1382.63085,
+  "p95ModelLatencyMs": 2348.3417,
+  "knownUsageSoftLimit": 350000,
+  "publicWebsiteUpdated": false,
+  "privacy": "outbound whitelist excludes captureId, experience, traits, paths and owner identity",
+  "cases": [
+    {
+      "mode": "manual",
+      "status": "COMPLETED",
+      "result": "LEFT_WON",
+      "battleTurns": 14,
+      "realModelCalls": 16,
+      "baselineCalls": 0,
+      "invalidRealActions": 0,
+      "tokens": 8846,
+      "elapsedMs": 23906,
+      "meanModelLatencyMs": 1439.92938125,
+      "usageIncomplete": false,
+      "manualDriver": "explicit HTTP-equivalent rule choices, not a human skill measurement"
+    },
+    {
+      "mode": "delegated",
+      "status": "COMPLETED",
+      "result": "LEFT_WON",
+      "battleTurns": 15,
+      "realModelCalls": 17,
+      "baselineCalls": 17,
+      "invalidRealActions": 0,
+      "tokens": 9363,
+      "elapsedMs": 22477,
+      "meanModelLatencyMs": 1270.9839411764706,
+      "usageIncomplete": false,
+      "manualDriver": null
+    },
+    {
+      "mode": "auto",
+      "status": "COMPLETED",
+      "result": "RIGHT_WON",
+      "battleTurns": 13,
+      "realModelCalls": 29,
+      "baselineCalls": 0,
+      "invalidRealActions": 0,
+      "tokens": 16071,
+      "elapsedMs": 27234,
+      "meanModelLatencyMs": 1416.4660551724137,
+      "usageIncomplete": false,
+      "manualDriver": null
+    }
+  ],
+  "limitations": [
+    "3 cases are smoke acceptance, not a statistically meaningful win-rate benchmark",
+    "manual side uses deterministic explicit actions, not human-player performance",
+    "cost not reported because verified account-specific pricing is unavailable"
+  ]
+}

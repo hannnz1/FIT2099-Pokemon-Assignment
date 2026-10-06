@@ -55,18 +55,18 @@ public class Menu {
 
 	/**
 	 * Inner class that provides the ability to compare two Actions.
-	 *
-	 * This allows Actions to be sorted in order of their hotkeys.
+	 * 
+	 * This allows Actions to be sorted in order of their hotkeys. 
 	 *
 	 */
 	class SortHotkeysFirst implements Comparator<Action> {
 		public int compare(Action a, Action b) {
 			if (a.hotkey() != null && b.hotkey() == null)
 				return -1;
-
+			
 			if (a.hotkey() == null && b.hotkey() != null)
 				return 1;
-
+			
 			return 0;
 		}
 	}

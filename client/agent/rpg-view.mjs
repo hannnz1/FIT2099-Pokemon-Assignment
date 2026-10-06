@@ -18,17 +18,24 @@ export function projectRpg(view,mode='quest'){
 }
 export function targetAt(p,x,y){return p.entities.find(e=>e.role==='wild'&&e.x===x&&e.y===y)?.id??null;}
 export function keyboardDirection(key,tag,enabled,editable=false){if(!enabled||editable||['INPUT','TEXTAREA','SELECT'].includes(tag?.toUpperCase()))return null;return ({ArrowUp:'N',ArrowDown:'S',ArrowLeft:'W',ArrowRight:'E',w:'N',a:'W',s:'S',d:'E'})[key]??({w:'N',a:'W',s:'S',d:'E'})[key?.toLowerCase()]??null;}
-export function bindMovementKeys({document:doc=globalThis.document,onMove,canMove,isReady=()=>true,directionForKey=keyboardDirection}){
+export function bindMovementKeys({document:doc=globalThis.document,onMove,canMove,isReady=()=>true,directionForKey=keyboardDirection,controller}){
  const handler=event=>{
-  if(event.defaultPrevented||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||doc.querySelector?.('dialog[open], [role="dialog"][aria-modal="true"]'))return;
+  if(event.defaultPrevented||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||doc.querySelector?.('dialog[open], [role="dialog"][aria-modal="true"], .player-mode-menu[open]')){controller?.clear();return;}
   const focused=doc.activeElement,direction=directionForKey(event.key,focused?.tagName,true,focused?.isContentEditable);
-  if(!direction)return;
+  if(!direction){if(focused?.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(focused?.tagName))controller?.clear();return;}
   // Consume movement keys even while a server command is pending; otherwise
   // held arrows scroll the page during each brief input lock.
   event.preventDefault();
-  if(isReady()&&canMove()&&!event.repeat)onMove(direction);
+  if(controller){if(!event.repeat&&isReady()&&(canMove()||controller.state.inFlight))controller.press(direction);}
+  else if(isReady()&&canMove()&&!event.repeat)onMove(direction);
  };
- doc.addEventListener('keydown',handler);return ()=>doc.removeEventListener('keydown',handler);
+ const release=e=>{const d=directionForKey(e.key,'BODY',true);if(d)controller?.release(d);};
+ const clear=()=>controller?.clear();
+ const hidden=()=>{if(doc.hidden)clear();};
+ const focus=()=>{if(doc.querySelector?.('dialog[open], [role="dialog"][aria-modal="true"], .player-mode-menu[open]')||['INPUT','TEXTAREA','SELECT'].includes(doc.activeElement?.tagName)||doc.activeElement?.isContentEditable)clear();};
+ doc.addEventListener('keydown',handler);doc.addEventListener('keyup',release);doc.addEventListener('visibilitychange',hidden);doc.addEventListener('focusin',focus);doc.defaultView?.addEventListener('blur',clear);
+ const observer=controller&&globalThis.MutationObserver&&doc.body?new MutationObserver(focus):null;observer?.observe(doc.body,{subtree:true,attributes:true,attributeFilter:['open','aria-modal']});
+ return ()=>{clear();observer?.disconnect();doc.removeEventListener('keydown',handler);doc.removeEventListener('keyup',release);doc.removeEventListener('visibilitychange',hidden);doc.removeEventListener('focusin',focus);doc.defaultView?.removeEventListener('blur',clear);};
 }
 
 // Effects require a newer authoritative world turn in the same task.

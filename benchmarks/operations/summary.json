@@ -1,0 +1,48 @@
+{
+  "freeLoad": {
+    "environment": "Windows local Java, 384MB heap; not production capacity",
+    "site": "http://127.0.0.1:8102",
+    "startedAt": "2026-10-05T16:19:05.702Z",
+    "elapsedMs": 3692438,
+    "plannedSoakMs": 3600000,
+    "phase": "finished",
+    "complete": true,
+    "admitted": 8,
+    "rejectedSessionLimit": 2,
+    "requests": 28702,
+    "errorCount": 0,
+    "errors": [],
+    "requestP50Ms": 15.20850000018254,
+    "requestP95Ms": 20.81099999975413,
+    "paidCalls": 0
+  },
+  "resources": {
+    "samples": 174,
+    "samplingStartedLate": true,
+    "sampleDurationSeconds": 1732.889,
+    "cpuSecondsDuringSample": 3.609375,
+    "peakWorkingSetMiB": 309.375,
+    "lastWorkingSetMiB": 295.97265625
+  },
+  "restore": {
+    "checkpointEnvelopesValidated": 257,
+    "checksumExtractAndAuditSeconds": 1,
+    "healthAndGrowthHTTP200": true,
+    "network": "none",
+    "publicPorts": false,
+    "paidCalls": 0,
+    "productionUnchanged": true,
+    "serviceRTO": null
+  },
+  "alerts": {
+    "injectedTests": 5,
+    "passed": 5,
+    "externalDeliveryConfigured": false
+  },
+  "backups": {
+    "dailyOnServer": true,
+    "offsiteOneCopy": true,
+    "dailyOffsiteSynchronizationConfigured": false
+  },
+  "limits": "Local Windows free synthetic load; not production or ten-player certification. Isolated audit duration is not public-service RTO."
+}

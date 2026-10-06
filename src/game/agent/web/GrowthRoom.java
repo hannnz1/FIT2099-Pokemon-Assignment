@@ -15,8 +15,10 @@ public final class GrowthRoom implements WebRoom {
     private final String id=UUID.randomUUID().toString(),owner;
     private final ProviderSelection provider; private final Executor executor; private final WorldStore store;
     private final IntSupplier random;
-    private GrowthWorld world;private final PokemonCollection collection;
-    private String taskId=UUID.randomUUID().toString(),phase="IDLE",error;
+    private FirstAdventure firstAdventure=new FirstAdventure();private boolean tutorialSkillUsed;private GrowthWorld world;private final PokemonCollection collection;
+    private String taskId=UUID.randomUUID().toString(),phase="IDLE",error,storageFailureCode;
+    private Map<String,Object> storageFailureDetails=Collections.emptyMap();
+    private long lastSavedRevision;
     private long revision=1,lastTick=-1,activeMillis,lastSavedActive;
     private int targetLevel;
     private String targetIndividual,targetRegion;
@@ -52,12 +54,14 @@ public final class GrowthRoom implements WebRoom {
             if(expected<1||expected>revision||!stop&&expected!=revision)return reply(409,request,"STALE_REVISION");
             if(block!=null&&!Arrays.asList("PAUSE","CANCEL","RECOVER").contains(kind))return reply(409,request,block);
             Set<String> fields=new HashSet<>();
-            switch(kind){case "STARTER":fields.add("species");break;case "RETURN_GROWTH":case "SELECT":fields.add("captureId");break;case "LEARN":fields.addAll(Arrays.asList("moveId","replaceId"));break;case "CLAIM":fields.add("milestoneId");break;case "AI_TRAIN":fields.add("targetLevel");if(params.containsKey("regionId"))fields.add("regionId");break;case "MANUAL":fields.addAll(Arrays.asList("action","arguments"));break;default:break;}
+            switch(kind){case "PRACTICE_SKILL":fields.add("moveId");break;case "STARTER":fields.add("species");break;case "RETURN_GROWTH":case "SELECT":fields.add("captureId");break;case "LEARN":fields.addAll(Arrays.asList("moveId","replaceId"));break;case "CLAIM":fields.add("milestoneId");break;case "AI_TRAIN":fields.add("targetLevel");if(params.containsKey("regionId"))fields.add("regionId");break;case "MANUAL":fields.addAll(Arrays.asList("action","arguments"));break;default:break;}
             if(!params.keySet().equals(fields))return reply(400,request,"INVALID_PARAMS");
             if(running()&&!stop)return reply(409,request,"AI_CONTROLS_COMPANION");
-            ActionResult action=null;
+            Map<String,Object> storyBefore=world.view();ActionResult action=null;
             switch(kind){
                 case "START_ADVENTURE":if(Arrays.asList("PAUSED","PROVIDER_UNAVAILABLE").contains(status()))return reply(409,request,"TRAINING_TASK_PENDING");action=world.startAdventure();if(action.getStatus()==ActionResult.Status.SUCCESS)clearTraining();break;
+                case "PRACTICE_SELECT":case "STORY_CONTINUE":case "STORY_FINISH":case "STORY_SKIP":action=firstAdventure.action(kind,null,world);break;
+                case "PRACTICE_SKILL":action=firstAdventure.action(kind,identifier(params.get("moveId")),world);break;
                 case "STARTER":action=world.starter(identifier(params.get("species")));break;
                 case "SELECT":action=world.select(identifier(params.get("captureId")));break;
                 case "RETURN_GROWTH":
@@ -82,6 +86,7 @@ public final class GrowthRoom implements WebRoom {
                 case "NEXT_EXPEDITION":action=world.nextExpedition();break;
                 case "MANUAL":String tool=identifier(params.get("action"));Map<String,Object> args=Json.asObject(params.get("arguments"));
                     if("move".equals(tool)){if(!args.keySet().equals(Collections.singleton("direction")))return reply(400,request,"INVALID_PARAMS");action=world.move(identifier(args.get("direction")));}
+                    else if("capture".equals(tool)&&"forest".equals(world.region())&&firstAdventure.needsCapture()&&world.partner()!=null&&world.partner().captureId.equals(firstAdventure.starterId())){if(!args.keySet().equals(Collections.singleton("targetId")))return reply(400,request,"INVALID_PARAMS");action=world.firstAdventureCapture(identifier(args.get("targetId")),(String)firstAdventure.view().get("species"));}
                     else action=world.tools().execute(new ToolRequest(request,tool,args));break;
                 case "AI_TRAIN":
                     if(provider.gateway==null)return reply(409,request,"PROVIDER_CONFIGURATION");
@@ -92,10 +97,10 @@ public final class GrowthRoom implements WebRoom {
                 case "PAUSE":if(!running())return reply(409,request,"NOT_RUNNING");loop.pause();break;
                 case "RESUME":if(!Arrays.asList("PAUSED","PROVIDER_UNAVAILABLE").contains(status()))return reply(409,request,"NOT_PAUSED");if(provider.gateway==null)return reply(409,request,"PROVIDER_CONFIGURATION");if(activeMillis>=600000)return reply(409,request,"TASK_TIME_LIMIT");if(world.partner()==null||!targetIndividual.equals(world.partner().captureId))return reply(409,request,"TRAINING_PARTNER_CHANGED");world.chooseExpedition(targetRegion);if(loop==null)startLoop();else loop.resume();lastTick=now;break;
                 case "CANCEL":closeLoop();phase="CANCELLED";if(storageFailed){revision++;return reply(200,request,"CANCELLED");}break;
-                case "RECOVER":if(!storageFailed||store==null)return reply(409,request,"NO_STORAGE_RECOVERY");try{Map<String,Object> saved=store.load(owner);if(saved==null)return reply(503,request,"STORAGE_UNAVAILABLE");collection.recover();restore(saved);storageFailed=false;error=null;reconcileTransfers();if(storageFailed)return reply(503,request,"STORAGE_UNAVAILABLE");}catch(RuntimeException failure){return reply(503,request,"STORAGE_UNAVAILABLE");}break;
+                case "RECOVER":if(!storageFailed||store==null)return reply(409,request,"NO_STORAGE_RECOVERY");try{Map<String,Object> saved=store.load(owner);if(saved==null)return reply(503,request,"STORAGE_UNAVAILABLE");collection.recover();restore(saved);storageFailed=false;error=null;storageFailureCode=null;storageFailureDetails=Collections.emptyMap();reconcileTransfers();if(storageFailed)return reply(503,request,"STORAGE_UNAVAILABLE");}catch(RuntimeException failure){return reply(503,request,"STORAGE_UNAVAILABLE");}break;
                 default:return reply(400,request,"UNKNOWN_COMMAND");
             }
-            if(action!=null){append(action,now);revision++;if(action.getStatus()!=ActionResult.Status.SUCCESS&&action.getStatus()!=ActionResult.Status.IN_PROGRESS)return reply(409,request,action.getCode());}
+            if(action!=null){firstAdventure.observe(world,storyBefore,action);append(action,now);revision++;if(action.getStatus()!=ActionResult.Status.SUCCESS&&action.getStatus()!=ActionResult.Status.IN_PROGRESS)return reply(409,request,action.getCode());}
             else revision++;
             AgentRoom.Reply result=reply(200,request,action==null?"ACCEPTED":action.getCode());
             if(payloads.size()>=64){String expired=payloads.keySet().iterator().next();payloads.remove(expired);replies.remove(expired);}payloads.put(request,payload);replies.put(request,result);
@@ -113,22 +118,32 @@ public final class GrowthRoom implements WebRoom {
         if(activeMillis>=600000){closeLoop();phase="FAILED";error="TASK_TIME_LIMIT";revision++;persist();return;}
         long callsBefore=((Number)loop.getMetrics().get("decisionCount")).longValue();ActionResult result=loop.tick(now);if(!Arrays.asList("DECISION_PENDING","TASK_INACTIVE").contains(result.getCode())){append(result,now);revision++;persist();}else if(!before.equals(status())){revision++;persist();}else if(((Number)loop.getMetrics().get("decisionCount")).longValue()!=callsBefore||activeMillis-lastSavedActive>=1000){persist();}
     }
-    private void append(ActionResult action,long now){if(trace.size()>=64)trace.remove(0);trace.add(Json.object("code",action.getCode(),"status",action.getStatus().name(),"data",action.getData(),"time",now));}
+    private void append(ActionResult action,long now){if(action.getStatus()==ActionResult.Status.SUCCESS&&action.getData().containsKey("moveId"))tutorialSkillUsed=true;if(trace.size()>=64)trace.remove(0);trace.add(Json.object("code",action.getCode(),"status",action.getStatus().name(),"data",action.getData(),"time",now));}
     private List<Map<String,Object>> steps(){List<Map<String,Object>> rows=new ArrayList<>(oldSteps);if(loop!=null)rows.addAll(loop.getStepTrace());return rows.size()>64?new ArrayList<>(rows.subList(rows.size()-64,rows.size())):rows;}
     private Map<String,Object> metrics(){return loop==null?oldMetrics:loop.getMetrics();}
-    public Map<String,Object> snapshot(){return Json.object("roomId",id,"taskId",taskId,"revision",revision,"status",status(),"mode","GROWTH","world",world.view(),"collection",collection.snapshot(),"collectionAvailable",collection.available(),"trace",new ArrayList<>(trace),"stepTrace",steps(),"metrics",metrics(),"provider",provider.name,"model",provider.model,"aiAvailable",provider.gateway!=null,"manualAllowed",!running()&&!storageFailed,"errorCode",error,"targetLevel",targetLevel,"targetIndividual",targetIndividual,"targetRegion",targetRegion,"storage",store==null?"MEMORY":"PERSISTENT","recovered",recovered);}
-    private boolean persist(){if(store==null)return true;try{
+    public void recordTrainerVictory(Map<String,Object> duel){if(storageFailed||!"COMPLETED".equals(duel.get("status")))return;Map<String,Object> battle=Json.asObject(duel.get("world"));if(!"LEFT_WON".equals(battle.get("result")))return;for(Object row:Json.asArray(battle.get("ownTeam"))){String individual=(String)Json.asObject(row).get("captureId");if(firstAdventure.trainerVictory(individual,(String)duel.get("difficulty"))){revision++;persist();break;}}}
+    public Map<String,Object> snapshot(){return Json.object("roomId",id,"taskId",taskId,"revision",revision,"status",status(),"mode","GROWTH","tutorialSkillUsed",tutorialSkillUsed,"firstAdventure",firstAdventure.view(),"world",world.view(),"collection",collection.snapshot(),"collectionAvailable",collection.available(),"trace",new ArrayList<>(trace),"stepTrace",steps(),"metrics",metrics(),"provider",provider.name,"model",provider.model,"aiAvailable",provider.gateway!=null,"manualAllowed",!running()&&!storageFailed,"errorCode",error,"storageFailureCode",storageFailureCode,"storageFailureDetails",new LinkedHashMap<>(storageFailureDetails),"targetLevel",targetLevel,"targetIndividual",targetIndividual,"targetRegion",targetRegion,"storage",store==null?"MEMORY":"PERSISTENT","recovered",recovered);}
+    private boolean persist(){if(store==null)return true;Map<String,Object> checkpoint=null;try{
         List<Object> receipts=new ArrayList<>();for(String request:payloads.keySet())receipts.add(Json.object("id",request,"payload",payloads.get(request),"status",replies.get(request).status,"body",replies.get(request).body));
-        store.save(owner,Json.object("schemaVersion",1,"world",world.export(),"taskId",taskId,"revision",revision,"phase",status(),"targetLevel",targetLevel,"targetIndividual",targetIndividual,"targetRegion",targetRegion,"activeMillis",activeMillis,"trace",new ArrayList<>(trace),"steps",steps(),"metrics",metrics(),"receipts",receipts));lastSavedActive=activeMillis;return true;
-    }catch(RuntimeException failure){if(running())loop.pause();storageFailed=true;error="STORAGE_UNAVAILABLE";revision++;return false;}}
+        checkpoint=Json.object("schemaVersion",1,"tutorialSkillUsed",tutorialSkillUsed,"firstAdventure",firstAdventure.view(),"world",world.export(),"taskId",taskId,"revision",revision,"phase",status(),"targetLevel",targetLevel,"targetIndividual",targetIndividual,"targetRegion",targetRegion,"activeMillis",activeMillis,"trace",new ArrayList<>(trace),"steps",steps(),"metrics",metrics(),"receipts",receipts);store.save(owner,checkpoint);lastSavedRevision=revision;lastSavedActive=activeMillis;return true;
+    }catch(RuntimeException failure){if(running())loop.pause();storageFailed=true;error="STORAGE_UNAVAILABLE";storageFailureCode=failure instanceof game.agent.persistence.StoreException?((game.agent.persistence.StoreException)failure).getCode().name():"UNKNOWN";storageFailureDetails=saveFailureDetails(checkpoint);System.err.println("GROWTH_SAVE_FAILED "+Json.write(storageFailureDetails));revision++;return false;}}
+    // Only bounded numeric metadata and finite error codes enter logs; never owner IDs, keys or payloads.
+    private Map<String,Object> saveFailureDetails(Map<String,Object> checkpoint){
+        long nodes=-1,bytes=-1;int receipts=-1;
+        if(checkpoint!=null){nodes=countCheckpointNodes(checkpoint);receipts=Json.asArray(checkpoint.get("receipts")).size();try{bytes=Json.write(checkpoint).getBytes(java.nio.charset.StandardCharsets.UTF_8).length;}catch(RuntimeException ignored){}}
+        return Json.object("code",storageFailureCode,"revision",revision,"lastSavedRevision",lastSavedRevision,"checkpointNodes",nodes,"checkpointBytes",bytes,"receiptCount",receipts,"partnerLevel",world.partner()==null?0:world.partner().level());
+    }
+    private static long countCheckpointNodes(Object value){long count=1;if(value instanceof Map)for(Object child:((Map<?,?>)value).values())count+=1+countCheckpointNodes(child);else if(value instanceof List)for(Object child:(List<?>)value)count+=countCheckpointNodes(child);return count;}
     private static long number(Object n){if(!(n instanceof Number))throw new IllegalArgumentException();return new java.math.BigDecimal(n.toString()).longValueExact();}
     private void restore(Map<String,Object> saved){
-        Set<String> fields=new HashSet<>(Arrays.asList("schemaVersion","world","taskId","revision","phase","targetLevel","targetIndividual","activeMillis","trace","steps","metrics","receipts"));if(saved.containsKey("targetRegion"))fields.add("targetRegion");if(!saved.keySet().equals(fields)||number(saved.get("schemaVersion"))!=1)throw new IllegalArgumentException("INVALID_GROWTH_CHECKPOINT");
+        Set<String> fields=new HashSet<>(Arrays.asList("schemaVersion","world","taskId","revision","phase","targetLevel","targetIndividual","activeMillis","trace","steps","metrics","receipts"));if(saved.containsKey("firstAdventure"))fields.add("firstAdventure");if(saved.containsKey("tutorialSkillUsed"))fields.add("tutorialSkillUsed");if(saved.containsKey("targetRegion"))fields.add("targetRegion");if(!saved.keySet().equals(fields)||number(saved.get("schemaVersion"))!=1)throw new IllegalArgumentException("INVALID_GROWTH_CHECKPOINT");
+        if(saved.containsKey("tutorialSkillUsed")&&!(saved.get("tutorialSkillUsed") instanceof Boolean))throw new IllegalArgumentException("INVALID_GROWTH_CHECKPOINT");
+        firstAdventure=saved.containsKey("firstAdventure")?FirstAdventure.restore(Json.asObject(saved.get("firstAdventure"))):FirstAdventure.legacy();tutorialSkillUsed=Boolean.TRUE.equals(saved.get("tutorialSkillUsed"));
         GrowthWorld restored=GrowthWorld.restore(Json.asObject(saved.get("world")),random);String savedTask=identifier(saved.get("taskId")),savedPhase=identifier(saved.get("phase"));long rev=number(saved.get("revision")),active=number(saved.get("activeMillis"));int goal=(int)number(saved.get("targetLevel"));
         if(rev<1||active<0||active>600000||goal<0||goal>GrowthRules.LEVEL_CAP||!Arrays.asList("IDLE","RUNNING","REPLANNING","PAUSED","PROVIDER_UNAVAILABLE","COMPLETED","FAILED","CANCELLED").contains(savedPhase))throw new IllegalArgumentException("INVALID_GROWTH_CHECKPOINT");
         List<Object> logs=Json.asArray(saved.get("trace")),steps=Json.asArray(saved.get("steps")),receipts=Json.asArray(saved.get("receipts"));if(logs.size()>64||steps.size()>64||receipts.size()>1024)throw new IllegalArgumentException("INVALID_GROWTH_CHECKPOINT");
         String savedRegion=saved.containsKey("targetRegion")?(saved.get("targetRegion")==null?null:identifier(saved.get("targetRegion"))):(goal>0?restored.expeditionRegion():null);if(goal>0?!GrowthMaps.wild(savedRegion):savedRegion!=null)throw new IllegalArgumentException("INVALID_TRAINING_REGION");String individual=saved.get("targetIndividual")==null?null:identifier(saved.get("targetIndividual"));if(goal>0&&(restored.partner()==null||individual==null))throw new IllegalArgumentException("INVALID_GROWTH_CHECKPOINT");
-        closeLoop();world=restored;taskId=savedTask;revision=rev+1;phase=Arrays.asList("RUNNING","REPLANNING","PROVIDER_UNAVAILABLE").contains(savedPhase)?"PAUSED":savedPhase;targetLevel=goal;targetIndividual=individual;targetRegion=savedRegion;activeMillis=active;lastSavedActive=active;lastTick=-1;
+        closeLoop();world=restored;taskId=savedTask;revision=rev+1;phase=Arrays.asList("RUNNING","REPLANNING","PROVIDER_UNAVAILABLE").contains(savedPhase)?"PAUSED":savedPhase;targetLevel=goal;targetIndividual=individual;targetRegion=savedRegion;activeMillis=active;lastSavedActive=active;lastSavedRevision=rev;lastTick=-1;
         trace.clear();for(Object row:logs)trace.add(Json.asObject(row));oldSteps.clear();for(Object row:steps)oldSteps.add(Json.asObject(row));oldMetrics=Json.asObject(saved.get("metrics"));payloads.clear();replies.clear();
         for(Object row:receipts){Map<String,Object> v=Json.asObject(row);String request=identifier(v.get("id"));if(payloads.put(request,(String)v.get("payload"))!=null)throw new IllegalArgumentException("DUPLICATE_RECEIPT");replies.put(request,new AgentRoom.Reply((int)number(v.get("status")),Json.asObject(v.get("body"))));}while(payloads.size()>64){String expired=payloads.keySet().iterator().next();payloads.remove(expired);replies.remove(expired);}recovered=true;
     }

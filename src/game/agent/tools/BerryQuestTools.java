@@ -9,7 +9,7 @@ public final class BerryQuestTools {
     private BerryQuestTools() { }
     public static void register(GameToolRegistry tools,BerryQuestSession session) {
         Objects.requireNonNull(session);
-        Map<String,ToolParameter> item=new LinkedHashMap<>(); item.put("itemId",ToolParameter.string()); item.put("quantity",ToolParameter.integer(1,20));
+        Map<String,ToolParameter> item=new LinkedHashMap<>(); item.put("itemId",ToolParameter.literal("BERRY")); item.put("quantity",ToolParameter.integer(1,20));
         tools.register(new ToolDefinition("pickup","Pick up BERRY units on the companion's current tile",true,item),
             r->session.pickup((String)r.getArguments().get("itemId"),integer(r,"quantity")));
         Map<String,ToolParameter> delivery=new LinkedHashMap<>(); delivery.put("questId",ToolParameter.string()); delivery.put("targetNpcId",ToolParameter.string());

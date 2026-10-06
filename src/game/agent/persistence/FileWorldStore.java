@@ -46,6 +46,11 @@ public final class FileWorldStore implements WorldStore {
         } catch(NoSuchFileException e) { return null; }
         catch(IOException | SecurityException e) { throw new StoreException(StoreException.Code.IO_ERROR); }
     }
+    public synchronized boolean delete(String owner) {
+        ensureOpen();String key=CheckpointDocument.ownerKey(owner);
+        try { Files.deleteIfExists(directory.resolve(key+".json"));return true; }
+        catch(IOException | SecurityException e) { throw new StoreException(StoreException.Code.IO_ERROR); }
+    }
     public synchronized void close() { closed=true; }
     private void ensureOpen() { if(closed) throw new StoreException(StoreException.Code.CLOSED); }
 }

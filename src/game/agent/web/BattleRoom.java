@@ -21,6 +21,7 @@ public final class BattleRoom implements WebRoom {
     private String phase="IDLE",error;
     private long revision=1,parseDeadline,lastTick=-1,activeMillis;
     private int parses,resumes;
+    private int tutorialMoves;private boolean tutorialSelected,tutorialAttacked,tutorialRested,tutorialSkipped;
     private boolean storageFailed,recovered,confirmed,hasCheckpoint;
     private final List<Map<String,Object>> trace=new ArrayList<>(),previousSteps=new ArrayList<>();
     private Map<String,Object> previousMetrics=Collections.emptyMap();
@@ -47,13 +48,13 @@ public final class BattleRoom implements WebRoom {
             if(!input.keySet().equals(new HashSet<>(Arrays.asList("requestId","taskId","expectedRevision","command","params"))))return reply(400,request,"INVALID_FIELDS");
             request=identifier(input.get("requestId"));String task=identifier(input.get("taskId")),kind=identifier(input.get("command"));Map<String,Object> params=Json.asObject(input.get("params"));
             if(!(input.get("expectedRevision") instanceof Number))throw new IllegalArgumentException();long expected=new BigDecimal(input.get("expectedRevision").toString()).longValueExact();
-            Set<String> fields="PARSE".equals(kind)?Collections.singleton("text"):"MANUAL".equals(kind)?new HashSet<>(Arrays.asList("action","arguments")):"TRANSFER".equals(kind)?Collections.singleton("targetId"):"SWITCH_MODE".equals(kind)?Collections.singleton("mode"):Collections.emptySet();
+            Set<String> fields="TUTORIAL".equals(kind)?Collections.singleton("action"):"PARSE".equals(kind)?Collections.singleton("text"):"MANUAL".equals(kind)?new HashSet<>(Arrays.asList("action","arguments")):"TRANSFER".equals(kind)?Collections.singleton("targetId"):"SWITCH_MODE".equals(kind)?Collections.singleton("mode"):Collections.emptySet();
             if(!params.keySet().equals(fields))return reply(400,request,"INVALID_PARAMS");
             String payload=Json.write(input);if(payloads.containsKey(request))return payloads.get(request).equals(payload)?replies.get(request):reply(409,request,"REQUEST_ID_CONFLICT");
             if(!scene.getTaskId().equals(task))return reply(409,request,"STALE_TASK");
             boolean stop="PAUSE".equals(kind)||"CANCEL".equals(kind);
             if(expected<0||expected>revision||(!stop&&expected!=revision))return reply(409,request,"STALE_REVISION");
-            if(controlBlock!=null&&Arrays.asList("PARSE","CONFIRM","RESUME","MANUAL","TRANSFER").contains(kind))return reply(409,request,controlBlock);
+            if(controlBlock!=null&&Arrays.asList("PARSE","CONFIRM","RESUME","MANUAL","TRANSFER","REST","RESET").contains(kind))return reply(409,request,controlBlock);
             if(payloads.size()>=256&&!"CANCEL".equals(kind))return reply(429,request,"REQUEST_LIMIT");
             if(storageFailed&&!"RECOVER".equals(kind)&&!"CANCEL".equals(kind))return reply(503,request,"STORAGE_UNAVAILABLE");
             AgentRoom.Reply result=execute(request,kind,params,now);
@@ -63,6 +64,12 @@ public final class BattleRoom implements WebRoom {
     }
     private AgentRoom.Reply execute(String request,String kind,Map<String,Object> params,long now){String state=status();
         switch(kind){
+            case "TUTORIAL":
+                String tutorialAction=identifier(params.get("action"));
+                if("SELECT".equals(tutorialAction))tutorialSelected=true;
+                else if("SKIP".equals(tutorialAction))tutorialSkipped=true;
+                else if("REPLAY".equals(tutorialAction)){tutorialSkipped=false;tutorialMoves=0;tutorialSelected=false;tutorialAttacked=false;tutorialRested=false;}
+                else return reply(400,request,"INVALID_PARAMS");break;
             case "TRANSFER":
                 if(!"wild-treecko".equals(params.get("targetId")))return reply(400,request,"UNKNOWN_TARGET");
                 if(Arrays.asList("PARSING","READY","RUNNING","REPLANNING").contains(state))return reply(409,request,"AI_CONTROLS_COMPANION");
@@ -94,15 +101,23 @@ public final class BattleRoom implements WebRoom {
                 if(resumes>=3)return reply(429,request,"RESUME_LIMIT");resumes++;loop.resume();lastTick=now;break;
             case "CANCEL":
                 close();if(loop==null&&!Arrays.asList("COMPLETED","FAILED","CANCELLED").contains(state))phase="CANCELLED";intent=confirmed?intent:null;break;
+            case "REST":
+                if(Arrays.asList("PARSING","READY","RUNNING","REPLANNING").contains(state))return reply(409,request,"AI_CONTROLS_COMPANION");
+                scene.rest();tutorialRested=true;append(ActionResult.success("TRAINING_RESTED"),now);break;
             case "RESET":
                 if(!Arrays.asList("IDLE","ERROR","COMPLETED","FAILED","CANCELLED").contains(state))return reply(409,request,"CANCEL_BEFORE_RESET");
+                if(scene.capturedBall()!=null)return reply(409,request,"COLLECT_BEFORE_RESET");
                 close();scene=new BattleTrainingScenario();loop=null;intent=null;confirmed=false;phase="IDLE";error=null;trace.clear();previousSteps.clear();previousMetrics=Collections.emptyMap();parses=0;resumes=0;activeMillis=0;lastTick=-1;break;
             case "MANUAL":
                 if(Arrays.asList("PARSING","READY","RUNNING","REPLANNING").contains(state))return reply(409,request,"AI_CONTROLS_COMPANION");
                 String action=identifier(params.get("action"));Map<String,Object> args=Json.asObject(params.get("arguments"));String field="move".equals(action)?"direction":"targetId";
-                if(!Arrays.asList("move","attack","capture").contains(action)||!args.keySet().equals(Collections.singleton(field)))return reply(400,request,"INVALID_PARAMS");
+                if(!Arrays.asList("move","approach","attack","capture").contains(action)||!args.keySet().equals(Collections.singleton(field)))return reply(400,request,"INVALID_PARAMS");
                 ActionResult result=scene.manual(action,identifier(args.get(field)));append(result,now);
-                if(result.getStatus()!=ActionResult.Status.SUCCESS){revision++;return reply(409,request,result.getCode());}break;
+                if(result.getStatus()==ActionResult.Status.SUCCESS||result.getStatus()==ActionResult.Status.IN_PROGRESS){
+                    if("move".equals(action))tutorialMoves=Math.min(2,tutorialMoves+1);
+                    if("attack".equals(action)){tutorialAttacked=true;tutorialRested=false;}
+                }
+                if(result.getStatus()!=ActionResult.Status.SUCCESS&&result.getStatus()!=ActionResult.Status.IN_PROGRESS){revision++;return reply(409,request,result.getCode());}break;
             case "RECOVER":
                 if(!storageFailed||store==null)return reply(409,request,"NO_STORAGE_RECOVERY");
                 try{collection.recover();Map<String,Object> saved=store.load(owner);if(saved==null){if(hasCheckpoint)return reply(503,request,"STORAGE_UNAVAILABLE");close();scene=new BattleTrainingScenario();loop=null;intent=null;confirmed=false;phase="IDLE";}else restore(saved);storageFailed=false;error=null;reconcileTransfers();}
@@ -129,15 +144,22 @@ public final class BattleRoom implements WebRoom {
     private List<Map<String,Object>> steps(){List<Map<String,Object>> rows=new ArrayList<>(previousSteps);if(loop!=null)rows.addAll(loop.getStepTrace());return rows.size()>64?new ArrayList<>(rows.subList(rows.size()-64,rows.size())):rows;}
     private Map<String,Object> metrics(){return loop==null?previousMetrics:loop.getMetrics();}
     void reconcileTransfers(){if(!collection.available())return;if(collection.received(scene.getArenaId())&&!scene.isTransferred()){scene.transferCaptured();revision++;persist();}if(scene.isTransferred()&&!collection.received(scene.getArenaId()))throw new IllegalStateException("COLLECTION_OWNERSHIP_MISSING");}
-    public Map<String,Object> snapshot(){Map<String,String> observation=scene.observation();return Json.object("roomId",id,"taskId",scene.getTaskId(),"revision",revision,"status",status(),"mode","BATTLE_TRAINING",
+    private Map<String,Object> tutorial(){return Json.object("moves",tutorialMoves,"selected",tutorialSelected,"attacked",tutorialAttacked,"rested",tutorialRested,"skipped",tutorialSkipped);}
+    public Map<String,Object> snapshot(){Map<String,String> observation=scene.observation();return Json.object("roomId",id,"taskId",scene.getTaskId(),"revision",revision,"status",status(),"mode","BATTLE_TRAINING","tutorial",tutorial(),
         "provider",provider.name,"model",provider.model,"aiAvailable",available(),"errorCode",error,"intent",intent==null?null:intent.encode(),"world",observation,
         "targets",Json.read(observation.get("targets")),"captured",Json.read(observation.get("captured")),"goalComplete",scene.isComplete(),"trace",new ArrayList<>(trace),"stepTrace",steps(),"metrics",metrics(),
         "manualAllowed",!Arrays.asList("RUNNING","REPLANNING","PARSING","READY","STORAGE_ERROR").contains(status()),"recovered",recovered,"storage",store==null?"MEMORY":"PERSISTENT");}
-    private boolean persist(){if(store==null)return true;try{store.save(owner,Json.object("schemaVersion",1,"scene",scene.exportState(),"intent",intent==null?null:intent.encode(),"confirmed",confirmed,"roomState",status(),"trace",new ArrayList<>(trace),"steps",steps(),"metrics",metrics(),"parses",parses,"resumes",resumes,"activeMillis",activeMillis));hasCheckpoint=true;return true;}
+    private boolean persist(){if(store==null)return true;try{store.save(owner,Json.object("schemaVersion",1,"tutorial",tutorial(),"scene",scene.exportState(),"intent",intent==null?null:intent.encode(),"confirmed",confirmed,"roomState",status(),"trace",new ArrayList<>(trace),"steps",steps(),"metrics",metrics(),"parses",parses,"resumes",resumes,"activeMillis",activeMillis));hasCheckpoint=true;return true;}
         catch(RuntimeException failure){if(loop!=null&&Arrays.asList("RUNNING","REPLANNING").contains(loop.getState().name()))loop.pause();storageFailed=true;error="STORAGE_UNAVAILABLE";revision++;return false;}}
     private static long number(Object value){if(!(value instanceof Number))throw new IllegalArgumentException("INVALID_CHECKPOINT");return new BigDecimal(value.toString()).longValueExact();}
     private void restore(Map<String,Object> saved){
         if(number(saved.get("schemaVersion"))!=1||!(saved.get("confirmed") instanceof Boolean)||!(saved.get("roomState") instanceof String))throw new IllegalArgumentException("INVALID_CHECKPOINT");
+        if(saved.containsKey("tutorial")){
+            Map<String,Object> t=Json.asObject(saved.get("tutorial"));long moves=number(t.get("moves"));
+            if(moves<0||moves>2||!t.keySet().equals(new HashSet<>(Arrays.asList("moves","selected","attacked","rested","skipped"))))throw new IllegalArgumentException("INVALID_CHECKPOINT");
+            for(String key:Arrays.asList("selected","attacked","rested","skipped"))if(!(t.get(key) instanceof Boolean))throw new IllegalArgumentException("INVALID_CHECKPOINT");
+            tutorialMoves=(int)moves;tutorialSelected=(Boolean)t.get("selected");tutorialAttacked=(Boolean)t.get("attacked");tutorialRested=(Boolean)t.get("rested");tutorialSkipped=(Boolean)t.get("skipped");
+        }
         String savedStatus=(String)saved.get("roomState");if(!Arrays.asList("IDLE","PARSING","READY","ERROR","RUNNING","REPLANNING","PAUSED","PROVIDER_UNAVAILABLE","COMPLETED","FAILED","CANCELLED").contains(savedStatus))throw new IllegalArgumentException("INVALID_CHECKPOINT");
         BattleTrainingScenario restored=BattleTrainingScenario.restore(Json.asObject(saved.get("scene")));
         BattleIntent restoredIntent=saved.get("intent")==null?null:BattleIntent.decode(Json.asObject(saved.get("intent")));

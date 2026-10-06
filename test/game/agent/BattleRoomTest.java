@@ -82,4 +82,46 @@ class BattleRoomTest {
         Memory store=new Memory();BattleRoom room=new BattleRoom("timeout",provider(captureProvider()),Runnable::run,store);accepted(room,"PARSE",Json.object("text","捕捉木守宫"));room.tick(1);accepted(room,"CONFIRM",Collections.emptyMap());room.tick(120001);
         assertEquals("CANCELLED",room.snapshot().get("status"));assertEquals("CANCELLED",new BattleRoom("timeout",provider(captureProvider()),Runnable::run,store).snapshot().get("status"));
     }
+
+    @Test void approachIsOneAcceptedStepAndResetProtectsUncollectedCapture(){
+        Memory store=new Memory();BattleRoom room=new BattleRoom("flow",provider(captureProvider()),Runnable::run,store);
+        accepted(room,"MANUAL",manual("approach","targetId","wild-torchic"));
+        assertEquals("1",Json.asObject(room.snapshot().get("world")).get("turn"));
+        assertTrue(Integer.parseInt((String)Json.asObject(room.snapshot().get("world")).get("x"))<=1);
+        accepted(room,"MANUAL",manual("capture","targetId","wild-treecko"));
+        assertEquals("COLLECT_BEFORE_RESET",room.command(command(room,"RESET",Collections.emptyMap()),0).body.get("reasonCode"));
+        accepted(room,"REST",Collections.emptyMap());
+        assertEquals(Arrays.asList("wild-treecko"),room.snapshot().get("captured"));
+        assertEquals("2",Json.asObject(room.snapshot().get("world")).get("turn"));
+        accepted(room,"TRANSFER",Json.object("targetId","wild-treecko"));
+        accepted(room,"RESET",Collections.emptyMap());
+        BattleRoom restored=new BattleRoom("flow",provider(captureProvider()),Runnable::run,store);
+        assertEquals("0",Json.asObject(restored.snapshot().get("world")).get("turn"));
+        assertEquals(1,Json.asArray(store.values.get("collection:flow").get("pokemon")).size());
+    }
+    @Test void recoveryPreservesTargetsAfterDamageAndPersists(){
+        Memory store=new Memory();BattleRoom room=new BattleRoom("rest",provider(captureProvider()),Runnable::run,store);
+        accepted(room,"MANUAL",manual("approach","targetId","wild-treecko"));
+        accepted(room,"MANUAL",manual("attack","targetId","wild-treecko"));
+        Object targets=room.snapshot().get("targets"),turn=Json.asObject(room.snapshot().get("world")).get("turn");
+        accepted(room,"REST",Collections.emptyMap());
+        BattleRoom restored=new BattleRoom("rest",provider(captureProvider()),Runnable::run,store);
+        assertEquals("1000",Json.asObject(restored.snapshot().get("world")).get("actorHp"));
+        assertEquals(Json.write(targets),Json.write(restored.snapshot().get("targets")));
+        assertEquals(turn,Json.asObject(restored.snapshot().get("world")).get("turn"));
+    }
+
+    @Test void tutorialProgressPersistsAndReplayDoesNotResetCapture(){
+        Memory store=new Memory();BattleRoom room=new BattleRoom("tutorial",provider(captureProvider()),Runnable::run,store);
+        accepted(room,"MANUAL",manual("move","direction","E"));
+        accepted(room,"TUTORIAL",Json.object("action","SELECT"));
+        accepted(room,"MANUAL",manual("capture","targetId","wild-treecko"));
+        accepted(room,"TUTORIAL",Json.object("action","SKIP"));
+        BattleRoom restored=new BattleRoom("tutorial",provider(captureProvider()),Runnable::run,store);
+        Map<String,Object> guide=Json.asObject(restored.snapshot().get("tutorial"));
+        assertEquals(true,guide.get("skipped"));assertEquals(1,((Number)guide.get("moves")).intValue());assertEquals(true,guide.get("selected"));
+        accepted(restored,"TUTORIAL",Json.object("action","REPLAY"));
+        assertEquals(false,Json.asObject(restored.snapshot().get("tutorial")).get("skipped"));
+        assertEquals(Arrays.asList("wild-treecko"),restored.snapshot().get("captured"));
+    }
 }

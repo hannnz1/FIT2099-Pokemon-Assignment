@@ -65,6 +65,17 @@ public final class AgentLoop {
     private double providerLatency;
     private Map<String,Number> providerUsage=Collections.emptyMap();
     private AgentTask.State eventBefore;
+    private Supplier<ToolRequest> deliveryPriority;
+    private int navigationFailures;
+    private long deliveryPriorityActions;
+    private String progressKey;
+    private final Map<String,Integer> repeatedSites=new LinkedHashMap<>();
+
+    /** Opt-in trusted berry delivery guard; all actions still pass normal tool validation. */
+    public AgentLoop deliveryPriority(Supplier<ToolRequest> priority) {
+        if(decisions!=0||pending!=null)throw new IllegalStateException("Loop already started");
+        deliveryPriority=Objects.requireNonNull(priority);return this;
+    }
 
     public AgentLoop(AgentTask task,String goal,GameToolRegistry tools,Executor executor,DecisionProvider provider,
                      Supplier<Map<String,String>> observation,BooleanSupplier completed,long timeout,
@@ -112,6 +123,10 @@ public final class AgentLoop {
                 catch (CompletionException error) {
                     pending=null;
                     Throwable cause=error.getCause();
+                    if(cause instanceof ProviderException && ((ProviderException)cause).getCode()==ProviderException.Code.INVALID_TOOL_ARGUMENTS){
+                        failures++;
+                        return record(task.commit(operation,now,()->ActionResult.rejected("INVALID_TOOL_ARGUMENTS")));
+                    }
                     return record(task.providerFailed(operation,cause instanceof ProviderException?((ProviderException)cause).getCode():null));
                 }
                 catch (CancellationException error) { request=null; }
@@ -120,10 +135,24 @@ public final class AgentLoop {
                 steps=0;
                 return execute(request,operation,now);
             }
+            if(failures>=failureLimit){task.fail();return record(ActionResult.failed("LOOP_LIMIT"));}
+            if(deliveryPriority!=null){
+                ToolRequest priority=deliveryPriority.get();
+                if(!runnable()){clearWork();return record(ActionResult.failed("QUEST_INACTIVE"));}
+                if(priority!=null){steps=0;return execute(priority,task.beginOperation(now,timeout),now);}
+            }
             if (decisions>=decisionLimit || failures>=failureLimit) {
                 task.fail(); return record(ActionResult.failed("LOOP_LIMIT"));
             }
-            Context context=new Context(goal,Objects.requireNonNull(observation.get()),tools.definitions(),last);
+            Map<String,String> current=Objects.requireNonNull(observation.get());
+            // Observation may expire the authoritative quest. Do not begin another operation.
+            if(!runnable())return record(ActionResult.failed("QUEST_INACTIVE"));
+            if(deliveryPriority!=null&&repeatedBerrySite(current)){
+                ToolRequest recovery=game.agent.quest.BerryCoordinationAdvice.localPickupRecovery(current);
+                if(recovery!=null){steps=0;deliveryPriorityActions++;return execute(recovery,task.beginOperation(now,timeout),now,true);}
+                task.pause();return record(ActionResult.of(ActionResult.Status.INTERRUPTED,"NO_PROGRESS_REQUIRES_HELP",Collections.emptyMap()));
+            }
+            Context context=new Context(goal,current,tools.definitions(),last);
             operation=task.beginOperation(now,timeout); decisions++;
             providerStarted=System.nanoTime(); providerLatency=0; providerUsage=Collections.emptyMap();
             structured.providerStarted();
@@ -134,7 +163,26 @@ public final class AgentLoop {
             clearWork(); if (runnable()) task.fail(); return record(ActionResult.failed("LOOP_ERROR"));
         }
     }
-    private ActionResult execute(ToolRequest choice,AgentTask.Operation op,long now) {
+    /** Check model decision boundaries, never intermediate route steps. Inventory/ledger
+     * progress resets the window; distant resource stock is not consulted. */
+    private boolean repeatedBerrySite(Map<String,String> state){
+        if(!state.containsKey("carriedBerry")||!state.containsKey("x")||!state.containsKey("y"))return false;
+        // A cooperating player's observed movement/inventory can release resources or a
+        // choke point. Do not mistake a changing cooperative world for a dead loop.
+        String key=Arrays.asList(state.get("carriedBerry"),state.get("remainingBerry"),state.get("deliveredBerry"),state.get("coins"),state.get("playerState")).toString();
+        if(!key.equals(progressKey)){progressKey=key;repeatedSites.clear();}
+        String site=Arrays.asList(state.get("x"),state.get("y"),state.get("visibleBerry"),state.get("merchantStock"),state.get("approvalOutcome")).toString();
+        if(repeatedSites.size()>=64&&!repeatedSites.containsKey(site))repeatedSites.remove(repeatedSites.keySet().iterator().next());
+        int visits=repeatedSites.getOrDefault(site,0)+1;repeatedSites.put(site,visits);return visits>=4;
+    }
+    private ActionResult execute(ToolRequest choice,AgentTask.Operation op,long now) { return execute(choice,op,now,false); }
+    private ActionResult execute(ToolRequest choice,AgentTask.Operation op,long now,boolean trustedDelivery) {
+        if(deliveryPriority!=null){
+            ToolRequest priority=deliveryPriority.get();
+            // Preserve unknown/malformed tool rejection; never hide a protocol error.
+            boolean valid=false;for(ToolDefinition d:tools.definitions())if(d.getName().equals(choice.getName())&&d.accepts(choice.getArguments()))valid=true;
+            if(priority!=null&&valid){choice=priority;deliveryPriorityActions++;trustedDelivery=true;}
+        }
         // IDs belong to the authoritative scheduler, never to untrusted model output.
         ToolRequest request=new ToolRequest(session+":"+(++sequence),choice.getName(),choice.getArguments());
         AgentTask.State before=task.getState();
@@ -148,8 +196,16 @@ public final class AgentLoop {
                 || result.getStatus()==ActionResult.Status.TIMED_OUT) failures++;
         else failures=0;
         if("VALID".equals(validation) && result.getStatus()==ActionResult.Status.REJECTED) validation=result.getCode();
-        structured.record(task.getTaskId(),op==null?null:op.getId(),request,validation,result,before,task.getState(),providerLatency,providerUsage);
+        structured.record(task.getTaskId(),op==null?null:op.getId(),request,validation,result,before,task.getState(),providerLatency,providerUsage,trustedDelivery?(request.getName().equals("pickup")?"ENGINE_LOCAL_PICKUP_PRIORITY":"ENGINE_DELIVERY_PRIORITY"):"MODEL_OR_CONTINUATION");
         providerLatency=0;providerUsage=Collections.emptyMap();
+        if(deliveryPriority!=null){
+            if(Arrays.asList("NO_PATH","PATH_BLOCKED","PATH_CHANGED","INTERACTION_WAITED","RESOURCE_WAITED").contains(result.getCode()))navigationFailures++;
+            else if("move_to".equals(request.getName())&&(result.getStatus()==ActionResult.Status.SUCCESS||result.getStatus()==ActionResult.Status.IN_PROGRESS))navigationFailures=0;
+            if(navigationFailures>=3){
+                recordLegacy(result);task.pause();continuation=null;
+                return record(ActionResult.of(ActionResult.Status.INTERRUPTED,"NAVIGATION_REQUIRES_HELP",Collections.singletonMap("reason","连续寻路失败，请检查通路或角色占位后继续委托。")));
+            }
+        }
         return recordLegacy(result);
     }
     private ActionResult record(ActionResult result) {
@@ -184,6 +240,7 @@ public final class AgentLoop {
     public Map<String,Object> getMetrics() {
         Map<String,Object> metrics=new LinkedHashMap<>(structured.metrics(task.getState()));
         metrics.put("decisionCount",(long)decisions);metrics.put("failureCount",(long)failures);
+        metrics.put("navigationFailureCount",(long)navigationFailures);metrics.put("deliveryPriorityActions",deliveryPriorityActions);
         return Collections.unmodifiableMap(metrics);
     }
     /** Trusted checkpoint counters only; never restores actions, approvals or provider futures. */
@@ -191,9 +248,10 @@ public final class AgentLoop {
         if(decisions!=0||pending!=null||!trace.isEmpty())throw new IllegalStateException("Loop already started");
         long restoredDecisions=StepTrace.count(metrics,"decisionCount"),restoredFailures=StepTrace.count(metrics,"failureCount");
         structured.restoreMetrics(metrics);decisions=(int)restoredDecisions;failures=(int)restoredFailures;
+        deliveryPriorityActions=StepTrace.count(metrics,"deliveryPriorityActions");
     }
     public void pause() { task.pause(); clearWork(); revision=task.getRevision(); }
-    public void resume() { task.resume(); clearWork(); revision=task.getRevision(); }
+    public void resume() { task.resume(); clearWork(); navigationFailures=0;progressKey=null;repeatedSites.clear();revision=task.getRevision(); }
     public void cancel() { task.cancel(); clearWork(); revision=task.getRevision(); }
     public List<ActionResult> getTrace() { return Collections.unmodifiableList(new ArrayList<>(trace)); }
     public AgentTask.State getState() { return task.getState(); }

@@ -1,0 +1,28 @@
+{
+  "validation": "LIVE_OPENAI_LOCAL_PROJECT",
+  "model": "gpt-6-luna",
+  "executionPolicyVersion": "berry-delivery-recovery-20261005",
+  "cases": 15,
+  "completed": 15,
+  "completionRate": 1.0,
+  "completion95Wilson": [
+    0.7961107336956521,
+    1.0
+  ],
+  "matchedInitialFingerprints": 15,
+  "providerCalls": 102,
+  "successfulProviderCalls": 102,
+  "tokens": 228437,
+  "meanProviderLatencyMs": 1544.2612990196078,
+  "p95ProviderLatencyMs": 3112.7857,
+  "rejectedActionCodes": [
+    "UNKNOWN_TOOL",
+    "UNKNOWN_TOOL",
+    "UNKNOWN_TOOL"
+  ],
+  "oldCompleted": 13,
+  "oldProviderCalls": 147,
+  "oldTokens": 292032,
+  "deepSeekLive": "NOT_RUN_LOCAL_KEY_MISSING",
+  "deployment": "LOCAL_ONLY_WEBSITE_UNCHANGED"
+}

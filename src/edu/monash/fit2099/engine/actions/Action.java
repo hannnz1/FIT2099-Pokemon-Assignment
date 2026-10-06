@@ -16,14 +16,14 @@ public abstract class Action {
 	 * @return
 	 */
 	public abstract String execute(Actor actor, GameMap map);
-
+	
 	/**
 	 * Returns a descriptive string
 	 * @param actor The actor performing the action.
 	 * @return the text we put on the menu
 	 */
 	public abstract String menuDescription(Actor actor);
-
+	
 	/**
 	 * Returns the key used in the menu to trigger this Action.
 	 *
@@ -35,12 +35,12 @@ public abstract class Action {
 	public String hotkey() {
 		return null;
 	}
-
+	
 	/**
 	 * This provides a mechanism for Actions to take more than one turn.
 	 * For example, an action can change its state and return itself, or return the next Action in a series.
 	 * By default, this returns null, indicating that the Action will complete in one turn.
-	 *
+	 * 
 	 * @return null
 	 */
 	public Action getNextAction() {

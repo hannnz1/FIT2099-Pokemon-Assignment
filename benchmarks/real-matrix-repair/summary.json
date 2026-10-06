@@ -1,0 +1,206 @@
+{
+  "codeIdentity": "repair-jar-632e02dc4105e98a2f0c629744ba106ff033906eb42ffe3ef10eb43477df6f57",
+  "model": "deepseek-flash",
+  "syntheticOnly": true,
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "privateTokenCap": 300000,
+  "plannedPaidCases": 18,
+  "reportedPaidCases": 18,
+  "allPlannedCasesReported": true,
+  "completedPaidCases": 8,
+  "baselineCompleted": 18,
+  "outcomes": {
+    "PROVIDER_BUDGET_EXHAUSTED": 7,
+    "COMPLETED": 8,
+    "WALL_TIME_LIMIT": 1,
+    "PROVIDER_INVALID_RESPONSE": 1,
+    "NO_PROGRESS_REQUIRES_HELP": 1
+  },
+  "knownTokens": 283151,
+  "protectedHttpSuccessfulCalls": 105,
+  "protectedHttpFailedCalls": 0,
+  "budgetWithinCap": true,
+  "providerLatencyP50Ms": 6002.160424,
+  "providerLatencyP95Ms": 6390.345955,
+  "latencyIncludesClientPacing": true,
+  "cost": null,
+  "costReason": "PRICE_NOT_CONFIGURED",
+  "scenarios": [
+    {
+      "scenario": "forest",
+      "cases": 3,
+      "completed": 1,
+      "results": [
+        {
+          "seed": 11,
+          "status": "WALL_TIME_LIMIT",
+          "reason": "WALL_TIME_LIMIT",
+          "tokens": null,
+          "usageComplete": false
+        },
+        {
+          "seed": 23,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 32387,
+          "usageComplete": true
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null,
+          "usageComplete": false
+        }
+      ]
+    },
+    {
+      "scenario": "shared",
+      "cases": 3,
+      "completed": 1,
+      "results": [
+        {
+          "seed": 11,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_INVALID_RESPONSE",
+          "tokens": 12284,
+          "usageComplete": true
+        },
+        {
+          "seed": 23,
+          "status": "NO_PROGRESS_REQUIRES_HELP",
+          "reason": "NO_PROGRESS_REQUIRES_HELP",
+          "tokens": 16493,
+          "usageComplete": true
+        },
+        {
+          "seed": 37,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 17662,
+          "usageComplete": true
+        }
+      ]
+    },
+    {
+      "scenario": "competition",
+      "cases": 3,
+      "completed": 3,
+      "results": [
+        {
+          "seed": 11,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 17778,
+          "usageComplete": true
+        },
+        {
+          "seed": 23,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 20519,
+          "usageComplete": true
+        },
+        {
+          "seed": 37,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 25142,
+          "usageComplete": true
+        }
+      ]
+    },
+    {
+      "scenario": "information",
+      "cases": 3,
+      "completed": 3,
+      "results": [
+        {
+          "seed": 11,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 1564,
+          "usageComplete": true
+        },
+        {
+          "seed": 23,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 2417,
+          "usageComplete": true
+        },
+        {
+          "seed": 37,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 1564,
+          "usageComplete": true
+        }
+      ]
+    },
+    {
+      "scenario": "fault",
+      "cases": 3,
+      "completed": 0,
+      "results": [
+        {
+          "seed": 11,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null,
+          "usageComplete": false
+        },
+        {
+          "seed": 23,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null,
+          "usageComplete": false
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null,
+          "usageComplete": false
+        }
+      ]
+    },
+    {
+      "scenario": "battle",
+      "cases": 3,
+      "completed": 0,
+      "results": [
+        {
+          "seed": 11,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null,
+          "usageComplete": false
+        },
+        {
+          "seed": 23,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null,
+          "usageComplete": false
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null,
+          "usageComplete": false
+        }
+      ]
+    }
+  ],
+  "traceProviderLabels": [
+    "openai"
+  ],
+  "traceProviderLabelWarning": "Frozen adapter traces used openai; model and official wire identify DeepSeek. Subsequent implementation corrects provider attribution; original reports are unchanged."
+}

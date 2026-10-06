@@ -1,0 +1,22 @@
+{
+  "kind": "retrospective_estimate_not_provider_bill",
+  "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+  "verifiedOn": "2026-10-06",
+  "model": "deepseek-flash",
+  "currency": "CNY",
+  "ratePeriod": "off-peak",
+  "periodBasis": "inferred from experiment running in early-morning Asia/Shanghai; official schedule uses China holidays and local hour",
+  "ratesPerMillion": {
+    "uncachedInput": 1,
+    "cachedInput": 0.02,
+    "output": 4
+  },
+  "tokens": {
+    "input": 232614,
+    "cachedInput": 139264,
+    "output": 3358
+  },
+  "estimate": 0.10956728,
+  "actualChargedAmount": null,
+  "warning": "Run reports retain their original PRICE_NOT_CONFIGURED; this later pricing snapshot is an audit estimate only."
+}

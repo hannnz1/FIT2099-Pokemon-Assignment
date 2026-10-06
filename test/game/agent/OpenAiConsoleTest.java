@@ -29,8 +29,7 @@ class OpenAiConsoleTest {
             OpenAiGatewayTest.function("move_to","{\"locationId\":\"orchard\"}"),
             OpenAiGatewayTest.function("pickup","{\"itemId\":\"BERRY\",\"quantity\":2}"),
             OpenAiGatewayTest.function("move_to","{\"locationId\":\"alternative\"}"),
-            OpenAiGatewayTest.function("pickup","{\"itemId\":\"BERRY\",\"quantity\":1}"),
-            OpenAiGatewayTest.function("move_to","{\"locationId\":\"laboratory\"}")));
+            OpenAiGatewayTest.function("pickup","{\"itemId\":\"BERRY\",\"quantity\":1}")));
         String[] quest=new String[1];
         int result=OpenAiAgentConsole.run(Collections.singletonMap("OPENAI_API_KEY","test-key"),
             new ByteArrayInputStream("完成树果任务，不要花金币\ny\n".getBytes("UTF-8")),new PrintStream(output,true,"UTF-8"),(m,k,body,t)->{

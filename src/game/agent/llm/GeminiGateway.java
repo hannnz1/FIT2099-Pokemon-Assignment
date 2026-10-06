@@ -26,6 +26,7 @@ public final class GeminiGateway implements LlmGateway {
             Map<String,Object> properties=new LinkedHashMap<>();
             for(Map.Entry<String,ToolParameter> entry:tool.getParameters().entrySet()) {
                 ToolParameter p=entry.getValue(); Map<String,Object> schema=Json.object("type",p.getType().name().toLowerCase(Locale.ROOT));
+                if(!p.getAllowedValues().isEmpty())schema.put("enum",p.getAllowedValues());
                 if(p.getType()==ToolParameter.Type.INTEGER) { schema.put("minimum",p.getMinimum()); schema.put("maximum",p.getMaximum()); }
                 properties.put(entry.getKey(),schema);
             }
@@ -53,6 +54,9 @@ public final class GeminiGateway implements LlmGateway {
             String name=(String)call.get("name");
             Map<String,Object> args=call.containsKey("args")?Json.asObject(call.get("args")):Collections.emptyMap();
             ToolDefinition definition=null; for(ToolDefinition tool:context.getTools()) if(tool.getName().equals(name)) definition=tool;
+            if(definition!=null)for(Map.Entry<String,ToolParameter> entry:definition.getParameters().entrySet())
+                if(!entry.getValue().getAllowedValues().isEmpty() && !entry.getValue().accepts(args.get(entry.getKey())))
+                    throw new ProviderException(ProviderException.Code.INVALID_TOOL_ARGUMENTS);
             if(definition==null || !definition.accepts(args)) throw invalid();
             return new ToolRequest(UUID.randomUUID().toString(),name,args);
         } catch(IllegalArgumentException error) { throw invalid(); }

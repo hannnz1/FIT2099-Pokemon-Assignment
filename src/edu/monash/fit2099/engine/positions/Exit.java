@@ -4,7 +4,7 @@ package edu.monash.fit2099.engine.positions;
  * Class that represents a route from one Location to another.
  */
 public class Exit {
-
+	
 	private String name;
 	private Location destination;
 	private String hotKey;
@@ -36,9 +36,9 @@ public class Exit {
 	public Location getDestination() {
 		return destination;
 	}
-
+	
 	/**
-	 * The preferred hotkey to use for a MoveAction. Lets the game always use the same keys for movement, and makes marking so much easier.
+	 * The preferred hotkey to use for a MoveAction. Lets the game always use the same keys for movement, and makes marking so much easier. 
 	 * @return the hotkey
 	 */
 	public String getHotKey() {

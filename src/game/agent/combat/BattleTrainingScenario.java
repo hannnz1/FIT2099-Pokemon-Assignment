@@ -32,6 +32,11 @@ public final class BattleTrainingScenario {
     public boolean isTransferred(){return transferred;}
     public Pokeball capturedBall(){for(edu.monash.fit2099.engine.items.Item item:trainer.getInventory())if(item instanceof Pokeball&&((Pokeball)item).containsPokemon()&&((Pokeball)item).getPokemon()==targets.get("wild-treecko"))return (Pokeball)item;return null;}
     public boolean transferCaptured(){if(transferred)return false;Pokeball ball=capturedBall();if(ball==null)throw new IllegalStateException("NOT_CAPTURED");trainer.removeItemFromInventory(ball);transferred=true;return true;}
+    public void rest(){
+        if(active())throw new IllegalStateException("AI_CONTROLS_COMPANION");
+        actor.heal(1000);
+        if(!map.contains(actor))map.addActor(actor,map.at(0,1));
+    }
     public void configureGoal(BattleIntent goal){if(active())throw new IllegalStateException("TASK_ACTIVE");this.goal=Objects.requireNonNull(goal);this.noBattle=goal.noBattle;}
     public BattleTrainingScenario(){
         new World(new edu.monash.fit2099.engine.displays.Display()).addGameMap(map);
@@ -55,6 +60,10 @@ public final class BattleTrainingScenario {
         manual=true;try{ActionResult result;
             if("attack".equals(action))result=combat.attack(value);
             else if("capture".equals(action))result=combat.capture(value);
+            else if("approach".equals(action)){
+                Pokemon target=targets.get(value);
+                result=target==null?ActionResult.rejected("UNKNOWN_TARGET"):new NavigationService().approach(actor,map,target,p->true,()->true);
+            }
             else if("move".equals(action)){
                 Map<String,String> names=new HashMap<>();names.put("N","North");names.put("S","South");names.put("E","East");names.put("W","West");
                 result=ActionResult.rejected("INVALID_DIRECTION");for(Exit exit:map.locationOf(actor).getExits())if(exit.getName().equals(names.get(value))){result=new NavigationService().step(actor,map,exit.getDestination(),p->true,()->true);break;}

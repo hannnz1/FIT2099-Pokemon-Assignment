@@ -23,6 +23,7 @@ public final class OpenAiGateway implements LlmGateway,TaskInterpreter {
             for(Map.Entry<String,ToolParameter> entry:tool.getParameters().entrySet()) {
                 ToolParameter parameter=entry.getValue();
                 Map<String,Object> schema=Json.object("type",parameter.getType().name().toLowerCase(Locale.ROOT));
+                if(!parameter.getAllowedValues().isEmpty())schema.put("enum",parameter.getAllowedValues());
                 if(parameter.getType()==ToolParameter.Type.INTEGER) { schema.put("minimum",parameter.getMinimum());schema.put("maximum",parameter.getMaximum()); }
                 properties.put(entry.getKey(),schema);
             }
@@ -49,6 +50,9 @@ public final class OpenAiGateway implements LlmGateway,TaskInterpreter {
             if(call==null || !(call.get("name") instanceof String) || !(call.get("arguments") instanceof String)) throw invalid();
             String name=(String)call.get("name"); Map<String,Object> args=Json.asObject(Json.read((String)call.get("arguments")));
             ToolDefinition definition=null; for(ToolDefinition tool:context.getTools()) if(tool.getName().equals(name)) definition=tool;
+            if(definition!=null)for(Map.Entry<String,ToolParameter> entry:definition.getParameters().entrySet())
+                if(!entry.getValue().getAllowedValues().isEmpty() && !entry.getValue().accepts(args.get(entry.getKey())))
+                    throw new ProviderException(ProviderException.Code.INVALID_TOOL_ARGUMENTS);
             if(definition==null || !definition.accepts(args)) throw invalid();
             return new ToolRequest(UUID.randomUUID().toString(),name,args);
         } catch(IllegalArgumentException error) { throw invalid(); }

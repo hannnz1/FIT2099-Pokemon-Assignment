@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {AgentClient} from '../../agent/client.mjs';
+test('slow acknowledgement has waiting feedback and clears without resubmitting',async()=>{let resolve,calls=0;const changes=[],client=new AgentClient(()=>{calls++;return new Promise(r=>resolve=r);});client.onWaiting=v=>changes.push(v);const p=client.request('/test');await new Promise(r=>setTimeout(r,330));assert.deepEqual(changes,[true]);resolve({ok:true,json:async()=>({ok:true})});await p;assert.deepEqual(changes,[true,false]);assert.equal(calls,1);});

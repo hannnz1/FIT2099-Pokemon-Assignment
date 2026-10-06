@@ -1,0 +1,1398 @@
+{
+  "samples": [
+    {
+      "elapsedMs": 1959549,
+      "at": "2026-10-05T16:51:45.7695379Z",
+      "handles": 479,
+      "cpuSeconds": 13.65625,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 1969752,
+      "at": "2026-10-05T16:51:55.8062411Z",
+      "handles": 480,
+      "cpuSeconds": 13.671875,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 1979934,
+      "at": "2026-10-05T16:52:05.8339086Z",
+      "handles": 479,
+      "cpuSeconds": 13.671875,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 1990107,
+      "at": "2026-10-05T16:52:15.8539778Z",
+      "handles": 479,
+      "cpuSeconds": 13.671875,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 1998268,
+      "at": "2026-10-05T16:52:25.8793455Z",
+      "handles": 477,
+      "cpuSeconds": 13.6875,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 2008443,
+      "at": "2026-10-05T16:52:35.9003596Z",
+      "handles": 480,
+      "cpuSeconds": 13.6875,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 2018606,
+      "at": "2026-10-05T16:52:45.9222650Z",
+      "handles": 478,
+      "cpuSeconds": 13.703125,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 2028798,
+      "at": "2026-10-05T16:52:55.9408854Z",
+      "handles": 480,
+      "cpuSeconds": 13.71875,
+      "workingSetBytes": 323670016,
+      "privateBytes": 539439104
+    },
+    {
+      "elapsedMs": 2038957,
+      "at": "2026-10-05T16:53:05.9646050Z",
+      "handles": 479,
+      "cpuSeconds": 13.71875,
+      "workingSetBytes": 323678208,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2049129,
+      "at": "2026-10-05T16:53:15.9794989Z",
+      "handles": 478,
+      "cpuSeconds": 13.71875,
+      "workingSetBytes": 323678208,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2059303,
+      "at": "2026-10-05T16:53:26.0025368Z",
+      "handles": 479,
+      "cpuSeconds": 13.734375,
+      "workingSetBytes": 323678208,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2069475,
+      "at": "2026-10-05T16:53:36.0144614Z",
+      "handles": 479,
+      "cpuSeconds": 13.734375,
+      "workingSetBytes": 323678208,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2079677,
+      "at": "2026-10-05T16:53:46.0267082Z",
+      "handles": 479,
+      "cpuSeconds": 13.75,
+      "workingSetBytes": 323948544,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2089862,
+      "at": "2026-10-05T16:53:56.0489491Z",
+      "handles": 481,
+      "cpuSeconds": 13.75,
+      "workingSetBytes": 323948544,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2100045,
+      "at": "2026-10-05T16:54:06.0677857Z",
+      "handles": 480,
+      "cpuSeconds": 13.78125,
+      "workingSetBytes": 323948544,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2110221,
+      "at": "2026-10-05T16:54:16.0893742Z",
+      "handles": 480,
+      "cpuSeconds": 13.796875,
+      "workingSetBytes": 323948544,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2118375,
+      "at": "2026-10-05T16:54:26.1157583Z",
+      "handles": 479,
+      "cpuSeconds": 13.796875,
+      "workingSetBytes": 323948544,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2128592,
+      "at": "2026-10-05T16:54:36.1340015Z",
+      "handles": 480,
+      "cpuSeconds": 13.796875,
+      "workingSetBytes": 323948544,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2138809,
+      "at": "2026-10-05T16:54:46.1627080Z",
+      "handles": 481,
+      "cpuSeconds": 13.8125,
+      "workingSetBytes": 323948544,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2149009,
+      "at": "2026-10-05T16:54:56.1845153Z",
+      "handles": 481,
+      "cpuSeconds": 13.8125,
+      "workingSetBytes": 323952640,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2159205,
+      "at": "2026-10-05T16:55:06.2076397Z",
+      "handles": 478,
+      "cpuSeconds": 13.8125,
+      "workingSetBytes": 323952640,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2169382,
+      "at": "2026-10-05T16:55:16.2242743Z",
+      "handles": 481,
+      "cpuSeconds": 13.8125,
+      "workingSetBytes": 323952640,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2179581,
+      "at": "2026-10-05T16:55:26.2394252Z",
+      "handles": 480,
+      "cpuSeconds": 13.8125,
+      "workingSetBytes": 323952640,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2189782,
+      "at": "2026-10-05T16:55:36.2610372Z",
+      "handles": 480,
+      "cpuSeconds": 13.828125,
+      "workingSetBytes": 323952640,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2199943,
+      "at": "2026-10-05T16:55:46.2709165Z",
+      "handles": 480,
+      "cpuSeconds": 13.828125,
+      "workingSetBytes": 323952640,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2210124,
+      "at": "2026-10-05T16:55:56.2906729Z",
+      "handles": 481,
+      "cpuSeconds": 13.828125,
+      "workingSetBytes": 323952640,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2220358,
+      "at": "2026-10-05T16:56:06.3196134Z",
+      "handles": 480,
+      "cpuSeconds": 13.84375,
+      "workingSetBytes": 324046848,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2230547,
+      "at": "2026-10-05T16:56:16.3489918Z",
+      "handles": 480,
+      "cpuSeconds": 13.859375,
+      "workingSetBytes": 324050944,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2238686,
+      "at": "2026-10-05T16:56:26.3749471Z",
+      "handles": 481,
+      "cpuSeconds": 13.859375,
+      "workingSetBytes": 324050944,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2248875,
+      "at": "2026-10-05T16:56:36.4023209Z",
+      "handles": 481,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324050944,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2259083,
+      "at": "2026-10-05T16:56:46.4266493Z",
+      "handles": 479,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324050944,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2269277,
+      "at": "2026-10-05T16:56:56.4517732Z",
+      "handles": 479,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324050944,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2279474,
+      "at": "2026-10-05T16:57:06.4857029Z",
+      "handles": 480,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324050944,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2289669,
+      "at": "2026-10-05T16:57:16.5056715Z",
+      "handles": 480,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324055040,
+      "privateBytes": 539447296
+    },
+    {
+      "elapsedMs": 2299867,
+      "at": "2026-10-05T16:57:26.5411973Z",
+      "handles": 480,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324063232,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2310076,
+      "at": "2026-10-05T16:57:36.5559254Z",
+      "handles": 481,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324063232,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2320254,
+      "at": "2026-10-05T16:57:46.5604145Z",
+      "handles": 481,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324063232,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2330459,
+      "at": "2026-10-05T16:57:56.5865276Z",
+      "handles": 480,
+      "cpuSeconds": 13.875,
+      "workingSetBytes": 324063232,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2340650,
+      "at": "2026-10-05T16:58:06.6076327Z",
+      "handles": 481,
+      "cpuSeconds": 13.890625,
+      "workingSetBytes": 324063232,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2350872,
+      "at": "2026-10-05T16:58:16.6343062Z",
+      "handles": 480,
+      "cpuSeconds": 13.890625,
+      "workingSetBytes": 324079616,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2359044,
+      "at": "2026-10-05T16:58:26.6469650Z",
+      "handles": 481,
+      "cpuSeconds": 13.890625,
+      "workingSetBytes": 324079616,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2369219,
+      "at": "2026-10-05T16:58:36.6702346Z",
+      "handles": 481,
+      "cpuSeconds": 13.890625,
+      "workingSetBytes": 324079616,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2379418,
+      "at": "2026-10-05T16:58:46.6957065Z",
+      "handles": 479,
+      "cpuSeconds": 13.90625,
+      "workingSetBytes": 324079616,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2389598,
+      "at": "2026-10-05T16:58:56.7221680Z",
+      "handles": 480,
+      "cpuSeconds": 13.90625,
+      "workingSetBytes": 324079616,
+      "privateBytes": 539512832
+    },
+    {
+      "elapsedMs": 2399794,
+      "at": "2026-10-05T16:59:06.7479122Z",
+      "handles": 480,
+      "cpuSeconds": 13.90625,
+      "workingSetBytes": 324087808,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2410007,
+      "at": "2026-10-05T16:59:16.7778625Z",
+      "handles": 479,
+      "cpuSeconds": 13.90625,
+      "workingSetBytes": 324087808,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2420172,
+      "at": "2026-10-05T16:59:26.7984317Z",
+      "handles": 481,
+      "cpuSeconds": 13.90625,
+      "workingSetBytes": 324091904,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2430430,
+      "at": "2026-10-05T16:59:36.8154476Z",
+      "handles": 479,
+      "cpuSeconds": 13.90625,
+      "workingSetBytes": 324091904,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2440629,
+      "at": "2026-10-05T16:59:46.8412871Z",
+      "handles": 479,
+      "cpuSeconds": 13.921875,
+      "workingSetBytes": 324100096,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2450848,
+      "at": "2026-10-05T16:59:56.8636286Z",
+      "handles": 481,
+      "cpuSeconds": 13.921875,
+      "workingSetBytes": 324100096,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2461047,
+      "at": "2026-10-05T17:00:06.9014368Z",
+      "handles": 480,
+      "cpuSeconds": 13.921875,
+      "workingSetBytes": 324100096,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2469209,
+      "at": "2026-10-05T17:00:16.9185149Z",
+      "handles": 481,
+      "cpuSeconds": 13.921875,
+      "workingSetBytes": 324100096,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2479432,
+      "at": "2026-10-05T17:00:26.9539572Z",
+      "handles": 481,
+      "cpuSeconds": 13.9375,
+      "workingSetBytes": 324100096,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2489856,
+      "at": "2026-10-05T17:00:36.9945340Z",
+      "handles": 481,
+      "cpuSeconds": 13.9375,
+      "workingSetBytes": 324030464,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2500554,
+      "at": "2026-10-05T17:00:47.0456629Z",
+      "handles": 479,
+      "cpuSeconds": 14.0,
+      "workingSetBytes": 324063232,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2511016,
+      "at": "2026-10-05T17:00:57.2706901Z",
+      "handles": 480,
+      "cpuSeconds": 14.0625,
+      "workingSetBytes": 324075520,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2521473,
+      "at": "2026-10-05T17:01:07.4255470Z",
+      "handles": 480,
+      "cpuSeconds": 14.109375,
+      "workingSetBytes": 324079616,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2530054,
+      "at": "2026-10-05T17:01:17.4698381Z",
+      "handles": 480,
+      "cpuSeconds": 14.15625,
+      "workingSetBytes": 324087808,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2540727,
+      "at": "2026-10-05T17:01:27.5902605Z",
+      "handles": 476,
+      "cpuSeconds": 14.203125,
+      "workingSetBytes": 324087808,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2551117,
+      "at": "2026-10-05T17:01:37.6215012Z",
+      "handles": 479,
+      "cpuSeconds": 14.25,
+      "workingSetBytes": 324087808,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2561324,
+      "at": "2026-10-05T17:01:47.6465767Z",
+      "handles": 479,
+      "cpuSeconds": 14.25,
+      "workingSetBytes": 324087808,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2571512,
+      "at": "2026-10-05T17:01:57.6622565Z",
+      "handles": 479,
+      "cpuSeconds": 14.375,
+      "workingSetBytes": 324300800,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2581724,
+      "at": "2026-10-05T17:02:07.6908748Z",
+      "handles": 479,
+      "cpuSeconds": 14.390625,
+      "workingSetBytes": 324300800,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2591915,
+      "at": "2026-10-05T17:02:17.7074723Z",
+      "handles": 478,
+      "cpuSeconds": 14.40625,
+      "workingSetBytes": 324300800,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2600069,
+      "at": "2026-10-05T17:02:27.7297286Z",
+      "handles": 479,
+      "cpuSeconds": 14.40625,
+      "workingSetBytes": 324300800,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2610254,
+      "at": "2026-10-05T17:02:37.7474944Z",
+      "handles": 479,
+      "cpuSeconds": 14.40625,
+      "workingSetBytes": 324300800,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2620404,
+      "at": "2026-10-05T17:02:47.7609540Z",
+      "handles": 478,
+      "cpuSeconds": 14.40625,
+      "workingSetBytes": 324300800,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2630553,
+      "at": "2026-10-05T17:02:57.7800602Z",
+      "handles": 477,
+      "cpuSeconds": 14.421875,
+      "workingSetBytes": 324313088,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2640728,
+      "at": "2026-10-05T17:03:07.8029938Z",
+      "handles": 477,
+      "cpuSeconds": 14.421875,
+      "workingSetBytes": 324313088,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2650938,
+      "at": "2026-10-05T17:03:17.8204217Z",
+      "handles": 480,
+      "cpuSeconds": 14.4375,
+      "workingSetBytes": 324325376,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2661163,
+      "at": "2026-10-05T17:03:27.8473698Z",
+      "handles": 480,
+      "cpuSeconds": 14.4375,
+      "workingSetBytes": 324325376,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2671366,
+      "at": "2026-10-05T17:03:37.8724892Z",
+      "handles": 478,
+      "cpuSeconds": 14.4375,
+      "workingSetBytes": 324325376,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2681587,
+      "at": "2026-10-05T17:03:47.8893313Z",
+      "handles": 481,
+      "cpuSeconds": 14.4375,
+      "workingSetBytes": 324325376,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2691771,
+      "at": "2026-10-05T17:03:57.9039396Z",
+      "handles": 480,
+      "cpuSeconds": 14.4375,
+      "workingSetBytes": 324325376,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2701968,
+      "at": "2026-10-05T17:04:07.9371191Z",
+      "handles": 480,
+      "cpuSeconds": 14.4375,
+      "workingSetBytes": 324325376,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2712156,
+      "at": "2026-10-05T17:04:17.9622236Z",
+      "handles": 480,
+      "cpuSeconds": 14.4375,
+      "workingSetBytes": 324325376,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2720316,
+      "at": "2026-10-05T17:04:27.9821626Z",
+      "handles": 480,
+      "cpuSeconds": 14.46875,
+      "workingSetBytes": 324333568,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2730529,
+      "at": "2026-10-05T17:04:38.0071183Z",
+      "handles": 480,
+      "cpuSeconds": 14.46875,
+      "workingSetBytes": 324333568,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2740747,
+      "at": "2026-10-05T17:04:48.0273649Z",
+      "handles": 479,
+      "cpuSeconds": 14.484375,
+      "workingSetBytes": 324333568,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2750932,
+      "at": "2026-10-05T17:04:58.0477297Z",
+      "handles": 480,
+      "cpuSeconds": 14.484375,
+      "workingSetBytes": 324333568,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2761128,
+      "at": "2026-10-05T17:05:08.1013231Z",
+      "handles": 479,
+      "cpuSeconds": 14.484375,
+      "workingSetBytes": 324321280,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2771697,
+      "at": "2026-10-05T17:05:18.1540524Z",
+      "handles": 480,
+      "cpuSeconds": 14.53125,
+      "workingSetBytes": 324333568,
+      "privateBytes": 539578368
+    },
+    {
+      "elapsedMs": 2782459,
+      "at": "2026-10-05T17:05:28.1865506Z",
+      "handles": 479,
+      "cpuSeconds": 14.6875,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2790620,
+      "at": "2026-10-05T17:05:38.2091827Z",
+      "handles": 479,
+      "cpuSeconds": 14.734375,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2800845,
+      "at": "2026-10-05T17:05:48.2356487Z",
+      "handles": 479,
+      "cpuSeconds": 14.78125,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2811049,
+      "at": "2026-10-05T17:05:58.2578169Z",
+      "handles": 479,
+      "cpuSeconds": 14.796875,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2821235,
+      "at": "2026-10-05T17:06:08.2877601Z",
+      "handles": 479,
+      "cpuSeconds": 14.8125,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2831445,
+      "at": "2026-10-05T17:06:18.3060312Z",
+      "handles": 479,
+      "cpuSeconds": 14.875,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2841654,
+      "at": "2026-10-05T17:06:28.3425293Z",
+      "handles": 479,
+      "cpuSeconds": 14.953125,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2851867,
+      "at": "2026-10-05T17:06:38.3701114Z",
+      "handles": 479,
+      "cpuSeconds": 15.0,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2862071,
+      "at": "2026-10-05T17:06:48.3923361Z",
+      "handles": 479,
+      "cpuSeconds": 15.046875,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2872300,
+      "at": "2026-10-05T17:06:58.4186200Z",
+      "handles": 480,
+      "cpuSeconds": 15.109375,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2882646,
+      "at": "2026-10-05T17:07:08.4742682Z",
+      "handles": 480,
+      "cpuSeconds": 15.1875,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2890860,
+      "at": "2026-10-05T17:07:18.5400615Z",
+      "handles": 478,
+      "cpuSeconds": 15.21875,
+      "workingSetBytes": 324390912,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2901036,
+      "at": "2026-10-05T17:07:28.5584293Z",
+      "handles": 479,
+      "cpuSeconds": 15.25,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2911247,
+      "at": "2026-10-05T17:07:38.5820574Z",
+      "handles": 479,
+      "cpuSeconds": 15.265625,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2921429,
+      "at": "2026-10-05T17:07:48.5967263Z",
+      "handles": 478,
+      "cpuSeconds": 15.28125,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2931622,
+      "at": "2026-10-05T17:07:58.6187655Z",
+      "handles": 480,
+      "cpuSeconds": 15.296875,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2941817,
+      "at": "2026-10-05T17:08:08.6503221Z",
+      "handles": 480,
+      "cpuSeconds": 15.328125,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2952036,
+      "at": "2026-10-05T17:08:18.6789116Z",
+      "handles": 479,
+      "cpuSeconds": 15.34375,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2962267,
+      "at": "2026-10-05T17:08:28.7056823Z",
+      "handles": 479,
+      "cpuSeconds": 15.375,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2972474,
+      "at": "2026-10-05T17:08:38.7348065Z",
+      "handles": 479,
+      "cpuSeconds": 15.390625,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2982683,
+      "at": "2026-10-05T17:08:48.7539237Z",
+      "handles": 479,
+      "cpuSeconds": 15.453125,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 2992885,
+      "at": "2026-10-05T17:08:58.7838047Z",
+      "handles": 479,
+      "cpuSeconds": 15.484375,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 3003101,
+      "at": "2026-10-05T17:09:08.8149323Z",
+      "handles": 480,
+      "cpuSeconds": 15.515625,
+      "workingSetBytes": 324403200,
+      "privateBytes": 539648000
+    },
+    {
+      "elapsedMs": 3011260,
+      "at": "2026-10-05T17:09:18.8314671Z",
+      "handles": 479,
+      "cpuSeconds": 15.671875,
+      "workingSetBytes": 308912128,
+      "privateBytes": 526794752
+    },
+    {
+      "elapsedMs": 3021473,
+      "at": "2026-10-05T17:09:28.8551602Z",
+      "handles": 479,
+      "cpuSeconds": 15.6875,
+      "workingSetBytes": 308912128,
+      "privateBytes": 526794752
+    },
+    {
+      "elapsedMs": 3031649,
+      "at": "2026-10-05T17:09:38.8788625Z",
+      "handles": 479,
+      "cpuSeconds": 15.71875,
+      "workingSetBytes": 308912128,
+      "privateBytes": 526794752
+    },
+    {
+      "elapsedMs": 3041861,
+      "at": "2026-10-05T17:09:48.9016135Z",
+      "handles": 478,
+      "cpuSeconds": 15.765625,
+      "workingSetBytes": 308928512,
+      "privateBytes": 527003648
+    },
+    {
+      "elapsedMs": 3052085,
+      "at": "2026-10-05T17:09:58.9423305Z",
+      "handles": 479,
+      "cpuSeconds": 15.796875,
+      "workingSetBytes": 308928512,
+      "privateBytes": 527003648
+    },
+    {
+      "elapsedMs": 3062306,
+      "at": "2026-10-05T17:10:08.9861062Z",
+      "handles": 479,
+      "cpuSeconds": 15.796875,
+      "workingSetBytes": 308928512,
+      "privateBytes": 527003648
+    },
+    {
+      "elapsedMs": 3072510,
+      "at": "2026-10-05T17:10:19.0135665Z",
+      "handles": 480,
+      "cpuSeconds": 15.890625,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3082699,
+      "at": "2026-10-05T17:10:29.0638482Z",
+      "handles": 479,
+      "cpuSeconds": 15.9375,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3092893,
+      "at": "2026-10-05T17:10:39.0872701Z",
+      "handles": 479,
+      "cpuSeconds": 15.984375,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3103102,
+      "at": "2026-10-05T17:10:49.1080559Z",
+      "handles": 479,
+      "cpuSeconds": 16.046875,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3113314,
+      "at": "2026-10-05T17:10:59.1347210Z",
+      "handles": 480,
+      "cpuSeconds": 16.09375,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3121456,
+      "at": "2026-10-05T17:11:09.1600965Z",
+      "handles": 479,
+      "cpuSeconds": 16.09375,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3131645,
+      "at": "2026-10-05T17:11:19.1872408Z",
+      "handles": 479,
+      "cpuSeconds": 16.15625,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3141843,
+      "at": "2026-10-05T17:11:29.2048023Z",
+      "handles": 479,
+      "cpuSeconds": 16.1875,
+      "workingSetBytes": 312664064,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3152036,
+      "at": "2026-10-05T17:11:39.2342692Z",
+      "handles": 479,
+      "cpuSeconds": 16.234375,
+      "workingSetBytes": 310210560,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3162240,
+      "at": "2026-10-05T17:11:49.2534654Z",
+      "handles": 479,
+      "cpuSeconds": 16.265625,
+      "workingSetBytes": 310210560,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3172455,
+      "at": "2026-10-05T17:11:59.2818062Z",
+      "handles": 479,
+      "cpuSeconds": 16.3125,
+      "workingSetBytes": 310210560,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3182675,
+      "at": "2026-10-05T17:12:09.3003906Z",
+      "handles": 479,
+      "cpuSeconds": 16.34375,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3192857,
+      "at": "2026-10-05T17:12:19.3192622Z",
+      "handles": 479,
+      "cpuSeconds": 16.421875,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3203059,
+      "at": "2026-10-05T17:12:29.3464187Z",
+      "handles": 479,
+      "cpuSeconds": 16.453125,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3213269,
+      "at": "2026-10-05T17:12:39.3838501Z",
+      "handles": 479,
+      "cpuSeconds": 16.484375,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3223480,
+      "at": "2026-10-05T17:12:49.4094122Z",
+      "handles": 479,
+      "cpuSeconds": 16.5,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3233684,
+      "at": "2026-10-05T17:12:59.4358678Z",
+      "handles": 480,
+      "cpuSeconds": 16.515625,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3241852,
+      "at": "2026-10-05T17:13:09.4686823Z",
+      "handles": 479,
+      "cpuSeconds": 16.59375,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3252080,
+      "at": "2026-10-05T17:13:19.4984711Z",
+      "handles": 480,
+      "cpuSeconds": 16.640625,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3262319,
+      "at": "2026-10-05T17:13:29.5431009Z",
+      "handles": 480,
+      "cpuSeconds": 16.703125,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3272524,
+      "at": "2026-10-05T17:13:39.5608221Z",
+      "handles": 479,
+      "cpuSeconds": 16.75,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3282720,
+      "at": "2026-10-05T17:13:49.5827418Z",
+      "handles": 480,
+      "cpuSeconds": 16.78125,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3292924,
+      "at": "2026-10-05T17:13:59.6095228Z",
+      "handles": 479,
+      "cpuSeconds": 16.828125,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3303112,
+      "at": "2026-10-05T17:14:09.6305801Z",
+      "handles": 478,
+      "cpuSeconds": 16.84375,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3313317,
+      "at": "2026-10-05T17:14:19.6530532Z",
+      "handles": 478,
+      "cpuSeconds": 16.890625,
+      "workingSetBytes": 310292480,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3323526,
+      "at": "2026-10-05T17:14:29.6872953Z",
+      "handles": 479,
+      "cpuSeconds": 16.9375,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3333744,
+      "at": "2026-10-05T17:14:39.7080415Z",
+      "handles": 479,
+      "cpuSeconds": 16.96875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3343957,
+      "at": "2026-10-05T17:14:49.7312115Z",
+      "handles": 479,
+      "cpuSeconds": 17.0,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3352115,
+      "at": "2026-10-05T17:14:59.7656390Z",
+      "handles": 479,
+      "cpuSeconds": 17.03125,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3362333,
+      "at": "2026-10-05T17:15:09.7782302Z",
+      "handles": 479,
+      "cpuSeconds": 17.140625,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3372526,
+      "at": "2026-10-05T17:15:19.8070601Z",
+      "handles": 478,
+      "cpuSeconds": 17.15625,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3382688,
+      "at": "2026-10-05T17:15:29.8383789Z",
+      "handles": 479,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3392867,
+      "at": "2026-10-05T17:15:39.8630690Z",
+      "handles": 478,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3403041,
+      "at": "2026-10-05T17:15:49.8909355Z",
+      "handles": 481,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3413223,
+      "at": "2026-10-05T17:15:59.9212981Z",
+      "handles": 480,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3423396,
+      "at": "2026-10-05T17:16:09.9438990Z",
+      "handles": 478,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3433604,
+      "at": "2026-10-05T17:16:19.9638686Z",
+      "handles": 481,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3443807,
+      "at": "2026-10-05T17:16:29.9821514Z",
+      "handles": 480,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310304768,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3454032,
+      "at": "2026-10-05T17:16:40.0082939Z",
+      "handles": 480,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310321152,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3464224,
+      "at": "2026-10-05T17:16:50.0263112Z",
+      "handles": 480,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310321152,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3472380,
+      "at": "2026-10-05T17:17:00.0484728Z",
+      "handles": 479,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310321152,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3482566,
+      "at": "2026-10-05T17:17:10.0687435Z",
+      "handles": 480,
+      "cpuSeconds": 17.171875,
+      "workingSetBytes": 310321152,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3492765,
+      "at": "2026-10-05T17:17:20.0841506Z",
+      "handles": 480,
+      "cpuSeconds": 17.1875,
+      "workingSetBytes": 310321152,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3502977,
+      "at": "2026-10-05T17:17:30.1060085Z",
+      "handles": 480,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310321152,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3513180,
+      "at": "2026-10-05T17:17:40.1310890Z",
+      "handles": 481,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310329344,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3523409,
+      "at": "2026-10-05T17:17:50.1454801Z",
+      "handles": 480,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310329344,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3533591,
+      "at": "2026-10-05T17:18:00.1687145Z",
+      "handles": 478,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310329344,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3543783,
+      "at": "2026-10-05T17:18:10.1793363Z",
+      "handles": 479,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310329344,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3553949,
+      "at": "2026-10-05T17:18:20.2073938Z",
+      "handles": 479,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310329344,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3564155,
+      "at": "2026-10-05T17:18:30.2317419Z",
+      "handles": 478,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310329344,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3574358,
+      "at": "2026-10-05T17:18:40.2604539Z",
+      "handles": 477,
+      "cpuSeconds": 17.25,
+      "workingSetBytes": 310329344,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3584534,
+      "at": "2026-10-05T17:18:50.2779765Z",
+      "handles": 479,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310341632,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3592674,
+      "at": "2026-10-05T17:19:00.3001184Z",
+      "handles": 478,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3602835,
+      "at": "2026-10-05T17:19:10.3124792Z",
+      "handles": 479,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3613020,
+      "at": "2026-10-05T17:19:20.3361736Z",
+      "handles": 480,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3623219,
+      "at": "2026-10-05T17:19:30.3612559Z",
+      "handles": 479,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3633405,
+      "at": "2026-10-05T17:19:40.3858560Z",
+      "handles": 480,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3643575,
+      "at": "2026-10-05T17:19:50.4079715Z",
+      "handles": 480,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3653761,
+      "at": "2026-10-05T17:20:00.4330405Z",
+      "handles": 480,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3663940,
+      "at": "2026-10-05T17:20:10.4564080Z",
+      "handles": 479,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3674115,
+      "at": "2026-10-05T17:20:20.4656527Z",
+      "handles": 479,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3684328,
+      "at": "2026-10-05T17:20:30.4758643Z",
+      "handles": 479,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    },
+    {
+      "elapsedMs": 3692438,
+      "at": "2026-10-05T17:20:40.4993219Z",
+      "handles": 465,
+      "cpuSeconds": 17.265625,
+      "workingSetBytes": 310349824,
+      "privateBytes": 530092032
+    }
+  ],
+  "samplingStartedLate": true,
+  "environment": "Windows local Java, not production"
+}

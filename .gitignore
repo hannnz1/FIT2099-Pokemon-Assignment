@@ -29,3 +29,20 @@ node_modules/
 *.jar
 *.zip
 *.tar.gz
+
+# Private operational backup: never publish player saves
+benchmarks/operations/backup-*.tar.gz
+tools/**/*.class
+
+data/
+benchmarks/animation/videos/
+
+benchmarks/animation/video/
+
+# Python verification caches
+__pycache__/
+*.pyc
+
+# Whitelisted synthetic experiment counters (no credentials or player data)
+!benchmarks/real-matrix/results/ai-budget.json
+!benchmarks/real-matrix-repair/results/ai-budget.json

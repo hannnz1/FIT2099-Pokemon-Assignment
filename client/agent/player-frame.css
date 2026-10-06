@@ -1,0 +1,192 @@
+/* Shared player surfaces. Maps keep their native coordinate system. */
+:root{--player-ink:#284238;--player-muted:#61735f;--player-green:#35634b;--player-paper:#fafbf4;--player-line:#d6dfcc}
+[data-player-page]{font-size:15px;line-height:1.5;color:var(--player-ink);background:#e8ecdf}
+[data-player-page] [hidden]{display:none!important}
+[data-player-page] button,[data-player-page] select,[data-player-page] input:not([type=checkbox]):not([type=radio]){min-height:44px;font-size:14px}
+[data-player-page] button:focus-visible,[data-player-page] a:focus-visible,[data-player-page] summary:focus-visible{outline:3px solid #b88a35;outline-offset:3px}
+[data-player-page] .footnote,[data-player-page] .muted,[data-player-page] .hint,[data-player-page] small{font-size:12px;line-height:1.5;letter-spacing:normal}
+.player-mode-menu{position:relative;flex:0 0 auto;margin:0;width:auto}
+.player-mode-menu>summary{list-style:none;cursor:pointer;min-height:44px;padding:11px 12px;border:1px solid #ffffff50;border-radius:8px;color:inherit;font-size:14px}
+.player-mode-menu nav{position:absolute;right:0;top:48px;z-index:60;display:grid;gap:4px;min-width:180px;padding:8px;background:#fafbf4;border:1px solid var(--player-line);border-radius:10px;box-shadow:0 8px 24px #17322730;color:var(--player-ink)}
+.player-mode-menu a{display:block;padding:10px 12px;border:0;border-radius:6px;background:transparent;text-decoration:none;font-size:14px;white-space:nowrap}
+.player-mode-menu a[aria-current],.player-mode-menu a:hover{background:#e0e9d4}
+body.player-page .player-shell{max-width:1600px;height:100dvh;min-height:560px;display:flex;flex-direction:column;gap:10px;padding:12px 20px;overflow:hidden}
+.player-page .player-hud{flex:0 0 auto;min-height:60px;flex-direction:row;flex-wrap:nowrap}
+.player-page .hud-tools button{min-height:44px;font-size:14px}
+.player-page .growth-onboarding{flex:0 0 auto;padding:8px 12px;margin:0;min-height:56px;gap:8px}
+.player-page .growth-onboarding strong{font-size:14px}
+.player-page .connection-tools,.player-page #failure-recovery{flex:0 0 auto;margin:0}
+.player-page .player-layout{flex:1;min-height:0;margin:0;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:stretch}
+.player-page .player-field{min-width:0;min-height:0;display:flex;flex-direction:column;gap:4px}
+.player-page .field-messages{flex:0 0 80px;height:80px;min-height:80px;overflow:auto;overflow-anchor:none;scrollbar-gutter:stable}
+.player-page .field-messages:empty{visibility:hidden}
+.player-page .field-messages #feedback,.player-page .field-messages .event-feedback,.player-page .field-messages #return-recovery{max-height:none;overflow:visible;margin:0}
+.player-page .field-messages #failure-recovery{padding:8px;border-width:1px;border-radius:6px}
+.player-page .field-messages #failure-recovery h2{font-size:14px;margin:0 0 4px}
+.player-page .field-messages #failure-recovery p{font-size:12px;margin:4px 0}
+.player-page #map{flex:1;min-height:80px;width:100%;max-height:none;aspect-ratio:auto!important;overflow:hidden;position:relative}
+.player-page #map canvas{display:block}
+.player-page #map #network-waiting{position:absolute;left:8px;bottom:8px;z-index:5;margin:0;padding:4px 8px;border-radius:6px;background:#fffbeeeb;color:#284238;font-size:12px;pointer-events:none}
+.player-page .field-footer{flex:0 0 auto;min-height:48px;position:static;margin:0;gap:8px}
+.player-page .movement-bar{position:static;min-height:44px;flex-wrap:nowrap}
+.player-page .movement-bar>button{padding:8px 12px;min-height:44px;border:1px solid var(--player-line);border-radius:8px;background:#f5f7ec;font-size:14px;font-weight:600;color:#36583f;white-space:nowrap}
+.player-page .touch-controls{margin:0;padding:0;background:transparent}
+.player-page .touch-controls button{min-width:44px;min-height:44px;font-size:20px}
+.player-page .player-sidebar{overflow:auto;min-height:0;align-content:start;gap:10px;padding-bottom:4px}
+.player-page .player-sidebar>section{padding:12px}
+.player-page .player-sidebar h2,.player-page .partner-details,.player-page .partner-details summary,.player-page .nearby-targets summary{font-size:12px}
+.player-page .pokemon-heading strong{font-size:18px}
+.player-page .pokemon-card .condition,.player-page .pokemon-card .meter-label,.player-page .pokemon-card .experience-note{font-size:12px;line-height:1.5}
+.player-page #target-context,.player-page #target-name{font-size:14px;line-height:1.5}
+.player-page #skills .skill-card{min-height:54px;font-size:14px}
+.player-page .skill-card small,.player-page .type-badge,.player-page #task-summary{font-size:12px}
+.player-page #feedback{flex:0 0 auto;max-height:64px;overflow:auto;margin:0;padding:8px 12px;font-size:14px}
+.player-page .event-feedback{flex:0 0 auto;margin:0;max-height:90px;overflow:auto}
+.player-page #return-recovery{flex:0 0 auto;margin:0;max-height:120px;overflow:auto}
+.player-page .player-dock{flex:0 0 auto;position:static;margin:0;padding:4px 0 0;min-height:52px;background:#e8ecdf;z-index:30}
+.player-page .player-dock button{font-size:14px;min-height:44px}
+.player-page .player-dialog{font-size:14px}.player-page .player-dialog p{font-size:14px}
+.player-page .target-window.empty-target{background:transparent}
+.player-page .target-window.empty-target #target-empty{font-size:14px;line-height:1.6}
+.player-page #starter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.player-page .starter-card{min-width:0;margin:0;padding:5px;display:flex;flex-direction:column;align-items:center}
+.player-page .starter-card button{font-size:12px;min-height:44px;width:100%;padding:6px 2px}
+.player-page .starter-card img{width:52px;height:52px}
+@media(max-width:850px){
+ body.player-page .player-shell{padding:8px;min-height:560px;gap:8px}
+ .player-page .player-hud{padding:8px;gap:6px;display:grid;grid-template-columns:minmax(0,1fr) auto auto}.player-page .hud-location{grid-column:1;min-width:0}.player-page .hud-location h1{white-space:nowrap}.player-page .hud-info{grid-column:1/-1;grid-row:2;width:100%;margin:0;font-size:12px;gap:8px}.player-page .hud-tools{grid-column:2;grid-row:1}.player-page .player-mode-menu{grid-column:3;grid-row:1}
+ .player-page .player-layout{display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:8px}
+ .player-page .player-sidebar{display:contents}
+ .player-page .partner-window{grid-row:1;min-width:0;padding:8px!important}
+ .player-page .partner-window>h2{display:none}
+ .player-page .partner-details{display:block;margin-top:4px}
+ .player-page.has-partner .partner-window{height:clamp(104px,18dvh,128px);max-height:24dvh;overflow:auto;overflow-anchor:none}
+ .player-page .pokemon-portrait{width:48px;height:48px}.player-page .pokemon-card .condition{margin:0}
+ .player-page .player-field{grid-row:2;min-height:0;padding:0}
+ .player-page .task-window{display:none}
+ .player-page .target-window.empty-target{display:none}
+ .player-page .target-window:not(.empty-target){display:none}
+ .player-page.target-open .target-window:not(.empty-target){display:block;position:fixed;left:8px;right:8px;bottom:var(--target-bottom,150px);max-height:calc(100dvh - var(--target-bottom,150px) - 160px);overflow:auto;z-index:22;border:1px solid var(--player-line);box-shadow:0 -4px 20px #17322725;padding:12px}
+ .player-page.target-open #target-collapse{display:block}
+ .player-page.target-open #target-reopen{display:none!important}
+ .player-page.target-open .player-field{padding:0}
+ .player-page.target-open .field-footer{position:static;height:auto;margin:0;left:auto;right:auto;bottom:auto}
+ .player-page .field-footer{flex-wrap:nowrap;min-height:48px;z-index:23;background:#e8ecdf}
+ .player-page .map-readout{display:none}
+ .player-page .movement-bar{width:100%;justify-content:space-between;gap:6px;flex-wrap:nowrap;padding:0;background:#e8ecdf;height:48px}
+ .player-page #touch-pad{display:block;flex:0 0 auto}
+ .player-page #target-reopen:not([hidden]){display:block}
+ .player-page .touch-controls{display:flex;gap:4px}.player-page .touch-controls button{min-width:40px;width:40px;padding:4px}
+ .player-page .movement-bar>button{font-size:12px;padding:6px 8px}
+ .player-page .player-dock{position:static;left:auto;right:auto;bottom:auto;gap:4px;padding:4px 0 max(4px,env(safe-area-inset-bottom));min-height:52px;margin:0}
+ .player-page .player-dock button{font-size:12px;padding:4px}
+ .player-page .growth-onboarding{flex-wrap:nowrap;gap:5px;padding:6px 8px;min-height:52px}
+ .player-page .growth-onboarding strong{font-size:12px;flex:1;min-width:0}
+ .player-page .growth-onboarding button,.player-page .growth-onboarding a{font-size:12px;padding:6px;white-space:normal}
+ .player-page #training-onboarding-detail:not([hidden]){position:absolute;top:145px;left:8px;right:8px;padding:12px;background:#fffdf0;border:1px solid var(--player-line);z-index:25}
+ .player-page .player-hud h1{font-size:18px}
+ .player-page .hud-tools{margin-left:auto}.player-page .hud-tools button{font-size:12px;padding:4px 8px}
+ .player-page .player-mode-menu>summary{font-size:12px;padding:11px 8px}
+ .player-page #feedback{font-size:12px;max-height:42px;padding:6px 8px}
+}
+/* Evaluation: one fixed submit control, original form/consent remain authoritative. */
+[data-player-page=evaluation] header,[data-player-page=duel]>header,[data-player-page=quest]>.shell>header{max-width:1280px;margin:12px auto;padding:12px 16px;border-radius:10px;background:#274b3d;color:#fffbee;gap:12px}
+[data-player-page=evaluation] header p,[data-player-page=duel] header small{display:none}
+[data-player-page=evaluation] header h1,[data-player-page=duel] header h1{font-size:22px;margin:0}
+[data-player-page=evaluation] header>nav,[data-player-page=duel] header>nav{display:none}
+[data-player-page=evaluation] main{max-width:1280px;padding:0 16px 100px;display:flex;flex-direction:column;gap:14px}
+[data-player-page=evaluation] .setup{order:3;padding:18px}
+[data-player-page=evaluation] #run-progress{order:0}
+[data-player-page=evaluation] #detail{order:1;scroll-margin-top:12px}
+[data-player-page=evaluation] #replay-panel{order:2}
+[data-player-page=evaluation] .history{order:4}
+[data-player-page=evaluation] .start-bar{position:fixed;left:max(16px,calc((100vw - 1248px)/2));right:max(16px,calc((100vw - 1248px)/2));bottom:12px;margin:0;z-index:30;background:#fafbf4;border:1px solid var(--player-line);border-radius:10px;padding:10px 14px;box-shadow:0 2px 18px #203b3220}
+[data-player-page=evaluation] .start-bar p{font-size:14px;margin:0}
+.evaluation-workspace-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.evaluation-workspace-summary h2{margin:0}.evaluation-workspace-summary button{background:#edf3e3;color:#36583f}
+.evaluation-presets{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 18px}
+.evaluation-presets button{background:#f1f5e8;color:#36583f;border:1px solid #c5d3b9}
+.evaluation-presets button[aria-pressed=true]{background:#35634b;color:#fff}
+[data-player-page=evaluation] .setup.collapsed #setup,[data-player-page=evaluation] .setup.collapsed>.muted{display:none}
+[data-player-page=evaluation] .setup.collapsed{padding:12px 18px}
+[data-player-page=evaluation] .scenario-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+[data-player-page=evaluation] fieldset{margin:14px 0}
+[data-player-page=evaluation] .history>summary{font-size:14px}
+@media(max-width:600px){[data-player-page=evaluation] header,[data-player-page=duel]>header{margin:8px;padding:10px;flex-direction:row}[data-player-page=evaluation] main{padding:0 8px 110px}[data-player-page=evaluation] .panel{padding:14px}[data-player-page=evaluation] .scenario-choices{grid-template-columns:repeat(2,minmax(0,1fr))}[data-player-page=evaluation] .start-bar{left:8px;right:8px;bottom:8px;padding:8px;gap:8px;flex-direction:row;align-items:center}[data-player-page=evaluation] .start-bar p{font-size:12px}[data-player-page=evaluation] .start-bar #create{width:auto;min-width:108px}}
+/* Battle: preparation, action and outcome share one compact workspace. */
+[data-player-page=duel] main{max-width:1120px;padding:0 16px 24px}
+[data-player-page=duel] section{padding:16px;border-radius:10px;margin-bottom:12px}
+[data-player-page=duel] .controls:has(#connection){font-size:12px;margin:8px 0}
+[data-player-page=duel].connection-normal #reconnect{display:none}
+[data-player-page=duel] .setup{position:relative}
+[data-player-page=duel] #team-options{display:flex;flex-wrap:wrap;gap:8px}
+[data-player-page=duel] #team-options label{display:flex;align-items:center;border:1px solid var(--player-line);padding:8px;font-size:14px;gap:8px}
+[data-player-page=duel] #team-options img{width:52px;height:52px;object-fit:contain}
+[data-player-page=duel] .battle-preview{display:flex;align-items:center;gap:12px;background:#edf2e2;border-radius:8px;padding:10px;margin:12px 0}
+[data-player-page=duel] .battle-preview img{width:56px;height:56px;object-fit:contain;image-rendering:pixelated}
+[data-player-page=duel] .battle-preview p{margin:0;font-size:14px}
+[data-player-page=duel] .stage{height:clamp(180px,30dvh,320px);min-height:180px;margin:8px 0}
+[data-player-page=duel] .arena{padding:12px}
+[data-player-page=duel] .battle-controls{margin-top:0}
+[data-player-page=duel] #actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+[data-player-page=duel] #actions button{text-align:left;min-height:48px}
+[data-player-page=duel] #actions .switch-action{background:#edf2e2;color:#35573c}
+[data-player-page=duel] .battle-outcome{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;background:#edf2e2;border-radius:8px;margin-top:10px}
+[data-player-page=duel] .battle-outcome strong{flex:1;min-width:120px}
+[data-player-page=duel] .battle-outcome a{padding:10px 12px;background:#35634b;color:#fff;border-radius:8px;text-decoration:none}
+[data-player-page=duel] .hp-label{font-size:14px;margin:4px 0}
+[data-player-page=duel] .battle-controls h2{font-size:16px;margin-bottom:6px}
+[data-player-page=duel] #hint{font-size:14px;margin:6px 0}
+/* Quest: current goal and progress stay near the map; optional tools are folded. */
+[data-player-page=quest] main.shell{max-width:1440px;padding:12px 20px}
+[data-player-page=quest]>.shell>header h1{font-size:22px;margin:0}
+[data-player-page=quest]>.shell>header .eyebrow,[data-player-page=quest]>.shell>header .intro{display:none}
+[data-player-page=quest] #connection{color:#31553f;background:#f5f8ed;font-size:12px}
+[data-player-page=quest] .mode-nav{display:none}
+[data-player-page=quest] #journey-host{margin:0}
+[data-player-page=quest] .columns{grid-template-columns:minmax(0,1fr) 340px;gap:14px}
+[data-player-page=quest] .scene.card{padding:12px}
+[data-player-page=quest] .scene .rpg-stage{height:clamp(280px,58dvh,560px);aspect-ratio:auto;margin:8px 0;overflow:hidden}
+[data-player-page=quest] .scene .rpg-surface{height:100%;min-height:0}
+[data-player-page=quest] .columns>aside{position:sticky;top:12px;align-self:start;max-height:calc(100dvh - 24px);overflow:auto;padding-bottom:8px}
+[data-player-page=quest] .quest-secondary{border-top:1px solid var(--player-line);margin-top:12px;padding-top:12px}
+[data-player-page=quest] .quest-secondary>summary{font-size:14px;cursor:pointer;padding:10px 0}
+[data-player-page=quest] .scene>.stats{margin:8px 0}
+[data-player-page=quest] #task-form textarea{font-size:14px}
+[data-player-page=quest] .task .eyebrow{display:none}
+[data-player-page=quest] .task h2{font-size:18px}
+[data-player-page=quest] .task .agent-panel{padding:10px}
+[data-player-page=quest] .task .agent-phases{font-size:12px}
+[data-player-page=quest] .task .quick-goals button{min-height:44px;font-size:12px}
+[data-player-page=quest] .task #task-form>p{display:none}
+[data-player-page=quest] .task #task-form label{font-size:14px}
+[data-player-page=quest] .task .task-secondary{margin:8px 0}
+[data-player-page=quest] .task-secondary summary{font-size:12px;padding:8px 0}
+[data-player-page=quest] .task #provider{font-size:12px;line-height:1.5}
+[data-player-page=quest][data-quest-phase=running] #task-form,[data-player-page=quest][data-quest-phase=running] .quick-goals,[data-player-page=quest][data-quest-phase=result] #task-form{display:none}
+.quest-progress-brief{font-size:14px;padding:8px 10px;background:#edf2e3;border-radius:8px;margin:8px 0}
+@media(max-width:850px){[data-player-page=quest] main.shell{padding:8px}[data-player-page=quest] .columns{display:grid;grid-template-columns:minmax(0,1fr)}[data-player-page=quest] .columns>aside{display:contents}[data-player-page=quest] .columns>aside>.task{grid-row:1}[data-player-page=quest] .columns>.scene{grid-row:2;width:100%}[data-player-page=quest] .task #quest-agent-panel .agent-phases{display:none}[data-player-page=quest] .scene .rpg-stage{height:45dvh}}
+/* Training keeps the single objective and action in the first viewport. */
+[data-player-page=training] main{max-width:1120px;padding:10px 16px}
+[data-player-page=training] .arena{max-width:760px}
+[data-player-page=training] .arena .rpg-stage{height:calc(100dvh - 340px);max-height:500px;min-height:220px;aspect-ratio:auto}
+[data-player-page=training] .arena .rpg-surface{height:100%;min-height:0}
+[data-player-page=training] .newbie-feedback{font-size:14px}
+[data-player-page=training] footer{font-size:12px}
+[data-player-page=training] .newbie-controls .directions button{width:44px;height:44px}
+@media(max-width:600px){[data-player-page=training] main{padding:8px}[data-player-page=training] .newbie-controls{flex-wrap:wrap;justify-content:space-between}[data-player-page=training] .arena .rpg-stage{height:auto;aspect-ratio:832/576;min-height:0}[data-player-page=training] .newbie-step h2{font-size:16px}}
+@media(prefers-reduced-motion:reduce){[data-player-page] *{scroll-behavior:auto!important}}
+
+[data-player-page=duel].battle-finished:not(.adjust-battle) .setup{display:none}
+[data-player-page=duel] #notice:empty{display:none}
+[data-player-page=duel] #notice{padding:8px 12px;border-radius:8px;background:#fff2d8}
+[data-player-page=duel] .battle-outcome{margin-bottom:12px}
+[data-player-page=training] .newbie-header{padding:12px 16px;background:#274b3d;color:#fffbee;border-radius:10px;gap:8px}
+[data-player-page=training] .newbie-header h1{font-size:22px}
+[data-player-page=training] .newbie-header .player-mode-menu{color:#fffbee}
+@media(max-width:600px){[data-player-page=training] .newbie-header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding:10px}[data-player-page=training] .newbie-header h1{font-size:18px;margin:0;grid-column:1}[data-player-page=training] .newbie-header>div{grid-row:2;grid-column:1/-1;display:flex;gap:6px}[data-player-page=training] .newbie-header .player-mode-menu{grid-row:1;grid-column:2}[data-player-page=training] .newbie-header button{font-size:12px}}
+
+[data-player-page=duel] .battle-preview{flex-wrap:wrap}
+[data-player-page=duel] #battle-preview-roster{display:flex;gap:12px;flex-wrap:wrap;width:100%;font-size:12px}
+[data-player-page=duel] #battle-preview-roster>div{display:flex;align-items:center;gap:6px}
+[data-player-page=duel] #battle-preview-roster img{width:40px;height:40px}

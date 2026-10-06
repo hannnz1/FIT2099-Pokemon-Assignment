@@ -1,0 +1,21 @@
+{
+  "source": "Desktop project final jar",
+  "regions": [
+    "lab",
+    "forest",
+    "river",
+    "mountain"
+  ],
+  "goalLinks": true,
+  "mobile390": true,
+  "healthAggregateOnly": true,
+  "errors": [],
+  "paidCalls": 0,
+  "jarSha256": "c232f302cb6878aadedc7a64750eb94af57dc7ed47892086c791ac6cf5566fe6",
+  "javaRegression": {
+    "total": 640,
+    "passed": 619,
+    "optionalSkipped": 21,
+    "failures": 0
+  }
+}

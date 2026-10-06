@@ -28,4 +28,85 @@ class GrowthRoomTest {
   }
   Store legacy=new Store();GrowthRoom source=new GrowthRoom("legacy",offline(),Runnable::run,legacy,()->0);command(source,"STARTER",Json.object("species","MUDKIP"));Map<String,Object> saved=legacy.load("growth:legacy");List<Object> receipts=Json.asArray(saved.get("receipts"));Map<String,Object> example=Json.asObject(receipts.get(0));for(int n=0;n<130;n++){Map<String,Object> copy=new LinkedHashMap<>(example);copy.put("id","legacy-"+n);receipts.add(copy);}GrowthRoom restored=new GrowthRoom("legacy",offline(),Runnable::run,legacy,()->0);assertEquals(200,command(restored,"REST",Collections.emptyMap()).status);assertEquals(64,Json.asArray(legacy.load("growth:legacy").get("receipts")).size());
  }
+
+ @Test void skillTutorialCompletionSurvivesTraceEvictionAndIgnoresNonSkillDefeat(){
+  Store store=new Store();GrowthRoom room=new GrowthRoom("skill-guide",offline(),Runnable::run,store,()->0);
+  command(room,"STARTER",Json.object("species","TREECKO"));
+  Map<String,Object> saved=store.load("growth:skill-guide");saved.remove("tutorialSkillUsed");
+  saved.put("trace",new ArrayList<>(Arrays.asList(Json.object("code","GROWTH_DEFEATED","status","SUCCESS","data",Collections.emptyMap(),"time",1))));
+  room=new GrowthRoom("skill-guide",offline(),Runnable::run,store,()->0);assertEquals(false,room.snapshot().get("tutorialSkillUsed"));
+  for(int i=0;i<40&&!"forest".equals(Json.asObject(room.snapshot().get("world")).get("region"));i++)assertEquals(200,command(room,"MANUAL",Json.object("action","go_to_region","arguments",Json.object("regionId","forest"))).status);
+  Map<String,Object> world=Json.asObject(room.snapshot().get("world"));String target=(String)Json.asObject(Json.asArray(world.get("encounters")).get(0)).get("id");
+  for(int i=0;i<40;i++){Map<String,Object> row=Json.asObject(Json.asArray(Json.asObject(room.snapshot().get("world")).get("encounters")).get(0));if(Boolean.TRUE.equals(row.get("targetAdjacent")))break;assertEquals(200,command(room,"MANUAL",Json.object("action","move_to","arguments",Json.object("targetId",target))).status);}
+  Map<String,Object> partner=Json.asObject(Json.asObject(room.snapshot().get("world")).get("partner"));String move=(String)Json.asObject(Json.asArray(partner.get("moves")).get(0)).get("id");
+  assertEquals(200,command(room,"MANUAL",Json.object("action","use_skill","arguments",Json.object("targetId",target,"moveId",move))).status);
+  assertEquals(true,room.snapshot().get("tutorialSkillUsed"));
+  for(int i=0;i<70;i++)command(room,"MANUAL",Json.object("action","move","arguments",Json.object("direction",i%2==0?"N":"S")));
+  GrowthRoom restored=new GrowthRoom("skill-guide",offline(),Runnable::run,store,()->0);assertEquals(true,restored.snapshot().get("tutorialSkillUsed"));
+ }
+
+ @Test void firstAdventureKeepsAllThreeStartersPracticeSafeAndRewardExactlyOnce(){
+  for(String species:Arrays.asList("TREECKO","MUDKIP","TORCHIC")){
+   Store store=new Store();String owner="story-"+species;GrowthRoom r=new GrowthRoom(owner,offline(),Runnable::run,store,()->0);
+   command(r,"STARTER",Json.object("species",species));Map<String,Object> original=Json.asObject(Json.asObject(r.snapshot().get("world")).get("partner"));
+   assertEquals("MOVE",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));
+   assertEquals(409,command(r,"PRACTICE_SKILL",Json.object("moveId","POUND")).status);
+   command(r,"MANUAL",Json.object("action","move","arguments",Json.object("direction","E")));command(r,"MANUAL",Json.object("action","move","arguments",Json.object("direction","W")));
+   assertEquals(200,command(r,"PRACTICE_SELECT",Collections.emptyMap()).status);
+   String move=(String)Json.asObject(Json.asArray(original.get("moves")).get(0)).get("id");
+   assertEquals(200,command(r,"PRACTICE_SKILL",Json.object("moveId",move)).status);
+   assertEquals(Json.write(original),Json.write(Json.asObject(Json.asObject(r.snapshot().get("world")).get("partner"))));
+   r=new GrowthRoom(owner,offline(),Runnable::run,store,()->0);assertEquals("FOREST",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));
+   for(int i=0;i<80&&!"forest".equals(Json.asObject(r.snapshot().get("world")).get("region"));i++)assertEquals(200,command(r,"MANUAL",Json.object("action","go_to_region","arguments",Json.object("regionId","forest"))).status);
+   Map<String,Object> w=Json.asObject(r.snapshot().get("world"));Map<String,Object> target=Json.asArray(w.get("encounters")).stream().map(Json::asObject).filter(e->!species.equals(e.get("species"))).findFirst().get();String id=(String)target.get("id");
+   for(int i=0;i<80;i++){w=Json.asObject(r.snapshot().get("world"));Map<String,Object> row=Json.asArray(w.get("encounters")).stream().map(Json::asObject).filter(e->id.equals(e.get("id"))).findFirst().get();if(Boolean.TRUE.equals(row.get("targetAdjacent")))break;assertEquals(200,command(r,"MANUAL",Json.object("action","move_to","arguments",Json.object("targetId",id))).status);}
+   assertEquals(200,command(r,"MANUAL",Json.object("action","capture","arguments",Json.object("targetId",id))).status);
+   assertEquals("CAMP",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));
+   if(species.equals("TREECKO")){
+    Json.asObject(store.load("growth:"+owner).get("firstAdventure")).put("stage","FOREST");
+    r=new GrowthRoom(owner,offline(),Runnable::run,store,()->0);command(r,"MANUAL",Json.object("action","observe","arguments",Collections.emptyMap()));
+    assertEquals("CAMP",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"),"previous forest capture must be acknowledged");
+   }
+
+   if(species.equals("MUDKIP")){
+    for(int i=0;i<80&&!"lab".equals(Json.asObject(r.snapshot().get("world")).get("region"));i++)command(r,"MANUAL",Json.object("action","go_to_region","arguments",Json.object("regionId","lab")));
+    Map<String,Object> other=Json.asArray(Json.asObject(r.snapshot().get("world")).get("team")).stream().map(Json::asObject).filter(row->!original.get("captureId").equals(row.get("captureId"))).findFirst().get();
+    assertEquals(200,command(r,"SELECT",Json.object("captureId",other.get("captureId"))).status);assertEquals("CAMP",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));
+    assertEquals(200,command(r,"SELECT",Json.object("captureId",original.get("captureId"))).status);
+    for(int i=0;i<80&&!"forest".equals(Json.asObject(r.snapshot().get("world")).get("region"));i++)command(r,"MANUAL",Json.object("action","go_to_region","arguments",Json.object("regionId","forest")));
+   }
+
+   for(int i=0;i<80&&"CAMP".equals(Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));i++)assertEquals(200,command(r,"MANUAL",Json.object("action","go_to_recovery","arguments",Collections.emptyMap())).status);
+   assertEquals("GROWTH",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));
+   Map<String,Object> p1=Json.asObject(Json.asObject(r.snapshot().get("world")).get("partner"));assertEquals(original.get("captureId"),p1.get("captureId"));assertTrue(((Number)p1.get("level")).intValue()>5);assertEquals(p1.get("hp"),p1.get("maxHp"));
+   int xp=((Number)p1.get("experience")).intValue();r=new GrowthRoom(owner,offline(),Runnable::run,store,()->0);command(r,"REST",Collections.emptyMap());assertEquals(xp,Json.asObject(Json.asObject(r.snapshot().get("world")).get("partner")).get("experience"));
+   assertEquals(200,command(r,"STORY_CONTINUE",Collections.emptyMap()).status);
+   for(int i=0;i<80&&!"lab".equals(Json.asObject(r.snapshot().get("world")).get("region"));i++)assertEquals(200,command(r,"MANUAL",Json.object("action","go_to_region","arguments",Json.object("regionId","lab"))).status);
+   assertEquals(200,command(r,"STORY_FINISH",Collections.emptyMap()).status);assertEquals("TRAINER",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));assertEquals(409,command(r,"STORY_FINISH",Collections.emptyMap()).status);
+  }
+ }
+ @Test void legacyStoryMissingDoesNotEnrollExistingPlayer(){Store store=new Store();GrowthRoom r=new GrowthRoom("legacy-story",offline(),Runnable::run,store,()->0);command(r,"STARTER",Json.object("species","MUDKIP"));store.load("growth:legacy-story").remove("firstAdventure");r=new GrowthRoom("legacy-story",offline(),Runnable::run,store,()->0);assertEquals("SKIPPED",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));assertEquals(200,command(r,"REST",Collections.emptyMap()).status);}
+
+ @Test void tutorialReplacementNeverSpawnsOnThePlayersTile(){
+  game.agent.growth.GrowthWorld w=new game.agent.growth.GrowthWorld(()->0);w.starter("TREECKO");Map<String,Object> saved=w.export();Map<String,Object> occupied=null;
+  for(Object row:Json.asArray(saved.get("encounters"))){Map<String,Object> e=Json.asObject(row);if(!"TREECKO".equals(Json.asObject(e.get("pokemon")).get("species"))){e.put("state","DEFEATED");Json.asObject(e.get("pokemon")).put("hp",0);if(occupied==null)occupied=e;}}
+  saved.put("region","forest");saved.put("x",occupied.get("x"));saved.put("y",occupied.get("y"));game.agent.growth.GrowthWorld restored=game.agent.growth.GrowthWorld.restore(saved,()->0);
+  assertDoesNotThrow(()->restored.ensureFirstAdventureTargets("TREECKO"));Map<String,Object> view=restored.view();assertEquals(3,Json.asArray(view.get("encounters")).size());assertTrue(Json.asArray(view.get("encounters")).stream().map(Json::asObject).anyMatch(e->"WILD".equals(e.get("state"))&&!"TREECKO".equals(e.get("species"))));
+ }
+ @Test void firstFieldBattleThenCampPrecedesCaptureAndSurvivesRestart(){
+  Store store=new Store();String owner="battle-then-camp";GrowthRoom r=new GrowthRoom(owner,offline(),Runnable::run,store,()->0);
+  command(r,"STARTER",Json.object("species","TREECKO"));Object identity=Json.asObject(Json.asObject(r.snapshot().get("world")).get("partner")).get("captureId");
+  command(r,"MANUAL",Json.object("action","move","arguments",Json.object("direction","E")));command(r,"MANUAL",Json.object("action","move","arguments",Json.object("direction","W")));
+  command(r,"PRACTICE_SELECT",Collections.emptyMap());command(r,"PRACTICE_SKILL",Json.object("moveId","POUND"));
+  for(int n=0;n<80&&!"forest".equals(Json.asObject(r.snapshot().get("world")).get("region"));n++)command(r,"MANUAL",Json.object("action","go_to_region","arguments",Json.object("regionId","forest")));
+  assertEquals("BATTLE",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));
+  String id=(String)Json.asObject(Json.asArray(Json.asObject(r.snapshot().get("world")).get("encounters")).get(0)).get("id");
+  for(int n=0;n<80;n++){Map<String,Object> target=Json.asArray(Json.asObject(r.snapshot().get("world")).get("encounters")).stream().map(Json::asObject).filter(e->id.equals(e.get("id"))).findFirst().get();if(Boolean.TRUE.equals(target.get("targetAdjacent")))break;command(r,"MANUAL",Json.object("action","move_to","arguments",Json.object("targetId",id)));}
+  assertEquals(200,command(r,"MANUAL",Json.object("action","use_skill","arguments",Json.object("targetId",id,"moveId","POUND"))).status);
+  assertEquals("REST_FIRST",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));r=new GrowthRoom(owner,offline(),Runnable::run,store,()->0);
+  assertEquals("REST_FIRST",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));
+  for(int n=0;n<80&&!"CAPTURE".equals(Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));n++)command(r,"MANUAL",Json.object("action","go_to_recovery","arguments",Collections.emptyMap()));
+  assertEquals("CAPTURE",Json.asObject(r.snapshot().get("firstAdventure")).get("stage"));Map<String,Object> p=Json.asObject(Json.asObject(r.snapshot().get("world")).get("partner"));assertEquals(identity,p.get("captureId"));assertEquals(p.get("maxHp"),p.get("hp"));
+ }
+
 }

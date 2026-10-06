@@ -1,0 +1,9 @@
+{
+  "eightBatches": true,
+  "archiveFreesNinth": true,
+  "delete": true,
+  "confirmedBulkCleanup": true,
+  "reloadKeepsDeleted": true,
+  "paidCalls": 0,
+  "errors": []
+}

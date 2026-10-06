@@ -12,3 +12,4 @@
 - [x] Full Java/PG/client tests, Java8 build, independent review; offline HTTP and browser capture/carry/summon/recall/restart. Package runtime/source, usage and progress docs.
 
 Review focus: ambiguous commit, ghost Actor after another room reloads collection, occupied restore, reset/save partial failure, double inventory representation, late model path into occupied summon, stale/wrong-owner commands.
+

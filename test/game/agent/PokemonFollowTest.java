@@ -101,3 +101,4 @@ class PokemonFollowTest {
         try(AgentWebServer s=new AgentWebServer(port,ProviderSelection.fromEnvironment(Collections.emptyMap()),null,true,new JdbcWorldStore(()->java.sql.DriverManager.getConnection(jdbc,user,password)))){s.start();AgentWebServerTest.Browser b=restoredBrowser(port,cookie);String q=PokemonCarryTest.room(b,"quest");assertEquals(actual,out(PokemonSummonTest.snapshot(b,q)));assertEquals("1",Json.asObject(PokemonSummonTest.snapshot(b,q).get("world")).get("turn"));}
     }
 }
+

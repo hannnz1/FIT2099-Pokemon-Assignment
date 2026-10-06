@@ -58,11 +58,11 @@ public abstract class Ground implements Capable, Printable {
 
 	/**
 	 * Ground can also experience the joy of time.
-	 * @param location The location of the Ground
+	 * @param location The location of the Ground 
 	 */
 	public void tick(Location location) {
 	}
-
+	
 	/**
 	 * Override this to implement terrain that blocks thrown objects but not movement, or vice versa
 	 * @return true
@@ -73,7 +73,7 @@ public abstract class Ground implements Capable, Printable {
 
 	/**
 	 * Check whether this Ground type has the given Capability.
-	 *
+	 * 
 	 * @param capability the Capability to check
 	 * @return true if and only if this Ground has the given capability.
 	 */
@@ -83,7 +83,7 @@ public abstract class Ground implements Capable, Printable {
 
 	/**
 	 * Add the given Capability to this Ground.
-	 *
+	 * 
 	 * @param capability the Capability to add
 	 */
 	public void addCapability(Enum<?> capability) {
@@ -92,7 +92,7 @@ public abstract class Ground implements Capable, Printable {
 
 	/**
 	 * Remove the given Capability from this Ground.
-	 *
+	 * 
 	 * @param capability the Capability to remove.
 	 */
 	public void removeCapability(Enum<?> capability) {

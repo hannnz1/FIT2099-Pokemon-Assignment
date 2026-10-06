@@ -1,0 +1,13 @@
+{
+  "hold": true,
+  "keyRelease": true,
+  "touchHold": true,
+  "touchRelease": true,
+  "modalInterrupt": true,
+  "noArrowScroll": true,
+  "latency400msNoDuplicate": true,
+  "releaseThenNewDirection": true,
+  "site": "http://127.0.0.1:8107",
+  "pageErrors": [],
+  "moves": 21
+}

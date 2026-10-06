@@ -1,0 +1,128 @@
+[
+  {
+    "suite": "game.agent.CooperativeQuestTest",
+    "case": "postgresSharedQuestRoundTripsIndependentInventoryAndLedger",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.eval.EvaluationPlatformTest",
+    "case": "realPostgresRoundTripsEvaluationQueueAndReplay",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.FieldAgentTest",
+    "case": "postgresFieldReadyAndCompletedCheckpointsRoundTrip",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.GameplayCompletionTest",
+    "case": "postgresRestoresAdditionalSpeciesAndSelectedBattlePartner",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.MixedAgentTest",
+    "case": "postgresRestoresBetweenBerryAndWildStage",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.MultiAgentFoundationTest",
+    "case": "postgresRoundTripPreservesClaimsAndBudgets",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.NpcAgentRuntimeTest",
+    "case": "databaseRestoresNpcMessageAndLifecycle",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.OwnedAgentTest",
+    "case": "postgresOwnedPartnerBindingAndReadyConfirmationRecover",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.persistence.PostgresWorldStoreTest",
+    "case": "realPostgresRoundTripIsolationReopenAndRollback",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.PokemonCarryTest",
+    "case": "realPostgresRestartRetainsCollectionAndSourceOwnership",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.PokemonFollowTest",
+    "case": "realPostgresRestoresFollowPositionAndToggle",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.PokemonSummonTest",
+    "case": "realPostgresRestartRestoresSummonedActorAndRecallFreesTile",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.SequenceAgentTest",
+    "case": "postgresSequenceRestoresCurrentStageAndCompletedResult",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.V3CognitionTest",
+    "case": "postgresPersistsModelsArchiveAndRelayTogether",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.web.FieldGrowthTest",
+    "case": "postgresKeepsCompleteGrowthProfileAcrossScenes",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.web.GrowthCarryTest",
+    "case": "postgresCarryAuthorityAndGrowthCheckpointRestore",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.web.GrowthExpansionRoomTest",
+    "case": "realPostgresRestoresCampaignDexAndTraits",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.web.GrowthRegionRoomTest",
+    "case": "realPostgresPreservesThreeRegionStateAcrossReopen",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.web.GrowthReturnTest",
+    "case": "postgresRoundTripKeepsOwnershipAndGrowth",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.web.GrowthRoomTest",
+    "case": "realPostgresRestoresGrowthRoom",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  },
+  {
+    "suite": "game.agent.web.LegacyGrowthMigrationTest",
+    "case": "postgresLegacyMigrationSurvivesNewRoom",
+    "status": "SKIPPED",
+    "seconds": 0.0
+  }
+]

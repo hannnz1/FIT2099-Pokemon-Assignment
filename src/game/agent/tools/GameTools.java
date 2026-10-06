@@ -37,8 +37,8 @@ public final class GameTools {
                 if(best==null)return ActionResult.rejected("NO_PATH");ActionResult result=navigation.step(actor,map,best,allowed,active);
                 return result.getStatus()==ActionResult.Status.SUCCESS?ActionResult.of(ActionResult.Status.IN_PROGRESS,"RESOURCE_APPROACHED",result.getData()):result;
             }
-            if(npc==null || map.locationOf(actor).equals(destination) || !navigation.findRoute(actor,map,destination,allowed).isEmpty())return navigation.step(actor,map,destination,allowed,active);
-            return navigation.approach(actor,map,npc,allowed,active);
+            // Interaction landmarks mean reach an authorized NPC neighbor, not a fixed tile.
+            return npc==null?navigation.step(actor,map,destination,allowed,active):navigation.approach(actor,map,npc,allowed,active);
         });
         registry.register(new ToolDefinition("observe","Observe the actor's current tile only",false,Collections.emptyMap()),request -> {
             if (!map.contains(actor)) return ActionResult.rejected("ACTOR_NOT_ON_MAP");

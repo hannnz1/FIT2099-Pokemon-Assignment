@@ -1,0 +1,8 @@
+package game.agent.growth;
+import org.junit.jupiter.api.Test;import game.agent.llm.Json;import java.util.*;import static org.junit.jupiter.api.Assertions.*;
+class FirstAdventureProgressTest {
+ @Test void trainerVictoryRequiresOriginalIndividualAndPersistsIdempotently(){String id=UUID.randomUUID().toString();FirstAdventure story=FirstAdventure.restore(Json.object("stage","COMPLETE","starterId",id,"species","TREECKO","moves",2,"practiceDamage",4));assertFalse(story.trainerVictory(UUID.randomUUID().toString(),"rookie"));assertTrue(story.trainerVictory(id,"rookie"));assertFalse(story.trainerVictory(id,"rookie"));assertEquals(true,FirstAdventure.restore(story.view()).view().get("rookieWon"));assertTrue(story.trainerVictory(id,"standard"));assertEquals(true,story.view().get("trainerWon"));}
+ @Test void legacyDoesNotInventVictory(){FirstAdventure legacy=FirstAdventure.legacy();assertEquals(false,legacy.view().get("rookieWon"));assertTrue(legacy.trainerVictory(UUID.randomUUID().toString(),"standard"));assertEquals(true,FirstAdventure.restore(legacy.view()).view().get("trainerWon"));}
+ @Test void newJourneyFinishesOnlyAfterConfirmedOriginalRookieVictory(){GrowthWorld w=new GrowthWorld(()->0);w.starter("TREECKO");String id=w.partner().captureId;FirstAdventure story=FirstAdventure.restore(Json.object("stage","RETURN","starterId",id,"species","TREECKO","moves",2,"practiceDamage",4));story.action("STORY_FINISH",null,w);assertEquals("TRAINER",story.view().get("stage"));assertTrue(story.trainerVictory(id,"rookie"));assertEquals("COMPLETE",story.view().get("stage"));}
+
+}

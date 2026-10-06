@@ -1,15 +1,15 @@
 // Only snapshots can change the displayed world. Command ACKs carry no game assets.
 export class AgentClient {
   constructor(fetchImpl = globalThis.fetch.bind(globalThis), makeId = () => crypto.randomUUID(), apiBase = '/api/agent') {
-    if (!['/api/agent','/api/quest','/api/training','/api/growth'].includes(apiBase)) throw new Error('INVALID_API_BASE');
+    if (!['/api/agent','/api/quest','/api/training','/api/growth','/api/duel'].includes(apiBase)) throw new Error('INVALID_API_BASE');
     Object.defineProperty(this, 'apiBase', { value: apiBase });
     this.fetch = fetchImpl; this.makeId = makeId; this.view = null;
     this.connected = false; this.pendingRequest = null; this.csrf = null; this.roomId = null;
-    this.epoch = 0;
+    this.epoch = 0;this.waitingCount=0;this.onWaiting=()=>{};
   }
   async request(url, options = {}) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 5000);
+    const timer = setTimeout(() => controller.abort(), 5000);let waiting=false;const notify=()=>{try{this.onWaiting(this.waitingCount>0);}catch{}};const hint=setTimeout(()=>{waiting=true;this.waitingCount++;notify();},300);
     try {
       const response = await this.fetch(url, { credentials: 'same-origin', ...options, signal: controller.signal });
       const body = await response.json();
@@ -18,7 +18,7 @@ export class AgentClient {
         error.definitive = true; error.status = response.status; throw error;
       }
       return body;
-    } finally { clearTimeout(timer); }
+    } finally { clearTimeout(timer);clearTimeout(hint);if(waiting){this.waitingCount--;notify();} }
   }
   async connect() {
     const epoch = ++this.epoch;

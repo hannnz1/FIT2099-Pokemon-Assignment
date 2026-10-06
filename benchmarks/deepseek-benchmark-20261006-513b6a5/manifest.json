@@ -1,0 +1,30 @@
+{
+  "productionRevision": "513b6a5",
+  "jarSha256": "ebebb5c1a14d9d6be8768ad7fad4e6b3c516155c4bd4fc95c3c8fdde9c72d125",
+  "authorizedTokenCeiling": 300000,
+  "model": "deepseek-flash",
+  "paidPlanned": 18,
+  "baselinePlanned": 18,
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "scenarios": [
+    "shared",
+    "competition",
+    "fault",
+    "battle",
+    "forest",
+    "information"
+  ],
+  "order": "seed then scenario then paired baseline/DeepSeek",
+  "decisions": 100,
+  "wallMillis": 180000,
+  "requestTimeoutMillis": 60000,
+  "spacingMillis": 6100,
+  "concurrency": 1,
+  "runId": "ds-20261006-513b6a5-r1",
+  "publicBudgetUnchanged": true,
+  "retriesAfterCompletion": false
+}

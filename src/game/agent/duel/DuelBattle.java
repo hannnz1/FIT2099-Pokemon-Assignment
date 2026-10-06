@@ -1,0 +1,56 @@
+package game.agent.duel;
+import game.agent.growth.*;
+import game.agent.llm.Json;
+import game.agent.tools.*;
+import java.util.*;
+/** Server-owned singles battle, simultaneous hidden choices, seeded resolution. */
+public final class DuelBattle {
+ private final List<List<GrowthPokemon>> teams=new ArrayList<>();
+ private final int[] active={0,0};private final Map<String,Object>[] choices=new Map[2];
+ private final Set<Integer>[] revealed=new Set[]{new HashSet<>(),new HashSet<>()};
+ private long randomState;private int round;private String result="ACTIVE";
+ private final List<Map<String,Object>> trace=new ArrayList<>();
+ private final GrowthCombat combat=new GrowthCombat(this::nextRandom);
+ public DuelBattle(List<GrowthPokemon> a,List<GrowthPokemon> b,int seed){
+  if(seed<1||seed>1000000)throw new IllegalArgumentException("INVALID_SEED");randomState=seed;
+  for(List<GrowthPokemon> source:Arrays.asList(a,b)){if(source.isEmpty()||source.size()>3)throw new IllegalArgumentException("INVALID_TEAM");List<GrowthPokemon> copy=new ArrayList<>();Set<String> ids=new HashSet<>();for(GrowthPokemon p:source){if(!ids.add(p.captureId))throw new IllegalArgumentException("DUPLICATE_PARTNER");GrowthPokemon n=GrowthPokemon.restore(p.export());n.rest();copy.add(n);}teams.add(copy);}revealed[0].add(0);revealed[1].add(0);
+ }
+ private int nextRandom(){randomState=(randomState*1664525+1013904223)&0xffffffffL;return (int)randomState;}
+ public String result(){return result;}public int round(){return round;}
+ private GrowthPokemon current(int s){return teams.get(s).get(active[s]);}
+ private boolean alive(int s){return teams.get(s).stream().anyMatch(GrowthPokemon::isConscious);}
+ private boolean forced(){return !current(0).isConscious()||!current(1).isConscious();}
+ public boolean needsChoice(int s){side(s);return result.equals("ACTIVE")&&choices[s]==null&&(!forced()||!current(s).isConscious());}
+ private static void side(int s){if(s<0||s>1)throw new IllegalArgumentException("INVALID_SIDE");}
+ public List<String> moves(int s){List<String> ids=new ArrayList<>();if(current(s).isConscious())for(String id:current(s).pp.keySet())if(current(s).pp.get(id)>0)ids.add(id);if(ids.isEmpty()&&current(s).isConscious())ids.add("STRUGGLE");return ids;}
+ public List<Integer> switches(int s){List<Integer> slots=new ArrayList<>();for(int i=0;i<teams.get(s).size();i++)if(i!=active[s]&&teams.get(s).get(i).isConscious())slots.add(i);return slots;}
+ public static List<ToolDefinition> definitions(){return Arrays.asList(new ToolDefinition("battle_move","Choose one legal move; target is the opposing active partner",true,Collections.singletonMap("moveId",ToolParameter.string())),new ToolDefinition("battle_switch","Switch to a conscious reserve slot listed in legalSwitches",true,Collections.singletonMap("slot",ToolParameter.integer(0,2))));}
+ public List<ToolDefinition> tools(int s){List<ToolDefinition> defs=new ArrayList<>();if(!needsChoice(s))return defs;for(ToolDefinition def:definitions())if(def.getName().equals("battle_move")?current(s).isConscious():!switches(s).isEmpty())defs.add(def);return defs;}
+ private List<Object> modelTeam(int s){List<Object> out=new ArrayList<>();for(Object row:ownTeam(s)){Map<String,Object> copy=new LinkedHashMap<>(Json.asObject(row));copy.remove("captureId");out.add(copy);}return out;}
+
+ public Map<String,String> observation(int s){side(s);Map<String,String> v=new LinkedHashMap<>();v.put("round",String.valueOf(round));v.put("ownTeam",Json.write(modelTeam(s)));v.put("activeSlot",String.valueOf(active[s]));v.put("opponentActive",Json.write(publicPartner(current(1-s))));v.put("opponentRevealed",Json.write(publicTeam(1-s)));v.put("legalMoves",Json.write(moves(s)));v.put("legalSwitches",Json.write(switches(s)));v.put("forcedSwitch",String.valueOf(!current(s).isConscious()));return Collections.unmodifiableMap(v);}
+ public String submit(int s,ToolRequest request){side(s);if(!needsChoice(s))return "CHOICE_NOT_ALLOWED";ToolDefinition def=null;for(ToolDefinition t:tools(s))if(t.getName().equals(request.getName()))def=t;if(def==null||!def.accepts(request.getArguments()))return "INVALID_BATTLE_ACTION";
+  Map<String,Object> value=new LinkedHashMap<>(request.getArguments());if(request.getName().equals("battle_move")){if(!moves(s).contains(value.get("moveId")))return "MOVE_UNAVAILABLE";}else if(!switches(s).contains(GrowthPokemon.num(value.get("slot"))))return "SWITCH_UNAVAILABLE";
+  value.put("type",request.getName());choices[s]=value;boolean waiting=needsChoice(0)||needsChoice(1);if(!waiting)resolve();return "CHOICE_ACCEPTED";
+ }
+ private void resolve(){Map<String,Object> before=board();List<Object> actions=new ArrayList<>();boolean replacement=forced();
+  for(int s=0;s<2;s++)if(choices[s]!=null&&choices[s].get("type").equals("battle_switch")){current(s).clearBattle();active[s]=GrowthPokemon.num(choices[s].get("slot"));revealed[s].add(active[s]);actions.add(Json.object("side",s,"type","SWITCH","slot",active[s]));}
+  if(!replacement){int first;int p0=priority(0),p1=priority(1);double speed0=combat.effectiveSpeed(current(0)),speed1=combat.effectiveSpeed(current(1));first=p0!=p1?(p0>p1?0:1):speed0!=speed1?(speed0>speed1?0:1):Math.floorMod(nextRandom(),2);
+   for(int s:new int[]{first,1-first})if(choices[s].get("type").equals("battle_move")){String move=(String)choices[s].get("moveId");boolean acted=current(s).isConscious()&&current(1-s).isConscious();int hp=current(1-s).getHitPoints(),pp=current(s).pp.getOrDefault(move,-1);if(acted)combat.chosenMove(current(s),current(1-s),move);actions.add(Json.object("side",s,"type","MOVE","moveId",move,"damage",hp-current(1-s).getHitPoints(),"ppSpent",pp-current(s).pp.getOrDefault(move,-1),"eligible",acted,"outcome",!acted?"SKIPPED_FAINTED":combat.lastOutcome()));}
+   int leftHp=current(0).getHitPoints(),rightHp=current(1).getHitPoints();combat.residual(current(0),current(1));if(leftHp>current(0).getHitPoints())actions.add(Json.object("side",0,"type","RESIDUAL","damage",leftHp-current(0).getHitPoints(),"status",current(0).burned?"BURN":current(0).status));if(rightHp>current(1).getHitPoints())actions.add(Json.object("side",1,"type","RESIDUAL","damage",rightHp-current(1).getHitPoints(),"status",current(1).burned?"BURN":current(1).status));round++;
+  }
+  choices[0]=choices[1]=null;if(!alive(0)&&!alive(1))result="DRAW";else if(!alive(0))result="RIGHT_WON";else if(!alive(1))result="LEFT_WON";else if(round>=60)result="TURN_LIMIT_DRAW";
+  trace.add(Json.object("index",trace.size()+1,"round",round,"replacement",replacement,"actions",actions,"before",before,"after",board(),"result",result));
+ }
+ private Map<String,Object> board(){return Json.object("left",publicPartner(current(0)),"right",publicPartner(current(1)),"leftSlot",active[0],"rightSlot",active[1]);}
+ private int priority(int s){Map<String,Object> c=choices[s];if(c.get("type").equals("battle_switch"))return 6;String m=(String)c.get("moveId");return m.equals("STRUGGLE")?0:GrowthRules.move(m).priority;}
+ private List<Object> ownTeam(int s){List<Object> v=new ArrayList<>();for(GrowthPokemon p:teams.get(s))v.add(p.view());return v;}
+ private static Map<String,Object> publicPartner(GrowthPokemon p){Map<String,Object> v=p.view();return Json.object("species",p.species,"name",v.get("name"),"level",p.level(),"hp",p.getHitPoints(),"maxHp",p.maxHp(),"types",v.get("types"),"status",p.burned?"BURN":p.status);}
+ private List<Object> publicTeam(int s){List<Object> v=new ArrayList<>();for(int i=0;i<teams.get(s).size();i++)v.add(revealed[s].contains(i)?publicPartner(teams.get(s).get(i)):Json.object("hidden",true));return v;}
+ public Map<String,Object> view(int s){return Json.object("round",round,"result",result,"activeSlot",active[s],"ownTeam",ownTeam(s),"opponentActive",publicPartner(current(1-s)),"opponentTeam",publicTeam(1-s),"canChoose",needsChoice(s),"choiceLocked",choices[s]!=null,"legalMoves",moves(s),"legalSwitches",switches(s));}
+ public List<Map<String,Object>> trace(){return Json.asArray(Json.read(Json.write(trace))).stream().map(Json::asObject).collect(java.util.stream.Collectors.toList());}
+ public Map<String,Object> export(){List<Object> t=new ArrayList<>();for(List<GrowthPokemon> team:teams){List<Object> list=new ArrayList<>();for(GrowthPokemon p:team)list.add(p.export());t.add(list);}return Json.object("teams",t,"active",Arrays.asList(active[0],active[1]),"revealed",Arrays.asList(new ArrayList<>(revealed[0]),new ArrayList<>(revealed[1])),"choices",Arrays.asList(choices[0],choices[1]),"randomState",randomState,"round",round,"result",result,"traceJson",Json.write(trace));}
+ public static DuelBattle restore(Map<String,Object> v){if(!v.keySet().equals(new HashSet<>(Arrays.asList("teams","active","revealed","choices","randomState","round","result","traceJson"))))throw new IllegalArgumentException("INVALID_BATTLE_SAVE");List<Object> t=Json.asArray(v.get("teams"));if(t.size()!=2)throw new IllegalArgumentException();List<GrowthPokemon> a=new ArrayList<>(),b=new ArrayList<>();for(Object p:Json.asArray(t.get(0)))a.add(GrowthPokemon.restore(Json.asObject(p)));for(Object p:Json.asArray(t.get(1)))b.add(GrowthPokemon.restore(Json.asObject(p)));DuelBattle d=new DuelBattle(a,b,1);d.teams.set(0,a);d.teams.set(1,b);d.randomState=((Number)v.get("randomState")).longValue();d.round=GrowthPokemon.num(v.get("round"));d.result=(String)v.get("result");if(d.round<0||d.round>60||d.randomState<0||d.randomState>0xffffffffL||!Arrays.asList("ACTIVE","DRAW","LEFT_WON","RIGHT_WON","TURN_LIMIT_DRAW").contains(d.result))throw new IllegalArgumentException();for(int s=0;s<2;s++){d.active[s]=GrowthPokemon.num(Json.asArray(v.get("active")).get(s));if(d.active[s]<0||d.active[s]>=d.teams.get(s).size())throw new IllegalArgumentException();d.revealed[s].clear();for(Object n:Json.asArray(Json.asArray(v.get("revealed")).get(s))) {int slot=GrowthPokemon.num(n);if(slot<0||slot>=d.teams.get(s).size())throw new IllegalArgumentException();d.revealed[s].add(slot);}if(!d.revealed[s].contains(d.active[s]))throw new IllegalArgumentException();Object c=Json.asArray(v.get("choices")).get(s);if(c!=null){Map<String,Object> choice=new LinkedHashMap<>(Json.asObject(c));String type=(String)choice.remove("type");if(!d.submitWithoutResolve(s,new ToolRequest("restore",type,choice)))throw new IllegalArgumentException();}}List<Object> rows=Json.asArray(Json.read((String)v.get("traceJson")));if(rows.size()>120)throw new IllegalArgumentException();for(Object row:rows)d.trace.add(Json.asObject(row));return d;}
+ private boolean submitWithoutResolve(int s,ToolRequest r){if(!needsChoice(s))return false;for(ToolDefinition t:tools(s))if(t.getName().equals(r.getName())&&t.accepts(r.getArguments())){if(r.getName().equals("battle_move")?!moves(s).contains(r.getArguments().get("moveId")):!switches(s).contains(GrowthPokemon.num(r.getArguments().get("slot"))))return false;Map<String,Object> c=new LinkedHashMap<>(r.getArguments());c.put("type",r.getName());choices[s]=c;return true;}return false;}
+ public static List<GrowthPokemon> demoTeam(){List<GrowthPokemon> t=new ArrayList<>();for(String species:Arrays.asList("GROVYLE","MARSHTOMP","COMBUSKEN"))t.add(new GrowthPokemon(UUID.nameUUIDFromBytes(("demo-"+species).getBytes(java.nio.charset.StandardCharsets.UTF_8)).toString(),species,20));return t;}
+}
