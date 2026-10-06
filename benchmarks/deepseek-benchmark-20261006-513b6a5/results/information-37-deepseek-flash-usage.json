@@ -1,0 +1,1 @@
+{"billable":true,"issued":2,"calls":[{"callIndex":1,"success":true,"latencyMs":6524.493028,"usage":{"inputTokens":660,"outputTokens":57,"totalTokens":717,"cachedInputTokens":512}},{"callIndex":2,"success":true,"latencyMs":6058.786736,"usage":{"inputTokens":792,"outputTokens":55,"totalTokens":847,"cachedInputTokens":640}}]}

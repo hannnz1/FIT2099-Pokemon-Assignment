@@ -1,0 +1,1720 @@
+{
+  "version": 5,
+  "world": {
+    "round": 10,
+    "result": "LEFT_WON",
+    "activeSlot": 1,
+    "ownTeam": [
+      {
+        "captureId": "8c16080f-03d3-3930-88ab-aaf10d785348",
+        "species": "GROVYLE",
+        "experience": 5460,
+        "hp": 0,
+        "pp": {
+          "POUND": 29,
+          "LEER": 30,
+          "ABSORB": 18,
+          "QUICK_ATTACK": 30
+        },
+        "burned": false,
+        "attackStage": 0,
+        "defenseStage": 0,
+        "speedStage": 0,
+        "accuracyStage": 0,
+        "chain": 0,
+        "traits": {
+          "nature": "HARDY",
+          "ev": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "NONE",
+          "sleepTurns": 0,
+          "confusionTurns": 0
+        },
+        "ability": "OVERGROW",
+        "name": "森林蜥蜴",
+        "level": 20,
+        "maxHp": 53,
+        "stats": [
+          53,
+          34,
+          26,
+          42,
+          34,
+          46
+        ],
+        "art": "grovyle.png",
+        "types": [
+          "GRASS"
+        ],
+        "nextLevelExperience": 6458,
+        "levelCap": 40,
+        "evolutionLevel": 36,
+        "evolutionSpecies": "SCEPTILE",
+        "evolutionAvailable": false,
+        "availableMoves": [
+          "POUND",
+          "LEER",
+          "ABSORB",
+          "QUICK_ATTACK",
+          "FURY_CUTTER",
+          "PURSUIT"
+        ],
+        "moves": [
+          {
+            "id": "POUND",
+            "name": "拍击",
+            "type": "NORMAL",
+            "power": 40,
+            "accuracy": 100,
+            "maxPp": 35,
+            "priority": 0,
+            "effect": "",
+            "pp": 29
+          },
+          {
+            "id": "LEER",
+            "name": "瞪眼",
+            "type": "NORMAL",
+            "power": 0,
+            "accuracy": 100,
+            "maxPp": 30,
+            "priority": 0,
+            "effect": "DEF_DOWN",
+            "pp": 30
+          },
+          {
+            "id": "ABSORB",
+            "name": "吸取",
+            "type": "GRASS",
+            "power": 20,
+            "accuracy": 100,
+            "maxPp": 20,
+            "priority": 0,
+            "effect": "DRAIN",
+            "pp": 18
+          },
+          {
+            "id": "QUICK_ATTACK",
+            "name": "电光一闪",
+            "type": "NORMAL",
+            "power": 40,
+            "accuracy": 100,
+            "maxPp": 30,
+            "priority": 1,
+            "effect": "",
+            "pp": 30
+          }
+        ]
+      },
+      {
+        "captureId": "9fa04b2d-8a22-3459-98fb-83a62b1a9296",
+        "species": "MARSHTOMP",
+        "experience": 5460,
+        "hp": 42,
+        "pp": {
+          "TACKLE": 35,
+          "GROWL": 40,
+          "MUD_SLAP": 10,
+          "WATER_GUN": 23
+        },
+        "burned": false,
+        "attackStage": 0,
+        "defenseStage": 0,
+        "speedStage": 0,
+        "accuracyStage": 0,
+        "chain": 0,
+        "traits": {
+          "nature": "HARDY",
+          "ev": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "NONE",
+          "sleepTurns": 0,
+          "confusionTurns": 0
+        },
+        "ability": "TORRENT",
+        "name": "沼跃鱼",
+        "level": 20,
+        "maxHp": 61,
+        "stats": [
+          61,
+          42,
+          36,
+          32,
+          36,
+          28
+        ],
+        "art": "marshtomp.png",
+        "types": [
+          "WATER",
+          "GROUND"
+        ],
+        "nextLevelExperience": 6458,
+        "levelCap": 40,
+        "evolutionLevel": 36,
+        "evolutionSpecies": "SWAMPERT",
+        "evolutionAvailable": false,
+        "availableMoves": [
+          "TACKLE",
+          "GROWL",
+          "MUD_SLAP",
+          "WATER_GUN",
+          "MUD_SHOT"
+        ],
+        "moves": [
+          {
+            "id": "TACKLE",
+            "name": "撞击",
+            "type": "NORMAL",
+            "power": 35,
+            "accuracy": 95,
+            "maxPp": 35,
+            "priority": 0,
+            "effect": "",
+            "pp": 35
+          },
+          {
+            "id": "GROWL",
+            "name": "叫声",
+            "type": "NORMAL",
+            "power": 0,
+            "accuracy": 100,
+            "maxPp": 40,
+            "priority": 0,
+            "effect": "ATK_DOWN",
+            "pp": 40
+          },
+          {
+            "id": "MUD_SLAP",
+            "name": "掷泥",
+            "type": "GROUND",
+            "power": 20,
+            "accuracy": 100,
+            "maxPp": 10,
+            "priority": 0,
+            "effect": "ACCURACY_DOWN",
+            "pp": 10
+          },
+          {
+            "id": "WATER_GUN",
+            "name": "水枪",
+            "type": "WATER",
+            "power": 40,
+            "accuracy": 100,
+            "maxPp": 25,
+            "priority": 0,
+            "effect": "",
+            "pp": 23
+          }
+        ]
+      },
+      {
+        "captureId": "03ef6142-6ad9-3cd3-be60-e4334453f2d9",
+        "species": "COMBUSKEN",
+        "experience": 5460,
+        "hp": 57,
+        "pp": {
+          "SCRATCH": 35,
+          "GROWL": 40,
+          "EMBER": 25,
+          "DOUBLE_KICK": 30
+        },
+        "burned": false,
+        "attackStage": 0,
+        "defenseStage": 0,
+        "speedStage": 0,
+        "accuracyStage": 0,
+        "chain": 0,
+        "traits": {
+          "nature": "HARDY",
+          "ev": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "NONE",
+          "sleepTurns": 0,
+          "confusionTurns": 0
+        },
+        "ability": "BLAZE",
+        "name": "力壮鸡",
+        "level": 20,
+        "maxHp": 57,
+        "stats": [
+          57,
+          42,
+          32,
+          42,
+          32,
+          30
+        ],
+        "art": "combusken.png",
+        "types": [
+          "FIRE",
+          "FIGHTING"
+        ],
+        "nextLevelExperience": 6458,
+        "levelCap": 40,
+        "evolutionLevel": 36,
+        "evolutionSpecies": "BLAZIKEN",
+        "evolutionAvailable": false,
+        "availableMoves": [
+          "SCRATCH",
+          "GROWL",
+          "EMBER",
+          "DOUBLE_KICK",
+          "PECK"
+        ],
+        "moves": [
+          {
+            "id": "SCRATCH",
+            "name": "抓",
+            "type": "NORMAL",
+            "power": 40,
+            "accuracy": 100,
+            "maxPp": 35,
+            "priority": 0,
+            "effect": "",
+            "pp": 35
+          },
+          {
+            "id": "GROWL",
+            "name": "叫声",
+            "type": "NORMAL",
+            "power": 0,
+            "accuracy": 100,
+            "maxPp": 40,
+            "priority": 0,
+            "effect": "ATK_DOWN",
+            "pp": 40
+          },
+          {
+            "id": "EMBER",
+            "name": "火花",
+            "type": "FIRE",
+            "power": 40,
+            "accuracy": 100,
+            "maxPp": 25,
+            "priority": 0,
+            "effect": "BURN",
+            "pp": 25
+          },
+          {
+            "id": "DOUBLE_KICK",
+            "name": "二连踢",
+            "type": "FIGHTING",
+            "power": 30,
+            "accuracy": 100,
+            "maxPp": 30,
+            "priority": 0,
+            "effect": "DOUBLE",
+            "pp": 30
+          }
+        ]
+      }
+    ],
+    "opponentActive": {
+      "species": "COMBUSKEN",
+      "name": "力壮鸡",
+      "level": 20,
+      "hp": 0,
+      "maxHp": 57,
+      "types": [
+        "FIRE",
+        "FIGHTING"
+      ],
+      "status": "NONE"
+    },
+    "opponentTeam": [
+      {
+        "species": "GROVYLE",
+        "name": "森林蜥蜴",
+        "level": 20,
+        "hp": 0,
+        "maxHp": 53,
+        "types": [
+          "GRASS"
+        ],
+        "status": "NONE"
+      },
+      {
+        "species": "MARSHTOMP",
+        "name": "沼跃鱼",
+        "level": 20,
+        "hp": 0,
+        "maxHp": 61,
+        "types": [
+          "WATER",
+          "GROUND"
+        ],
+        "status": "NONE"
+      },
+      {
+        "species": "COMBUSKEN",
+        "name": "力壮鸡",
+        "level": 20,
+        "hp": 0,
+        "maxHp": 57,
+        "types": [
+          "FIRE",
+          "FIGHTING"
+        ],
+        "status": "NONE"
+      }
+    ],
+    "canChoose": false,
+    "choiceLocked": false,
+    "legalMoves": [
+      "TACKLE",
+      "GROWL",
+      "MUD_SLAP",
+      "WATER_GUN"
+    ],
+    "legalSwitches": [
+      2
+    ]
+  },
+  "trace": [
+    {
+      "index": 1,
+      "round": 1,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 24,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 10,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 53,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 53,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 43,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 29,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 2,
+      "round": 2,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 11,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 10,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 43,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 29,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 32,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 19,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 3,
+      "round": 3,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 10,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 10,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 32,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 19,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 22,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 9,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 4,
+      "round": 4,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 10,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 9,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 22,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 9,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 12,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 0,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 5,
+      "round": 4,
+      "replacement": true,
+      "actions": [
+        {
+          "side": 1,
+          "type": "SWITCH",
+          "slot": 1
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 12,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 0,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 0
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 12,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 61,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 1
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 6,
+      "round": 5,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "ABSORB",
+          "damage": 52,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "TACKLE",
+          "damage": 11,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 12,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 61,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 1
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 27,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 9,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 1
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 7,
+      "round": 6,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "ABSORB",
+          "damage": 9,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "TACKLE",
+          "damage": 0,
+          "ppSpent": 0,
+          "eligible": false,
+          "outcome": "SKIPPED_FAINTED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 27,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 9,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 1
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 31,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 0,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 1
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 8,
+      "round": 6,
+      "replacement": true,
+      "actions": [
+        {
+          "side": 1,
+          "type": "SWITCH",
+          "slot": 2
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 31,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 0,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 1
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 31,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 57,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 2
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 9,
+      "round": 7,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 8,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "EMBER",
+          "damage": 30,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 31,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 57,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 2
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 1,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 49,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 2
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 10,
+      "round": 8,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "POUND",
+          "damage": 9,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "EMBER",
+          "damage": 1,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 1,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 49,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 2
+      },
+      "after": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 0,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 40,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 2
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 11,
+      "round": 8,
+      "replacement": true,
+      "actions": [
+        {
+          "side": 0,
+          "type": "SWITCH",
+          "slot": 1
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "GROVYLE",
+          "name": "森林蜥蜴",
+          "level": 20,
+          "hp": 0,
+          "maxHp": 53,
+          "types": [
+            "GRASS"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 40,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 0,
+        "rightSlot": 2
+      },
+      "after": {
+        "left": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 61,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 40,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 1,
+        "rightSlot": 2
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 12,
+      "round": 9,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "SCRATCH",
+          "damage": 9,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "WATER_GUN",
+          "damage": 26,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 61,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 40,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 1,
+        "rightSlot": 2
+      },
+      "after": {
+        "left": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 52,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 14,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 1,
+        "rightSlot": 2
+      },
+      "result": "ACTIVE"
+    },
+    {
+      "index": 13,
+      "round": 10,
+      "replacement": false,
+      "actions": [
+        {
+          "side": 1,
+          "type": "MOVE",
+          "moveId": "SCRATCH",
+          "damage": 10,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        },
+        {
+          "side": 0,
+          "type": "MOVE",
+          "moveId": "WATER_GUN",
+          "damage": 14,
+          "ppSpent": 1,
+          "eligible": true,
+          "outcome": "RESOLVED"
+        }
+      ],
+      "before": {
+        "left": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 52,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 14,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 1,
+        "rightSlot": 2
+      },
+      "after": {
+        "left": {
+          "species": "MARSHTOMP",
+          "name": "沼跃鱼",
+          "level": 20,
+          "hp": 42,
+          "maxHp": 61,
+          "types": [
+            "WATER",
+            "GROUND"
+          ],
+          "status": "NONE"
+        },
+        "right": {
+          "species": "COMBUSKEN",
+          "name": "力壮鸡",
+          "level": 20,
+          "hp": 0,
+          "maxHp": 57,
+          "types": [
+            "FIRE",
+            "FIGHTING"
+          ],
+          "status": "NONE"
+        },
+        "leftSlot": 1,
+        "rightSlot": 2
+      },
+      "result": "LEFT_WON"
+    }
+  ],
+  "decisions": [
+    {
+      "side": 0,
+      "round": 0,
+      "model": "baseline",
+      "latencyMs": 0.2093,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 1,
+      "model": "baseline",
+      "latencyMs": 0.2307,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 1,
+      "model": "baseline",
+      "latencyMs": 0.26,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 2,
+      "model": "baseline",
+      "latencyMs": 0.2667,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 2,
+      "model": "baseline",
+      "latencyMs": 0.2174,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 3,
+      "model": "baseline",
+      "latencyMs": 0.2223,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 3,
+      "model": "baseline",
+      "latencyMs": 0.2128,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 4,
+      "model": "baseline",
+      "latencyMs": 0.2117,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 4,
+      "model": "baseline",
+      "latencyMs": 0.0884,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_switch",
+      "arguments": {
+        "slot": 1
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 4,
+      "model": "baseline",
+      "latencyMs": 0.2442,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "TACKLE"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 5,
+      "model": "baseline",
+      "latencyMs": 0.2961,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "ABSORB"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 5,
+      "model": "baseline",
+      "latencyMs": 0.2798,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "ABSORB"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 6,
+      "model": "baseline",
+      "latencyMs": 0.2659,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "TACKLE"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 6,
+      "model": "baseline",
+      "latencyMs": 0.0943,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_switch",
+      "arguments": {
+        "slot": 2
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 6,
+      "model": "baseline",
+      "latencyMs": 0.1982,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "EMBER"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 7,
+      "model": "baseline",
+      "latencyMs": 0.221,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 7,
+      "model": "baseline",
+      "latencyMs": 0.269,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "POUND"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 8,
+      "model": "baseline",
+      "latencyMs": 0.2647,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "EMBER"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 8,
+      "model": "baseline",
+      "latencyMs": 0.0624,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_switch",
+      "arguments": {
+        "slot": 1
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 8,
+      "model": "baseline",
+      "latencyMs": 0.2089,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "WATER_GUN"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 9,
+      "model": "baseline",
+      "latencyMs": 0.1892,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "SCRATCH"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 1,
+      "round": 9,
+      "model": "baseline",
+      "latencyMs": 0.2847,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "SCRATCH"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    },
+    {
+      "side": 0,
+      "round": 10,
+      "model": "baseline",
+      "latencyMs": 0.2183,
+      "usage": {
+        "totalTokens": 0
+      },
+      "tool": "battle_move",
+      "arguments": {
+        "moveId": "WATER_GUN"
+      },
+      "outcome": "CHOICE_ACCEPTED"
+    }
+  ],
+  "calls": [
+    12,
+    13
+  ],
+  "tokens": 0,
+  "usageIncomplete": false
+}

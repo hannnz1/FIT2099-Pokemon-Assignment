@@ -74,3 +74,4 @@ export function questTaskPresentation(view){
 }
 
 export const fieldCodes={SKILL_USED:"使用技能",PARTNER_FAINTED:"伙伴已倒下，请收回休整",USE_SKILL_REQUIRED:"成长伙伴请使用技能按钮",GROWTH_PARTNER_REQUIRED:"请切换为成长伙伴",MOVE_NOT_EQUIPPED:"该技能未装备",NO_PP:"技能PP已用完，请收回并休整",BERRY_STAGE_COMPLETED:"树果交付阶段完成，继续下一阶段",RESOURCE_WAITED:"树果格被占用，等待一回合",RESOURCE_APPROACHED:"已靠近被占用的树果格",FIELD_OBSERVED:'查看野外实际状态',TARGET_ADJACENT:'已到达目标相邻格',TARGET_NOT_IN_TASK:'目标不属于当前确认的委托',NO_PATH:'当前没有可通行路线，请调整位置后继续',STAGE_OPERATION_NOT_ALLOWED:'当前阶段不允许此操作',INVALID_DEADLINE:'截止回合已到达，请取消当前确认并重新设置目标'};
+

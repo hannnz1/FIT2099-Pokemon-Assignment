@@ -54,6 +54,12 @@ public final class JdbcWorldStore implements WorldStore {
         } catch(StoreException e) { throw e; }
         catch(SQLException | IOException | RuntimeException e) { throw new StoreException(StoreException.Code.DATABASE_ERROR); }
     }
+    public synchronized boolean delete(String owner) {
+        ensureOpen();String key=CheckpointDocument.ownerKey(owner);
+        try(Connection c=factory.open();PreparedStatement s=c.prepareStatement("DELETE FROM pokemon_agent_world_checkpoints WHERE owner_hash=?")) {
+            s.setQueryTimeout(5);s.setString(1,key);s.executeUpdate();return true;
+        } catch(SQLException | RuntimeException e) { throw new StoreException(StoreException.Code.DATABASE_ERROR); }
+    }
     public synchronized void close() { closed=true; }
     private void ensureOpen() { if(closed) throw new StoreException(StoreException.Code.CLOSED); }
     private static void rollback(Connection connection) { try { connection.rollback(); } catch(SQLException ignored) {} }

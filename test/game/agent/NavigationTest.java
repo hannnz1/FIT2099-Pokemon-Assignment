@@ -14,6 +14,26 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NavigationTest {
+    @Test void temporaryActorBlockWaitsWithoutMovingThroughActorButWallDoesNotWait() {
+        GameMap m=map(".....");Player a=new Player("Agent",'a',100),npc=new Player("Professor",'p',100),b=new Player("Blocker",'b',100);
+        m.addActor(a,m.at(0,0));m.addActor(b,m.at(1,0));m.addActor(npc,m.at(4,0));NavigationService nav=new NavigationService();
+        assertEquals("INTERACTION_WAITED",nav.approach(a,m,npc,p->true,()->true).getCode());assertEquals(m.at(0,0),m.locationOf(a));
+        assertEquals(m.at(1,0),m.locationOf(b));assertEquals("NO_PATH",nav.approach(a,m,npc,p->p.x()<2,()->true).getCode());
+        m.removeActor(b);assertEquals("MOVED",nav.approach(a,m,npc,p->true,()->true).getCode());
+        GameMap w=map(".#...");Player c=new Player("Agent",'c',100),n=new Player("Professor",'n',100);w.addActor(c,w.at(0,0));w.addActor(n,w.at(4,0));
+        assertEquals("NO_PATH",nav.approach(c,w,n,p->true,()->true).getCode());
+    }
+    @Test void npcNavigationStopsAtInteractionRangeInsteadOfOccupiedLandmark() {
+        GameMap m=map(".....",".....",".....");Player a=new Player("Agent",'a',100),npc=new Player("Professor",'p',100),other=new Player("Player",'o',100);
+        m.addActor(a,m.at(0,1));m.addActor(npc,m.at(3,1));m.addActor(other,m.at(2,1));
+        GameToolRegistry tools=new GameToolRegistry(q->null);
+        GameTools.register(tools,a,m,Collections.singletonMap("laboratory",m.at(2,1)),p->true,()->true,Collections.singletonMap("laboratory",npc));
+        ActionResult r=null;for(int i=0;i<5;i++){r=tools.execute(new ToolRequest("step"+i,"move_to",Json.object("locationId","laboratory")));if(r.getStatus()==ActionResult.Status.SUCCESS)break;}
+        assertEquals("ARRIVED",r.getCode());assertNotEquals(m.at(2,1),m.locationOf(a));
+        assertTrue(m.locationOf(npc).getExits().stream().anyMatch(e->e.getDestination()==m.locationOf(a)));
+        assertEquals(m.at(2,1),m.locationOf(other));
+        assertEquals("INTERRUPTED",new NavigationService().approach(a,m,npc,p->true,()->false).getCode());
+    }
     private GameMap map(String... rows) {
         GameMap map = new GameMap(new FancyGroundFactory(new Dirt(), new Wall()), Arrays.asList(rows));
         new World(new Display()).addGameMap(map); return map;

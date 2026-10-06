@@ -14,3 +14,4 @@
 Ledger: continuous authorization carries from user; implement inline in existing checkout to preserve all current changes. No API calls required. Position ownership intentionally moves from static collection anchor to generation-matched quest projection to keep follower position, Mudkip/NPC positions and turn in one atomic checkpoint.
 
 Ledger outcome: baseline FOLLOW state test failed (missing state); implemented real follow. Client three new tests first failed then passed. Area restriction test initially lacked AREA_RESTRICTED flag, fixed setup against TaskIntent contract; no product change. Reviewer found no important defect; recommended detour test added and passed. Full Java+PostgreSQL 243/243; client42/42; Java8 build; packaged browser restart+continued follow; offline HTTP script passed. No real API calls or secrets in deliverables.
+

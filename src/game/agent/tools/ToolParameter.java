@@ -7,12 +7,15 @@ import java.math.BigInteger;
 public final class ToolParameter {
     public enum Type { STRING, INTEGER, BOOLEAN }
     private final Type type;
+    private java.util.List<String> allowedValues=java.util.Collections.emptyList();
     private final int minimum;
     private final int maximum;
     private ToolParameter(Type type, int minimum, int maximum) {
         this.type = type; this.minimum = minimum; this.maximum = maximum;
     }
     public static ToolParameter string() { return new ToolParameter(Type.STRING, 0, 0); }
+    public static ToolParameter literal(String value) { if(value==null||value.trim().isEmpty())throw new IllegalArgumentException("Empty literal");ToolParameter p=string();p.allowedValues=java.util.Collections.singletonList(value);return p; }
+    public java.util.List<String> getAllowedValues(){return allowedValues;}
     public static ToolParameter bool() { return new ToolParameter(Type.BOOLEAN, 0, 0); }
     public static ToolParameter integer(int minimum, int maximum) {
         if (minimum > maximum) throw new IllegalArgumentException("Invalid numeric interval");
@@ -22,7 +25,7 @@ public final class ToolParameter {
     public int getMinimum() { return minimum; }
     public int getMaximum() { return maximum; }
     public boolean accepts(Object value) {
-        if (type == Type.STRING) return value instanceof String && !((String) value).trim().isEmpty();
+        if (type == Type.STRING) return value instanceof String && !((String) value).trim().isEmpty() && (allowedValues.isEmpty()||allowedValues.contains(value));
         if (type == Type.BOOLEAN) return value instanceof Boolean;
         // Only immutable JSON numeric representations; never retain a mutable Number.
         if (!(value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long

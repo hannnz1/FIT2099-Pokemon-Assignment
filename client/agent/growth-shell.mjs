@@ -2,7 +2,7 @@ import {agentPresentation} from './game-ui.mjs';
 import {pokemonNames,portraitUrl} from './pokemon-art.mjs';
 export function shellStatus(view,online,busy,pending){
  const w=view?.world??{},agent=agentPresentation(view??{},online,busy);
- const save=!online?'离线 · 显示上次进度':view?.status==='STORAGE_ERROR'?'存档失败，请恢复':pending?'操作未确认':busy?'正在确认操作…':view?.storage==='PERSISTENT'?'自动存档已同步':'内存模式 · 关闭后不保留';
+ const save=!online?'离线 · 显示上次进度':view?.status==='STORAGE_ERROR'?'存档失败，请恢复':busy?'正在确认操作…':pending?'操作未确认':view?.storage==='PERSISTENT'?'自动存档已同步':'内存模式 · 关闭后不保留';
  return {save,period:Math.floor((w.turn??0)/5)%2?'夜晚':'白昼',turn:w.turn??0,task:view?.status==='IDLE'?'自由探索':agent.label+(view?.targetLevel&&w.partner?` · Lv.${w.partner.level} → ${view.targetLevel}`:''),teamCount:w.team?.length??0};
 }
 export function bagPartners(world){return (world.team??[]).filter(p=>p.captureId!==world.partner?.captureId);}
@@ -13,21 +13,23 @@ export function navigationPresentation(view,context={}){
  const w=view?.world??{},blocked=!view?'正在读取地图':context.online===false?'请先重新连接':view.status==='STORAGE_ERROR'?'请先恢复存档':context.pending?'正在核对上一条操作，请稍候':context.returning?'正在自动返程，请稍候':context.busy?'正在处理操作，请稍候':['RUNNING','REPLANNING','PARSING'].includes(view.status)?'AI 正在培养，请先暂停或取消委托':!w.partner?'请先选择伙伴':!view.manualAllowed?'当前暂不可操作':'';
  const regions=(w.regions??[]).map(r=>{const current=r.id===w.region,locked=r.unlocked===false,reason=current?'你正在这里':locked?'请先完成前一区域调查':blocked;return {id:r.id,name:r.name??navigationNames[r.id]??r.id,status:current?'当前':locked?'未解锁':'已解锁',reason,enabled:!reason};});
  const recoveryReason=blocked||(w.canRest?'已在恢复点':'');
- return {current:navigationNames[w.region]??w.region??'读取中',regions,recovery:{enabled:!recoveryReason,reason:recoveryReason}};
+ return {current:navigationNames[w.region]??w.region??'读取中',regions,recovery:{enabled:!recoveryReason,reason:recoveryReason,name:w.region==='lab'?'休整设备':'营地',action:w.region==='lab'?'前往休整点':'前往营地'}};
 }
 export function renderNavigation(host,presentation,onRegion,onRecovery){
  const doc=host.ownerDocument;
  const row=(name,status,label,enabled,reason,action,id)=>{const item=doc.createElement('div');item.className='navigation-row';const info=doc.createElement('div'),title=doc.createElement('strong'),badge=doc.createElement('span'),hint=doc.createElement('small'),button=doc.createElement('button');title.textContent=name;badge.textContent=status;badge.className='navigation-badge';hint.textContent=reason;hint.id='navigation-reason-'+id;hint.hidden=!reason;info.append(title,badge,hint);button.textContent=label;button.disabled=!enabled;button.setAttribute('aria-label',name+'：'+label);if(reason)button.setAttribute('aria-describedby',hint.id);button.addEventListener('click',action);item.append(info,button);return item;};
  const list=doc.createElement('div');list.className='navigation-list';
  for(const r of presentation.regions)list.append(row(r.name,r.status,'向入口走一步',r.enabled,r.reason,()=>onRegion(r.id),r.id));
- const camp=doc.createElement('section');camp.className='navigation-camp';const heading=doc.createElement('h3');heading.textContent='恢复点';camp.append(heading,row('营地','恢复全队','前往营地',presentation.recovery.enabled,presentation.recovery.reason,onRecovery,'camp'));
+ const camp=doc.createElement('section');camp.className='navigation-camp';const heading=doc.createElement('h3');heading.textContent='恢复点';camp.append(heading,row(presentation.recovery.name??'营地','恢复全队',presentation.recovery.action??'前往营地',presentation.recovery.enabled,presentation.recovery.reason,onRecovery,'camp'));
  host.replaceChildren(list,camp);
 }
 export function mountGrowthShell(doc=globalThis.document){
+ const footer=doc.querySelector('.field-footer');const targetObserver=new ResizeObserver(()=>{doc.body.style.setProperty('--target-bottom',Math.max(110,innerHeight-footer.getBoundingClientRect().top+8)+'px');});targetObserver.observe(doc.querySelector('.player-field'));targetObserver.observe(footer);window.addEventListener('pagehide',()=>targetObserver.disconnect(),{once:true});
  const dialogs=[...doc.querySelectorAll('.player-dialog')];
- const open=id=>{const dialog=doc.getElementById(id);if(!dialog)return;for(const d of dialogs)if(d.open)d.close();dialog.showModal();};
+ const open=id=>{const dialog=doc.getElementById(id);if(!dialog)return;for(const d of dialogs)if(d.open)d.close();dialog.showModal();dialog.querySelector('[data-close-panel]').focus({preventScroll:true});};
  for(const trigger of doc.querySelectorAll('[data-open-panel]'))trigger.addEventListener('click',()=>open(trigger.dataset.openPanel));
  for(const dialog of dialogs){
+  dialog.addEventListener('click',event=>{if(event.target===dialog){const box=dialog.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)dialog.close();}});
   dialog.querySelector('[data-close-panel]').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('close',()=>doc.getElementById('map').focus({preventScroll:true}));
  }
@@ -37,7 +39,8 @@ export function mountGrowthShell(doc=globalThis.document){
   const note=card.querySelector('.experience-note');if(note){const level=p.level,base=Math.max(0,Math.floor(6*level*level*level/5)-15*level*level+100*level-140),total=p.nextLevelExperience-base;const meter=doc.createElement('progress');meter.className='exp-meter';meter.max=Math.max(1,total);meter.value=total>0?Math.max(0,p.experience-base):1;meter.setAttribute('aria-label',note.textContent);meter.title=note.textContent;note.replaceWith(meter);return note;}
  },update(view,online,busy,pending){
   const status=shellStatus(view,online,busy,pending);
-  doc.body.classList.toggle('connection-normal',online&&!pending);
+  doc.body.classList.toggle('has-partner',Boolean(view?.world?.partner));
+  doc.body.classList.toggle('connection-normal',online&&(!pending||busy));
   doc.getElementById('hud-period').textContent=(status.period==='白昼'?'☀ ':'☾ ')+status.period;
   doc.getElementById('hud-turn').textContent='第 '+status.turn+' 回合';
   const save=doc.getElementById('hud-save');save.textContent=status.save==='自动存档已同步'?'✓ 已保存':status.save;save.title=status.save;

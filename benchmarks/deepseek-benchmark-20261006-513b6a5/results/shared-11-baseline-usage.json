@@ -1,0 +1,1 @@
+{"billable":false,"issued":4,"calls":[{"callIndex":1,"success":true,"latencyMs":5.234764,"usage":{}},{"callIndex":2,"success":true,"latencyMs":0.46867,"usage":{}},{"callIndex":3,"success":true,"latencyMs":0.559662,"usage":{}},{"callIndex":4,"success":true,"latencyMs":0.588536,"usage":{}}]}

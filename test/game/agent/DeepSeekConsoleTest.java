@@ -18,8 +18,7 @@ class DeepSeekConsoleTest {
             DeepSeekGatewayTest.action("move_to","{\"locationId\":\"orchard\"}"),
             DeepSeekGatewayTest.action("pickup","{\"itemId\":\"BERRY\",\"quantity\":2}"),
             DeepSeekGatewayTest.action("move_to","{\"locationId\":\"alternative\"}"),
-            DeepSeekGatewayTest.action("pickup","{\"itemId\":\"BERRY\",\"quantity\":1}"),
-            DeepSeekGatewayTest.action("move_to","{\"locationId\":\"laboratory\"}")));
+            DeepSeekGatewayTest.action("pickup","{\"itemId\":\"BERRY\",\"quantity\":1}")));
         String[] quest=new String[1];
         int result=DeepSeekAgentConsole.run(Collections.singletonMap("DEEPSEEK_API_KEY","test-key"),
             new ByteArrayInputStream("完成树果任务，不要花金币\ny\n".getBytes("UTF-8")),new PrintStream(output,true,"UTF-8"),(m,k,body,t)->{

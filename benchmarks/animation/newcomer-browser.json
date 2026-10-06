@@ -1,0 +1,61 @@
+{
+  "automation": true,
+  "humanObservations": false,
+  "paidCalls": 0,
+  "results": [
+    {
+      "starter": 0,
+      "stages": [
+        "SELECT",
+        "PRACTICE",
+        "FOREST",
+        "BATTLE",
+        "REST_FIRST",
+        "CAPTURE",
+        "CAMP",
+        "GROWTH",
+        "RETURN",
+        "TRAINER"
+      ],
+      "rookieVictory": true,
+      "originalPreserved": true,
+      "errors": []
+    },
+    {
+      "starter": 1,
+      "stages": [
+        "SELECT",
+        "PRACTICE",
+        "FOREST",
+        "BATTLE",
+        "REST_FIRST",
+        "CAPTURE",
+        "CAMP",
+        "GROWTH",
+        "RETURN",
+        "TRAINER"
+      ],
+      "rookieVictory": true,
+      "originalPreserved": true,
+      "errors": []
+    },
+    {
+      "starter": 2,
+      "stages": [
+        "SELECT",
+        "PRACTICE",
+        "FOREST",
+        "BATTLE",
+        "REST_FIRST",
+        "CAPTURE",
+        "CAMP",
+        "GROWTH",
+        "RETURN",
+        "TRAINER"
+      ],
+      "rookieVictory": true,
+      "originalPreserved": true,
+      "errors": []
+    }
+  ]
+}

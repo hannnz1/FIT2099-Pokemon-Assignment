@@ -58,3 +58,4 @@ public final class WildEncounter {
  }
  private static int num(Object value){if(!(value instanceof Number))throw new IllegalArgumentException("INVALID_WILD_CHECKPOINT");return new java.math.BigDecimal(value.toString()).intValueExact();}
 }
+

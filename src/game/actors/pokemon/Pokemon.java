@@ -42,3 +42,4 @@ public abstract class Pokemon extends Actor {
     }
   }
 }
+

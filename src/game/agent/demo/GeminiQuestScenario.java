@@ -394,6 +394,6 @@ public final class GeminiQuestScenario {
             state.put("knownLocations",Json.write(locations)); state.put("constraints",intent.getConstraints().toString());
             state.put("summonedPokemon",Json.write(summonedState()));state.put("worldPeriod",clock.period());state.put("nightStarts","60");state.put("allowedAreaId",intent.getAreaId()==null?"ALL":intent.getAreaId());
             return state;
-        },()->session.getQuestStatus()==BerryQuestSession.QuestStatus.COMPLETED,operationTimeoutMillis,evaluationRandom==null?30:evaluationDecisionLimit,evaluationRandom==null?12:100,evaluationRandom==null?5:8);
+        },()->session.getQuestStatus()==BerryQuestSession.QuestStatus.COMPLETED,operationTimeoutMillis,evaluationRandom==null?30:evaluationDecisionLimit,evaluationRandom==null?12:100,evaluationRandom==null?5:8).deliveryPriority(()->BerryCoordinationAdvice.deliveryAction(session.observation()));
     }
 }

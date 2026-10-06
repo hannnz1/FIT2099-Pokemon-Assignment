@@ -4,5 +4,7 @@ import java.util.Map;
 public interface WorldStore extends AutoCloseable {
     void save(String owner, Map<String,Object> checkpoint);
     Map<String,Object> load(String owner);
+    /** Delete only the exact owner-scoped checkpoint; legacy repositories may defer cleanup. */
+    default boolean delete(String owner) { return false; }
     @Override void close();
 }

@@ -28,7 +28,7 @@ public final class AgentWebServer implements AutoCloseable {
     }
     static {
         ASSETS.put("/growth","growth.html");ASSETS.put("/growth/","growth.html");
-        for(String name:Arrays.asList("growth.mjs","growth-view.mjs","growth-scene.mjs","growth.css","growth-shell.css","growth-shell.mjs","growth-maps.json","pokemon-art.mjs","client.mjs"))ASSETS.put("/growth/"+name,name);
+        for(String name:Arrays.asList("growth.mjs","growth-view.mjs","growth-scene.mjs","growth.css","growth-shell.css","growth-shell.mjs","player-polish.mjs","growth-maps.json","pokemon-art.mjs","client.mjs"))ASSETS.put("/growth/"+name,name);
         for(String name:Arrays.asList("assets/images/monster-tamer/map/buildings/building_1_level_background.png","assets/images/monster-tamer/map/buildings/building_1_level_foreground.png","assets/images/monster-tamer/map/forest_1_level_background.png","assets/images/monster-tamer/map/forest_1_level_foreground.png","assets/images/monster-tamer/monsters/jivy.png","assets/images/monster-tamer/monsters/frostsaber.png","assets/images/monster-tamer/monsters/Ignivolt.png"))ASSETS.put("/rpg/"+name,"rpg/"+name);
     }
     static {
@@ -36,15 +36,18 @@ public final class AgentWebServer implements AutoCloseable {
         for(String name:Arrays.asList("assets/images/pokemon/portraits/treecko.png","assets/images/pokemon/sprites/treecko.png","assets/images/pokemon/portraits/grovyle.png","assets/images/pokemon/sprites/grovyle.png","assets/images/pokemon/portraits/sceptile.png","assets/images/pokemon/sprites/sceptile.png","assets/images/pokemon/portraits/torchic.png","assets/images/pokemon/sprites/torchic.png","assets/images/pokemon/portraits/combusken.png","assets/images/pokemon/sprites/combusken.png","assets/images/pokemon/portraits/blaziken.png","assets/images/pokemon/sprites/blaziken.png","assets/images/pokemon/portraits/mudkip.png","assets/images/pokemon/sprites/mudkip.png","assets/images/pokemon/portraits/marshtomp.png","assets/images/pokemon/sprites/marshtomp.png","assets/images/pokemon/portraits/swampert.png","assets/images/pokemon/sprites/swampert.png","assets/images/pokemon/sources.json","assets/images/pokemon/UPSTREAM-LICENCE.txt"))ASSETS.put("/rpg/"+name,"rpg/"+name);
     }
     static {ASSETS.put("/evaluation","evaluation.html");ASSETS.put("/evaluation/","evaluation.html");for(String file:Arrays.asList("evaluation.mjs","evaluation-view.mjs","evaluation.css"))ASSETS.put("/evaluation/"+file,file);}
-    static {for(String prefix:Arrays.asList("","/quest","/training","/growth"))for(String file:Arrays.asList("game-ui.mjs","game-ui.css","ui-journey.mjs","failure-recovery.mjs","world-art.mjs","map-boundary.mjs","building-cutout.mjs","growth-entrance.mjs","map-polish.mjs"))ASSETS.put(prefix+"/"+file,file);}
+    static {for(String prefix:Arrays.asList("","/quest","/training","/growth","/duel","/evaluation"))for(String file:Arrays.asList("game-ui.mjs","game-ui.css","ui-journey.mjs","failure-recovery.mjs","world-art.mjs","map-boundary.mjs","building-cutout.mjs","growth-entrance.mjs","map-polish.mjs"))ASSETS.put(prefix+"/"+file,file);}
     static {ASSETS.put("/training/training-ui.css","training-ui.css");}
     static {for(String id:Arrays.asList("orchard","berry","recovery","gate")){String file="rpg/assets/ui/world/"+id+".svg";ASSETS.put("/"+file,file);}}
     static {for(String id:Arrays.asList("professor","merchant")){String file="rpg/assets/ui/npcs/"+id+".svg";ASSETS.put("/"+file,file);}}
+    static {for(String prefix:Arrays.asList("","/quest","/training","/growth","/duel"))for(String file:Arrays.asList("scene-entities.mjs","motion-state.mjs","scene-motion.mjs","movement-input.mjs","battle-effects.mjs","player-identity.mjs","post-adventure.mjs"))ASSETS.put(prefix+"/"+file,file);}
+    static {ASSETS.put("/duel/","duel.html");ASSETS.put("/duel","duel.html");for(String file:Arrays.asList("duel.mjs","duel.css","duel-view.mjs","client.mjs"))ASSETS.put("/duel/"+file,file);}
+    static {for(String file:Arrays.asList("player-frame.css","player-frame.mjs","player-navigation.mjs")){ASSETS.put("/ui/"+file,file);for(String prefix:Arrays.asList("/growth/","/evaluation/","/quest/","/duel/"))ASSETS.put(prefix+file,file);}}
     private static final class Session {
         final String owner,csrf=UUID.randomUUID().toString();
         Session(String owner){this.owner=owner;}
-        WebRoom questRoom,trainingRoom,growthRoom;boolean selectedGrowth;long window,growthWindow;int posts,growthPosts;
-        PokemonCollection collection;EvaluationService evaluation;
+        WebRoom questRoom,trainingRoom,growthRoom;boolean selectedGrowth,selectedDuel;long window,growthWindow;int posts,growthPosts;
+        PokemonCollection collection;EvaluationService evaluation;DuelRoom duelRoom;
         Boolean selectedTraining;
         final Set<String> switched=new LinkedHashSet<>();
         WebRoom room(boolean training){return training?trainingRoom:questRoom;}
@@ -66,7 +69,7 @@ public final class AgentWebServer implements AutoCloseable {
     private final boolean secureCookie;
     private final WorldStore store;
     private final boolean original;
-    private final boolean battle;
+    private final boolean battle;private final PlayerIdentity identities;
     private boolean started;
     public AgentWebServer(int port,ProviderSelection provider,Path assetRoot) throws IOException {
         this(port,provider,assetRoot,false,null);
@@ -81,6 +84,8 @@ public final class AgentWebServer implements AutoCloseable {
         if(port<0 || port>65535) throw new IllegalArgumentException("INVALID_PORT");
         this.provider=Objects.requireNonNull(provider);this.assetRoot=assetRoot==null?null:assetRoot.toAbsolutePath().normalize();
         this.original=original;this.store=store;this.battle=battle;
+        Set<String> inviteHashes=new HashSet<>();for(String h:deploymentEnv.getOrDefault("PLAYER_INVITE_HASHES","").split(","))if(h.matches("[a-f0-9]{64}"))inviteHashes.add(h);
+        identities="true".equals(deploymentEnv.get("PLAYER_IDENTITY_ENABLED"))&&store!=null?new PlayerIdentity(store,inviteHashes):null;
         WebDeployment requested=WebDeployment.fromEnvironment(deploymentEnv,port);
         server=HttpServer.create(new InetSocketAddress(InetAddress.getByName(requested.bindAddress),port),32);
         WebDeployment config=WebDeployment.fromEnvironment(deploymentEnv,getPort());
@@ -93,10 +98,10 @@ public final class AgentWebServer implements AutoCloseable {
     public void start() {
         if(started) throw new IllegalStateException("ALREADY_STARTED");started=true;
         world.scheduleWithFixedDelay(()->{
-            for(Session session:sessions.values()) for(WebRoom room:Arrays.asList(session.questRoom,session.trainingRoom,session.growthRoom))if(room!=null) {
+            for(Session session:sessions.values()) for(WebRoom room:Arrays.asList(session.questRoom,session.trainingRoom,session.growthRoom,session.duelRoom))if(room!=null) {
                 try {room.tick(now());} catch(RuntimeException ignored) {room.close();}
             }
-        for(Session session:sessions.values())if(session.evaluation!=null)session.evaluation.tick(now());
+        for(Session session:sessions.values()){if(session.evaluation!=null)session.evaluation.tick(now());if(session.growthRoom instanceof GrowthRoom&&session.duelRoom!=null)((GrowthRoom)session.growthRoom).recordTrainerVictory(session.duelRoom.snapshot());}
         },100,100,TimeUnit.MILLISECONDS);server.start();
     }
     private void handle(HttpExchange exchange) throws IOException {
@@ -104,7 +109,7 @@ public final class AgentWebServer implements AutoCloseable {
             if(!host.equals(exchange.getRequestHeaders().getFirst("Host"))) {send(exchange,json(403,Json.object("reasonCode","INVALID_HOST")));return;}
             String path=exchange.getRequestURI().getRawPath(),method=exchange.getRequestMethod();
             if(exchange.getRequestURI().getRawQuery()!=null) {send(exchange,json(400,Json.object("reasonCode","QUERY_NOT_ALLOWED")));return;}
-            if(path.startsWith("/api/agent/")||path.startsWith("/api/quest/")||path.startsWith("/api/training/")||path.startsWith("/api/growth/")||path.startsWith("/api/evaluation/")) {
+            if(path.startsWith("/api/player/")||path.startsWith("/api/agent/")||path.startsWith("/api/quest/")||path.startsWith("/api/training/")||path.startsWith("/api/growth/")||path.startsWith("/api/evaluation/")||path.startsWith("/api/duel/")) {
                 if(!method.equals("GET") && !method.equals("POST")) {send(exchange,json(405,Json.object("reasonCode","METHOD_NOT_ALLOWED")));return;}
                 if(method.equals("POST") && !origin.equals(exchange.getRequestHeaders().getFirst("Origin"))) {send(exchange,json(403,Json.object("reasonCode","INVALID_ORIGIN")));return;}
                 String incomingOrigin=exchange.getRequestHeaders().getFirst("Origin");
@@ -121,6 +126,7 @@ public final class AgentWebServer implements AutoCloseable {
                 final boolean training=path.startsWith("/api/training/")||path.startsWith("/api/agent/")&&battle;
                 final String canonical=path.replaceFirst("^/api/(quest|training)/","/api/agent/");
                 send(exchange,onWorld(()->api(canonical,method,cookie,csrf,input,training)));
+            } else if(method.equals("GET")&&path.equals("/healthz")){send(exchange,onWorld(()->json(200,health())));
             } else if(method.equals("GET") && ASSETS.containsKey(path)) {
                 String file=ASSETS.get(path);boolean training=path.equals("/training")||path.startsWith("/training/")||battle&&!path.equals("/quest")&&!path.startsWith("/quest/");
                 if(training&&file.equals("index.html"))file="battle.html";if(training&&file.equals("app.mjs"))file="battle.mjs";if(training&&file.equals("style.css"))file="battle.css";byte[] bytes=asset(file);
@@ -133,17 +139,26 @@ public final class AgentWebServer implements AutoCloseable {
         catch(ExecutionException | RuntimeException error) {send(exchange,json(500,Json.object("reasonCode","SERVER_ERROR")));}
         finally {exchange.close();}
     }
+    private Map<String,Object> health(){int storageErrors=0,failedRooms=0;for(Session s:sessions.values())for(WebRoom room:Arrays.asList(s.questRoom,s.trainingRoom,s.growthRoom,s.duelRoom))if(room!=null){String status=(String)room.snapshot().get("status");if("STORAGE_ERROR".equals(status))storageErrors++;if(Arrays.asList("FAILED","PROVIDER_UNAVAILABLE").contains(status))failedRooms++;}return Json.object("ready",true,"sessions",sessions.size(),"httpActive",http.getActiveCount(),"httpQueue",http.getQueue().size(),"modelActive",models.getActiveCount(),"modelQueue",models.getQueue().size(),"storageErrors",storageErrors,"failedRooms",failedRooms);}
+    private ProviderSelection playerProvider(Session s){return identities!=null&&!identities.registered(s.owner)?ProviderSelection.fromEnvironment(Collections.singletonMap("LLM_PROVIDER","disabled")):provider;}
+    private EvaluationProviders playerEvaluations(Session s){return identities!=null&&!identities.registered(s.owner)?EvaluationProviders.environment(Collections.singletonMap("LLM_PROVIDER","disabled")):evaluationProviders;}
+    private List<game.agent.growth.GrowthPokemon> duelPartners(Session session){
+        Map<String,game.agent.growth.GrowthPokemon> rows=new LinkedHashMap<>();
+        if(session.collection!=null)for(Map<String,Object> row:session.collection.snapshot())if(row.containsKey("growth")&&"IN_BALL".equals(row.get("state"))){game.agent.growth.GrowthPokemon p=game.agent.growth.GrowthPokemon.restore(Json.asObject(row.get("growth")));rows.put(p.captureId,p);}
+        if(session.growthRoom!=null)for(Object row:Json.asArray(Json.asObject(session.growthRoom.snapshot().get("world")).get("team"))){Map<String,Object> v=Json.asObject(row);Set<String> keys=new HashSet<>(Arrays.asList("captureId","species","experience","hp","pp","burned","attackStage","defenseStage","speedStage","accuracyStage","chain","traits"));Map<String,Object> raw=new LinkedHashMap<>();for(String key:keys)if(v.containsKey(key))raw.put(key,v.get(key));game.agent.growth.GrowthPokemon p=game.agent.growth.GrowthPokemon.restore(raw);rows.put(p.captureId,p);}
+        return new ArrayList<>(rows.values());
+    }
     private Response api(String path,String method,String cookie,String csrf,Map<String,Object> body,boolean training) {
-        Session session=sessions.get(cookie);
-        if((path.equals("/api/agent/session")||path.equals("/api/growth/session")||path.equals("/api/evaluation/session")) && method.equals("GET")) {
+        String owner=identities==null?cookie:identities.resolve(cookie);if(owner==null&&(identities==null||!identities.knownDevice(cookie)&&!identities.registered(cookie)))owner=cookie;Session session=sessions.get(owner);
+        if((path.equals("/api/player/session")||path.equals("/api/agent/session")||path.equals("/api/growth/session")||path.equals("/api/evaluation/session")||path.equals("/api/duel/session")) && method.equals("GET")) {
             String setCookie=null;
             if(session==null) {
                 if(sessions.size()>=8) return json(429,Json.object("reasonCode","SESSION_LIMIT"));
-                String token=cookie!=null&&store!=null&&(store.load(cookie)!=null||store.load("battle:"+cookie)!=null||store.load("collection:"+cookie)!=null||store.load("growth:"+cookie)!=null||store.load("evaluation:"+cookie)!=null)?cookie:UUID.randomUUID().toString();
+                String token=identities!=null&&identities.resolve(cookie)!=null?identities.resolve(cookie):cookie!=null&&(identities==null||!identities.knownDevice(cookie)&&!identities.registered(cookie))&&store!=null&&(store.load(cookie)!=null||store.load("battle:"+cookie)!=null||store.load("collection:"+cookie)!=null||store.load("growth:"+cookie)!=null||store.load("evaluation:"+cookie)!=null||store.load("duel:"+cookie)!=null)?cookie:UUID.randomUUID().toString();
                 session=new Session(token);sessions.put(token,session);
-                setCookie=cookieName+"="+token+"; Path=/; Max-Age=2592000; HttpOnly; SameSite=Strict"+(secureCookie?"; Secure":"");
+                setCookie=cookieName+"="+(identities!=null&&identities.resolve(cookie)!=null?cookie:token)+"; Path=/; Max-Age=2592000; HttpOnly; SameSite=Strict"+(secureCookie?"; Secure":"");
             }
-            Response response=json(200,Json.object("csrfToken",session.csrf));
+            Response response=json(200,Json.object("csrfToken",session.csrf,"identityEnabled",identities!=null,"identified",identities!=null&&identities.registered(session.owner)));
             return new Response(response.status,response.bytes,response.type,setCookie);
         }
         if(session==null) return json(401,Json.object("reasonCode","SESSION_REQUIRED"));
@@ -154,8 +169,44 @@ public final class AgentWebServer implements AutoCloseable {
             if(path.startsWith("/api/growth/")){if(now-session.growthWindow>=60000){session.growthWindow=now;session.growthPosts=0;}if(!"CANCEL".equals(body.get("command"))&&++session.growthPosts>600)return json(429,Json.object("reasonCode","RATE_LIMIT"));}
             else if(!Arrays.asList("CANCEL","PAUSE","RECOVER","NPC_PAUSE","NPC_CANCEL").contains(body.get("command")) && ++session.posts>60) return json(429,Json.object("reasonCode","RATE_LIMIT"));
         }
+        if(path.startsWith("/api/player/")){
+            if(identities==null)return json(409,Json.object("reasonCode","IDENTITY_DISABLED"));
+            if(path.equals("/api/player/status")&&method.equals("GET"))return json(200,Json.object("identified",identities.registered(session.owner),"owner",identities.registered(session.owner)?session.owner:null));
+            if(!method.equals("POST"))return json(404,Json.object("reasonCode","NOT_FOUND"));
+            try{
+                if(path.equals("/api/player/preview")){if(!body.keySet().equals(Collections.singleton("recovery")))return json(400,Json.object("reasonCode","INVALID_FIELDS"));return json(200,identities.preview((String)body.get("recovery")));}
+                if(path.equals("/api/player/revoke")){if(!body.isEmpty())return json(400,Json.object("reasonCode","INVALID_FIELDS"));identities.revoke(session.owner,cookie);return new Response(200,json(200,Json.object("revoked",true)).bytes,"application/json; charset=utf-8",cookieName+"=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict"+(secureCookie?"; Secure":""));}
+                for(WebRoom room:Arrays.asList(session.questRoom,session.trainingRoom,session.growthRoom,session.duelRoom))if(room!=null&&Arrays.asList("RUNNING","REPLANNING","WAITING_APPROVAL","STORAGE_ERROR").contains(room.snapshot().get("status")))return json(409,Json.object("reasonCode","IDENTITY_TASK_ACTIVE"));
+                for(WebRoom room:Arrays.asList(session.questRoom,session.trainingRoom))if(room!=null){Map<String,Object> snapshot=room.snapshot();if(snapshot.get("npcAgents") instanceof Map&&"RUNNING".equals(Json.asObject(snapshot.get("npcAgents")).get("status")))return json(409,Json.object("reasonCode","IDENTITY_TASK_ACTIVE"));}
+                if(session.evaluation!=null)for(Object b:Json.asArray(session.evaluation.snapshot().get("batches")))if(Arrays.asList("RUNNING","QUEUED").contains(Json.asObject(b).get("status")))return json(409,Json.object("reasonCode","IDENTITY_TASK_ACTIVE"));
+                Map<String,Object> activated;
+                if(path.equals("/api/player/redeem")&&body.keySet().equals(new HashSet<>(Arrays.asList("invite","confirm","requestId","device","recovery")))&&Boolean.TRUE.equals(body.get("confirm")))activated=identities.redeem(session.owner,(String)body.get("invite"),(String)body.get("requestId"),(String)body.get("device"),(String)body.get("recovery"));
+                else if(path.equals("/api/player/restore")&&body.keySet().equals(new HashSet<>(Arrays.asList("recovery","useCloud")))&&Boolean.TRUE.equals(body.get("useCloud")))activated=identities.restoreDevice((String)body.get("recovery"));
+                else return json(400,Json.object("reasonCode","INVALID_IDENTITY_REQUEST"));
+                String newOwner=(String)activated.get("owner");Session target=sessions.get(newOwner);if(target==null){target=new Session(newOwner);sessions.put(newOwner,target);}
+                if(!session.owner.equals(newOwner)){for(WebRoom room:Arrays.asList(session.questRoom,session.trainingRoom,session.growthRoom,session.duelRoom))if(room!=null)room.close();if(session.evaluation!=null)session.evaluation.close();sessions.remove(session.owner);}
+                activated.put("csrfToken",target.csrf);String device=(String)activated.remove("device");Response result=json(200,activated);return new Response(200,result.bytes,result.type,cookieName+"="+device+"; Path=/; Max-Age=2592000; HttpOnly; SameSite=Strict"+(secureCookie?"; Secure":""));
+            }catch(IllegalArgumentException error){return json(400,Json.object("reasonCode","IDENTITY_CREDENTIAL_INVALID"));}catch(IllegalStateException error){return json(409,Json.object("reasonCode",error.getMessage().matches("[A-Z_]{1,80}")?error.getMessage():"IDENTITY_STORAGE_ERROR"));}
+        }
+        if(path.startsWith("/api/duel/")) {
+            if(path.equals("/api/duel/rooms")&&method.equals("POST")){
+                if(!body.isEmpty())return json(400,Json.object("reasonCode","INVALID_FIELDS"));
+                for(WebRoom previous:Arrays.asList(session.questRoom,session.trainingRoom,session.growthRoom))if(previous!=null&&Arrays.asList("RUNNING","REPLANNING","WAITING_APPROVAL").contains(previous.snapshot().get("status"))){AgentRoom.Reply paused=pause(previous);if(paused.status!=200)return json(paused.status,paused.body);}
+                AgentRoom.Reply npcPaused=pauseNpc(session.questRoom);if(npcPaused!=null&&npcPaused.status!=200)return json(npcPaused.status,npcPaused.body);
+                if(session.collection==null)session.collection=new PokemonCollection(session.owner,store);
+                if(session.growthRoom==null&&store!=null&&store.load("growth:"+session.owner)!=null)session.growthRoom=new GrowthRoom(session.owner,playerProvider(session),models,store,session.collection);
+                final Session duelSession=session;
+                if(session.duelRoom==null)session.duelRoom=new DuelRoom(session.owner,playerProvider(session),playerEvaluations(session),models,store,()->duelPartners(duelSession));
+                session.selectedDuel=true;return json(200,Json.object("roomId",session.duelRoom.getId()));
+            }
+            String[] parts=path.split("/");DuelRoom room=session.duelRoom;
+            if(parts.length!=6||!parts[3].equals("rooms")||room==null||!parts[4].equals(room.getId()))return json(404,Json.object("reasonCode","ROOM_NOT_FOUND"));
+            if(parts[5].equals("snapshot")&&method.equals("GET"))return json(200,room.snapshot());
+            if(parts[5].equals("commands")&&method.equals("POST")){AgentRoom.Reply result=room.command(body,now(),session.selectedDuel?null:"MODE_NOT_SELECTED");return json(result.status,result.body);}
+            return json(404,Json.object("reasonCode","NOT_FOUND"));
+        }
         if(path.startsWith("/api/evaluation/")) {
-            if(session.evaluation==null)session.evaluation=new EvaluationService(session.owner,store,evaluationProviders,models);
+            if(session.evaluation==null)session.evaluation=new EvaluationService(session.owner,store,playerEvaluations(session),models);
             try {
                 if(path.equals("/api/evaluation/catalog")&&method.equals("GET"))return json(200,session.evaluation.catalog());
                 if(path.equals("/api/evaluation/batches")&&method.equals("GET"))return json(200,session.evaluation.snapshot());
@@ -172,23 +223,25 @@ public final class AgentWebServer implements AutoCloseable {
         }
         if(path.startsWith("/api/growth/")) {
             if(path.equals("/api/growth/rooms")&&method.equals("POST")) {
+                if(session.duelRoom!=null&&"RUNNING".equals(session.duelRoom.snapshot().get("status"))){AgentRoom.Reply paused=pause(session.duelRoom);if(paused.status!=200)return json(paused.status,paused.body);}
                 if(!body.isEmpty())return json(400,Json.object("reasonCode","INVALID_FIELDS"));
                 for(WebRoom previous:Arrays.asList(session.questRoom,session.trainingRoom))if(previous!=null&&Arrays.asList("RUNNING","REPLANNING","WAITING_APPROVAL").contains(previous.snapshot().get("status"))){AgentRoom.Reply paused=pause(previous);if(paused.status!=200)return json(paused.status,paused.body);}
                 if(session.collection==null)session.collection=new PokemonCollection(session.owner,store);
-                if(session.growthRoom==null)session.growthRoom=new GrowthRoom(session.owner,provider,models,store,session.collection);
+                if(session.growthRoom==null)session.growthRoom=new GrowthRoom(session.owner,playerProvider(session),models,store,session.collection);
                 AgentRoom.Reply npcPaused=pauseNpc(session.questRoom);if(npcPaused!=null&&npcPaused.status!=200)return json(npcPaused.status,npcPaused.body);
-                session.selectedGrowth=true;return json(200,Json.object("roomId",session.growthRoom.getId()));
+                session.selectedDuel=false;session.selectedGrowth=true;return json(200,Json.object("roomId",session.growthRoom.getId()));
             }
             String[] parts=path.split("/");WebRoom room=session.growthRoom;
             if(parts.length!=6||!parts[3].equals("rooms")||room==null||!parts[4].equals(room.getId()))return json(404,Json.object("reasonCode","ROOM_NOT_FOUND"));
             if(parts[5].equals("snapshot")&&method.equals("GET"))return json(200,room.snapshot());
-            if(parts[5].equals("commands")&&method.equals("POST")){if("RETURN_GROWTH".equals(body.get("command"))&&session.questRoom!=null&&Arrays.asList("RUNNING","REPLANNING","PAUSED","PROVIDER_UNAVAILABLE","WAITING_APPROVAL","PARSING","READY").contains(session.questRoom.snapshot().get("status")))return json(409,Json.object("reasonCode","CANCEL_QUEST_BEFORE_TRAINING"));AgentRoom.Reply result=room.command(body,now(),session.selectedGrowth?null:"MODE_NOT_SELECTED");return json(result.status,result.body);}
+            if(parts[5].equals("commands")&&method.equals("POST")){if("RETURN_GROWTH".equals(body.get("command"))&&session.questRoom!=null&&Arrays.asList("RUNNING","REPLANNING","PAUSED","PROVIDER_UNAVAILABLE","WAITING_APPROVAL","PARSING","READY").contains(session.questRoom.snapshot().get("status")))return json(409,Json.object("reasonCode","CANCEL_QUEST_BEFORE_TRAINING"));AgentRoom.Reply result=room.command(body,now(),session.selectedGrowth&&!session.selectedDuel?null:"MODE_NOT_SELECTED");return json(result.status,result.body);}
             return json(404,Json.object("reasonCode","NOT_FOUND"));
         }
         if(path.equals("/api/agent/rooms") && method.equals("POST")) {
+            if(session.duelRoom!=null&&"RUNNING".equals(session.duelRoom.snapshot().get("status"))){AgentRoom.Reply paused=pause(session.duelRoom);if(paused.status!=200)return json(paused.status,paused.body);}
             if(!body.isEmpty()) return json(400,Json.object("reasonCode","INVALID_FIELDS"));
             if(session.collection==null)session.collection=new PokemonCollection(session.owner,store);
-            if(session.room(training)==null)session.room(training,training?new BattleRoom(session.owner,provider,models,store,session.collection):new AgentRoom(session.owner,provider,models,original,store,session.collection));
+            if(session.room(training)==null)session.room(training,training?new BattleRoom(session.owner,playerProvider(session),models,store,session.collection):new AgentRoom(session.owner,playerProvider(session),models,original,store,session.collection));
             WebRoom previous=session.room(!training);
             if(previous!=null&&Arrays.asList("RUNNING","REPLANNING","WAITING_APPROVAL").contains(previous.snapshot().get("status"))){
                 Map<String,Object> snapshot=previous.snapshot();
@@ -197,7 +250,7 @@ public final class AgentWebServer implements AutoCloseable {
             }
             if(session.growthRoom!=null&&Arrays.asList("RUNNING","REPLANNING").contains(session.growthRoom.snapshot().get("status"))){AgentRoom.Reply paused=pause(session.growthRoom);if(paused.status!=200)return json(paused.status,paused.body);}
             if(training){AgentRoom.Reply npcPaused=pauseNpc(session.questRoom);if(npcPaused!=null&&npcPaused.status!=200)return json(npcPaused.status,npcPaused.body);}
-            session.selectedGrowth=false;session.selectedTraining=training;
+            session.selectedDuel=false;session.selectedGrowth=false;session.selectedTraining=training;
             return json(200,Json.object("roomId",session.room(training).getId()));
         }
         String[] parts=path.split("/");
@@ -206,7 +259,7 @@ public final class AgentWebServer implements AutoCloseable {
             || room==null || !parts[4].equals(room.getId())) return json(404,Json.object("reasonCode","ROOM_NOT_FOUND"));
         if(parts[5].equals("snapshot") && method.equals("GET")){Map<String,Object> snapshot=room.snapshot();List<Map<String,Object>> rows=session.collection.snapshot();
             if(session.collection.deployment()!=null){
-                if(session.questRoom==null)session.questRoom=new AgentRoom(session.owner,provider,models,original,store,session.collection);
+                if(session.questRoom==null)session.questRoom=new AgentRoom(session.owner,playerProvider(session),models,original,store,session.collection);
                 Map<String,Object> quest=training?session.questRoom.snapshot():snapshot;
                 Map<String,Object> actual=quest.get("summoned")==null?null:Json.asObject(quest.get("summoned"));rows=session.collection.snapshot();
                 for(Map<String,Object> row:rows)if("DEPLOYED".equals(row.get("state"))){row.remove("x");row.remove("y");if(actual!=null&&row.get("captureId").equals(actual.get("captureId"))){row.put("x",actual.get("x"));row.put("y",actual.get("y"));}}
@@ -215,7 +268,7 @@ public final class AgentWebServer implements AutoCloseable {
         if(parts[5].equals("commands") && method.equals("POST")) {
             WebRoom other=session.room(!training);
             boolean otherActive=other!=null&&Arrays.asList("RUNNING","REPLANNING","WAITING_APPROVAL").contains(other.snapshot().get("status"));
-            String block=session.selectedGrowth?"MODE_NOT_SELECTED":session.selectedTraining!=null&&session.selectedTraining!=training?"MODE_NOT_SELECTED":otherActive?"OTHER_MODE_ACTIVE":null;
+            String block=session.selectedDuel||session.selectedGrowth?"MODE_NOT_SELECTED":session.selectedTraining!=null&&session.selectedTraining!=training?"MODE_NOT_SELECTED":otherActive?"OTHER_MODE_ACTIVE":null;
             AgentRoom.Reply result=room.command(body,now(),block);
             if(result.status==200&&"SWITCH_MODE".equals(body.get("command"))){
                 String receipt=room.getId()+":"+body.get("taskId")+":"+body.get("requestId");
@@ -272,7 +325,7 @@ public final class AgentWebServer implements AutoCloseable {
     private static long now() {return System.nanoTime()/1000000L;}
     @Override public void close() {
         server.stop(0);
-        try {onWorld(()->{for(Session s:sessions.values())for(WebRoom room:Arrays.asList(s.questRoom,s.trainingRoom,s.growthRoom))if(room!=null)room.close();for(Session s:sessions.values())if(s.evaluation!=null)s.evaluation.close();sessions.clear();return null;});}
+        try {onWorld(()->{for(Session s:sessions.values())for(WebRoom room:Arrays.asList(s.questRoom,s.trainingRoom,s.growthRoom,s.duelRoom))if(room!=null)room.close();for(Session s:sessions.values())if(s.evaluation!=null)s.evaluation.close();sessions.clear();return null;});}
         catch(Exception ignored) { /* executor shutdown still releases resources */ }
         world.shutdownNow();models.shutdownNow();http.shutdownNow();
         if(store!=null)store.close();
@@ -285,3 +338,5 @@ public final class AgentWebServer implements AutoCloseable {
         System.out.println("Pokemon agent: http://127.0.0.1:"+server.getPort());new CountDownLatch(1).await();
     }
 }
+
+

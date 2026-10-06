@@ -1,0 +1,341 @@
+{
+  "base": "http://127.0.0.1:8111",
+  "findings": [
+    {
+      "name": "small phone expanded details do not overlap controls",
+      "pass": true,
+      "detail": {
+        "smallFooter": {
+          "x": 8,
+          "y": 489,
+          "width": 344,
+          "height": 48
+        },
+        "smallDock": {
+          "x": 8,
+          "y": 579,
+          "width": 344,
+          "height": 53
+        }
+      }
+    },
+    {
+      "name": "growth controls visible 1366x768",
+      "pass": true,
+      "detail": {
+        "width": 1366,
+        "height": 768
+      }
+    },
+    {
+      "name": "growth map contained 1366x768",
+      "pass": true,
+      "detail": {
+        "width": 1366,
+        "overflow": 1366,
+        "height": 768,
+        "host": {
+          "x": 20,
+          "y": 87,
+          "width": 1010,
+          "height": 514,
+          "top": 87,
+          "right": 1030,
+          "bottom": 601,
+          "left": 20
+        },
+        "canvas": {
+          "x": 153,
+          "y": 87,
+          "width": 742.4375,
+          "height": 514,
+          "top": 87,
+          "right": 895.4375,
+          "bottom": 601,
+          "left": 153
+        }
+      }
+    },
+    {
+      "name": "growth controls visible 1366x640",
+      "pass": true,
+      "detail": {
+        "width": 1366,
+        "height": 640
+      }
+    },
+    {
+      "name": "growth map contained 1366x640",
+      "pass": true,
+      "detail": {
+        "width": 1366,
+        "overflow": 1366,
+        "height": 640,
+        "host": {
+          "x": 20,
+          "y": 87,
+          "width": 1010,
+          "height": 386,
+          "top": 87,
+          "right": 1030,
+          "bottom": 473,
+          "left": 20
+        },
+        "canvas": {
+          "x": 246,
+          "y": 87,
+          "width": 557.546875,
+          "height": 386,
+          "top": 87,
+          "right": 803.546875,
+          "bottom": 473,
+          "left": 246
+        }
+      }
+    },
+    {
+      "name": "growth controls visible 390x844",
+      "pass": true,
+      "detail": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "growth map contained 390x844",
+      "pass": true,
+      "detail": {
+        "width": 390,
+        "overflow": 390,
+        "height": 844,
+        "host": {
+          "x": 8,
+          "y": 247.296875,
+          "width": 374,
+          "height": 441.703125,
+          "top": 247.296875,
+          "right": 382,
+          "bottom": 689,
+          "left": 8
+        },
+        "canvas": {
+          "x": 8,
+          "y": 280.296875,
+          "width": 374,
+          "height": 374,
+          "top": 280.296875,
+          "right": 382,
+          "bottom": 654.296875,
+          "left": 8
+        }
+      }
+    },
+    {
+      "name": "partner details remain accessible 390",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "growth controls visible 360x640",
+      "pass": true,
+      "detail": {
+        "width": 360,
+        "height": 640
+      }
+    },
+    {
+      "name": "growth map contained 360x640",
+      "pass": true,
+      "detail": {
+        "width": 360,
+        "overflow": 360,
+        "height": 640,
+        "host": {
+          "x": 8,
+          "y": 247.296875,
+          "width": 344,
+          "height": 237.703125,
+          "top": 247.296875,
+          "right": 352,
+          "bottom": 485,
+          "left": 8
+        },
+        "canvas": {
+          "x": 61,
+          "y": 247.296875,
+          "width": 237.703125,
+          "height": 237.703125,
+          "top": 247.296875,
+          "right": 298.703125,
+          "bottom": 485,
+          "left": 61
+        }
+      }
+    },
+    {
+      "name": "partner details remain accessible 360",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "dialog prevents movement",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "navigation enters forest",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "mobile target does not cover controls",
+      "pass": true,
+      "detail": {
+        "target": {
+          "x": 8,
+          "y": 505,
+          "width": 374,
+          "height": 172
+        },
+        "footer": {
+          "x": 8,
+          "y": 685,
+          "width": 374,
+          "height": 56
+        }
+      }
+    },
+    {
+      "name": "keyboard works after touch without scrolling",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "mode menu prevents movement",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "mode menu closes on Escape",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "battle validation visible",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "opponent preview shows actual roster",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "battle actions fit first screen",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "native free battle reaches outcome",
+      "pass": true,
+      "detail": {
+        "status": "COMPLETED",
+        "result": "LEFT_WON",
+        "round": 17
+      }
+    },
+    {
+      "name": "battle outcome visible",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "battle setup can be reopened",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "cancelled battle retains visible outcome",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "stable preset expands cases",
+      "pass": true,
+      "detail": "共 3 个案例 · 免费规则基线"
+    },
+    {
+      "name": "evaluation settings folded after start",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "evaluation result priority",
+      "pass": true,
+      "detail": "1 / 1 项目标达成0 项未达成成长等场景按目标完成计；对战按获胜计。"
+    },
+    {
+      "name": "evaluation can adjust and repeat",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "quest optional panels closed",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "quest unavailable provider explained",
+      "pass": true,
+      "detail": "AI 暂不可用，仍可手动探索；需要管理员配置模型。"
+    },
+    {
+      "name": "training action visible on desktop",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "evaluation mobile no horizontal overflow",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "mobile evaluation create visible after adjust",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "quest mobile no horizontal overflow",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "training mobile no horizontal overflow",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "mobile training action visible",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "duel mobile no horizontal overflow",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "no JavaScript errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "assets load without HTTP errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "paidCalls": 0,
+  "server": "native Java"
+}

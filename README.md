@@ -4,6 +4,10 @@ Java 游戏引擎 + Phaser 网页交互的可执行 AI Agent Demo，源自 FIT20
 
 在线体验：https://pokemon.hanzhu-lab.online/ ｜ 伙伴冒险：https://pokemon.hanzhu-lab.online/growth/
 
+## 最新游戏更新（2026-10-06）
+
+新增 `/duel/` 训练师对战：玩家对 AI、委托己方、AI 对 AI；队伍副本、技能/换人工具、隐藏选择、回放与固定种子评测。详细范围及验收见 [V5 对战 Agent](docs/v5-battle-agent-acceptance.md)。V5 已接入在线游戏；本次同时同步新手冒险、评测中心、界面优化、稳定地图缩放、移动回执与受限委托恢复。
+
 ## 当前功能
 
 - 自然语言委托：采集、交付、战斗、捕捉、伙伴培养；工具校验、区域/回合/费用约束及购买审批。
@@ -14,10 +18,16 @@ Java 游戏引擎 + Phaser 网页交互的可执行 AI Agent Demo，源自 FIT20
 
 ## 运行与测试
 
-Java 8+ 与 Maven：`mvn clean verify`。前端无额外依赖：`cd client`，`node --test test/unit/*.test.mjs`。
+Java 21 与 Maven：`mvn clean verify`。前端无额外依赖：`cd client`，`node --test test/unit/*.test.mjs`。CI、编译目标与腾讯云 Docker 镜像统一使用 Java 21。
 网页入口和服务启动见 [运行说明](docs/unified-entry.md)，公开 AI 管理见 [运维说明](docs/public-ai-operations.md)。密钥只配置在服务端环境变量中。
 
-最新完整验证：后端 545 项通过，21 项数据库集成测试因本轮未配置 PostgreSQL 而中止；前端 170 项通过。数字以本次实际回归输出为准。
+2026-10-06 benchmark：Java 625 项通过、21 项 PostgreSQL 集成测试跳过；前端 220 项通过。详见 [全功能回归报告](benchmarks/full-benchmark-20261006/README.md)，其中仍未完成的浏览器专项、真机和生产耐久验收单独列出。
+
+## 最新 Benchmark（2026-10-06）
+
+六场景 × 三 Seed 的规则基线完成 18/18。DeepSeek 实网在 300,000 Token 上限内完成 9 个案例，1 个响应格式失败，8 个预算保护未完成；实际消耗 286,997 Token，99 次 HTTP 请求。六类场景均有成功样本，但不能称为完整矩阵全部通过。训练目标 ID 混用和响应解码失败仍待修复；详见 [实网报告及原始案例](benchmarks/deepseek-benchmark-20261006-513b6a5/README.md)。
+
+以下 2026-10-04 数据为历史批次，不能与本轮 DeepSeek 结果混用。
 
 ## Benchmark（2026-10-04）
 
@@ -156,7 +166,7 @@ docs/                           # UML and design documentation
 
 ## Build and Test
 
-The project uses Java 8, Maven, JUnit 5, and JaCoCo.
+The current web game uses Java 21, Maven, JUnit 5, and JaCoCo. The original console assignment targeted Java 8; newer identity APIs require the current runtime.
 
 ```bash
 mvn clean verify
@@ -322,3 +332,18 @@ V4五场景、多模型比较、批次队列/暂停/取消/重启恢复、评测
 ## 2026-10-03 森林与训练场画面优化
 
 苔叶森林新增林间小径、花丛及营地铺地；独立训练场统一像素素材，增加木质围栏和捕捉/对战标牌。前端158项、相关Java70项及浏览器移动/捕捉/营地恢复检查通过。详见 docs/forest-arena-report.md。
+
+## 2026-10-06 四批体验优化
+
+地图和实体持续复用，移动输入串行且支持按住方向键／触控；战斗和成长效果只播放服务器确认的新事件。新手围绕同一个伙伴完成战斗、营地恢复、捕捉、成长和见习训练师对战；旧存档保持自由探索。评测历史可归档／删除，不返还已用额度，未知付费用量保留。
+
+邀请身份默认关闭。需持久化存储并设置 `PLAYER_IDENTITY_ENABLED=true` 与 `PLAYER_INVITE_HASHES`（逗号分隔的 SHA-256 邀请码摘要）后启用；原始邀请码由管理员私下分发。启用后匿名玩家仍可免费游玩及使用 baseline，真实模型需要绑定身份。绑定成功保存一次性恢复凭据；第二设备先预览，再确认采用云存档。最多32个身份、每个身份8条设备记录；撤销当前设备，恢复凭据可重新登录。运行中的任务／评测或未结算用量会阻止迁移。
+
+绑定请求的强凭据在浏览器标签页的 sessionStorage 中暂存，仅用于响应丢失后的同一请求重试，确认成功后清除；服务器只保存摘要。不要关闭尚未确认绑定的标签页。恢复凭据具备登录权限，不能发给别人。
+
+运维脚本在 `deploy/tencent/operations/`：定期一致性备份、SHA-256 校验、只读／无网络恢复演练、预算与服务告警日志。备份不包含 API 密钥。恢复演练不会覆盖生产存档或回滚费用账本；生产恢复需先单独保留现行费用账本和凭据。异地自动同步、外部告警接收渠道仍需管理员配置。
+
+测试证据及真实模型失败见 `docs/optimization-execution.md` 和 `benchmarks/`。真实模型不能用免费基线结果替代。当前第一轮18个计划案例中6个完成、5个模型／规划失败、7个触及独立预算停止；修复后的付费复测已结束，完整结果见下面的最终验收记录。
+
+
+最终四批验收记录见 [optimization-four-batches-report.md](docs/optimization-four-batches-report.md)。修复实网复测18例：8完成、3失败、7预算停止，283,151 Token（新增上限30万）；不将预算停止当作成功。资源竞争三个 Seed 完成，故障/对战的修复版实网验收仍缺；日常异地同步、外部通知、真人及实际手机验证也待完成。公开游戏镜像尚未更新。

@@ -259,6 +259,7 @@ public final class AgentRoom implements WebRoom {
             if(activeMillis>=120000) {loop.cancel();errorCode="TASK_TIME_LIMIT";revision++;lastTick=now;persist();return;}
             if(intent!=null&&intent.isMixed()){combatPartner=scene.currentFieldStep().isField()?aiPartner:"mudkip";loop.configureTrace(combatPartner,provider.name,provider.model);}
             ActionResult result=loop.tick(now);
+            if(Arrays.asList("NAVIGATION_REQUIRES_HELP","NO_PROGRESS_REQUIRES_HELP").contains(result.getCode()))errorCode=result.getCode();
             if("PARTNER_EXHAUSTED".equals(result.getCode())){loop.pause();errorCode="PARTNER_EXHAUSTED";}
             if(!result.getCode().equals("DECISION_PENDING") && !result.getCode().equals("TASK_INACTIVE")) {
                 append(result,now);
@@ -294,7 +295,7 @@ public final class AgentRoom implements WebRoom {
         Map<String,Object> world=new LinkedHashMap<>();for(String key:WORLD) if(observation.containsKey(key)) world.put(key,observation.get(key));
         List<String> constraints=new ArrayList<>();if(intent!=null) for(TaskIntent.Constraint c:intent.getConstraints()) constraints.add(c.name());
         return Json.object("roomId",id,"taskId",scene.getTaskId(),"revision",revision,"status",status(),"provider",provider.name,
-            "model",provider.model,"aiAvailable",provider.isAvailable(),"errorCode",reportedErrorCode(),"goal",intent==null?null:intent.getGoal(),
+            "resumeLimit",3,"resumeRemaining",Math.max(0,3-resumes),"model",provider.model,"aiAvailable",provider.isAvailable(),"errorCode",reportedErrorCode(),"goal",intent==null?null:intent.getGoal(),
             "aiPartner",aiPartner,"aiPartnerState","mudkip".equals(aiPartner)?scene.partnerState(false):collection.snapshot().stream().filter(p->aiPartner.equals(p.get("captureId"))).findFirst().orElse(null),"taskKind",intent==null?"COMPLETE_QUEST":intent.getKind(),"targetId",intent==null?null:scene.currentFieldStep()==null?(intent.isField()?intent.getSteps().get(0).getTargetId():null):scene.currentFieldStep().getTargetId(),"goalSteps",scene.goalProgress(intent),"constraints",constraints,"world",world,"delivered",scene.getDelivered(),"locations",scene.getKnownLocations(),
             "approval",pending.isEmpty()?null:new LinkedHashMap<>(pending),"trace",new ArrayList<>(trace),"dialogue",scene.getPublicDialogue(),"dialogues",scene.getPublicDialogues(),"npcs",scene.getNpcPositions(),
             "npcAgents",npcAgents==null?null:npcAgents.view(scene.getSession().getTurn()),"cooperative",scene.isCooperative(),"player",scene.playerView(),"sharedQuest",scene.sharedQuestView(),"playerAllowed",scene.isCooperative()&&!storageFailed&&scene.canAdvanceSafely()&&scene.getSession().getQuestStatus()==game.agent.quest.BerryQuestSession.QuestStatus.ACTIVE&&!Arrays.asList("PARSING","READY","WAITING_APPROVAL").contains(status()),"map",scene.getMapDescription(),"period",scene.getWorldPeriod(),"nightStarts",60,"manualAllowed",scene.getSession().getQuestStatus()==game.agent.quest.BerryQuestSession.QuestStatus.ACTIVE&&!Arrays.asList("RUNNING","REPLANNING","WAITING_APPROVAL","PARSING","READY","STORAGE_ERROR","COMPLETED").contains(status()),
@@ -333,7 +334,8 @@ public final class AgentRoom implements WebRoom {
     private Map<String,Object> checkpoint(){
         List<String> constraints=new ArrayList<>();if(intent!=null)for(TaskIntent.Constraint c:intent.getConstraints())constraints.add(c.name());
         return Json.object("schemaVersion",1,"npcAgents",npcAgents==null?null:npcAgents.checkpoint(),"aiPartner",aiPartner,"scene",scene.exportState(),"summoned",summonedCheckpoint(),"combatPartner",combatPartner,"taskState",status(),"intent",intent==null?null:Json.object("kind",intent.getKind(),"targetId",intent.getTargetId(),"steps",intent.stepDefinitions(),"constraints",constraints,"areaId",intent.getAreaId(),"deadlineTurn",intent.getDeadlineTurn()),
-            "trace",new ArrayList<>(trace),"stepTrace",stepTrace(),"metrics",metrics(),"parses",parses,"resumes",resumes,"activeMillis",activeMillis);
+            "trace",new ArrayList<>(trace),"stepTrace",stepTrace(),"metrics",metrics(),"parses",parses,"resumes",resumes,"activeMillis",activeMillis,
+            "pauseReason",Arrays.asList("NAVIGATION_REQUIRES_HELP","NO_PROGRESS_REQUIRES_HELP").contains(errorCode)?errorCode:null);
     }
     private boolean persist(){
         if(store==null)return true;
@@ -361,6 +363,12 @@ public final class AgentRoom implements WebRoom {
             }
         }else phase="IDLE";
         trace.clear();List<Object> oldTrace=Json.asArray(checkpoint.get("trace"));if(oldTrace.size()>64)throw new IllegalArgumentException("INVALID_CHECKPOINT");for(Object row:oldTrace)trace.add(Json.asObject(row));
+        Object pauseReason=checkpoint.get("pauseReason");
+        if(pauseReason!=null&&!Arrays.asList("NAVIGATION_REQUIRES_HELP","NO_PROGRESS_REQUIRES_HELP").contains(pauseReason))throw new IllegalArgumentException("INVALID_CHECKPOINT");
+        errorCode="PAUSED".equals(status())?(String)pauseReason:null;
+        if(errorCode==null&&"PAUSED".equals(status())&&!trace.isEmpty()){
+            Object lastCode=trace.peekLast().get("code");if(Arrays.asList("NAVIGATION_REQUIRES_HELP","NO_PROGRESS_REQUIRES_HELP").contains(lastCode))errorCode=(String)lastCode;
+        }
         previousSteps=new ArrayList<>();List<Object> savedSteps=Json.asArray(checkpoint.get("stepTrace"));if(savedSteps.size()>64)throw new IllegalArgumentException("INVALID_CHECKPOINT");for(Object row:savedSteps)previousSteps.add(Json.asObject(row));
         previousMetrics=Json.asObject(checkpoint.get("metrics"));parses=new BigDecimal(String.valueOf(checkpoint.get("parses"))).intValueExact();resumes=new BigDecimal(String.valueOf(checkpoint.get("resumes"))).intValueExact();
         activeMillis=new BigDecimal(String.valueOf(checkpoint.get("activeMillis"))).longValueExact();if(parses<0||parses>3||resumes<0||resumes>3||activeMillis<0||activeMillis>120000)throw new IllegalArgumentException("INVALID_CHECKPOINT");

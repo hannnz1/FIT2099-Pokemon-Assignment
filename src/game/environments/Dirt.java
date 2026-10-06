@@ -15,3 +15,4 @@ public class Dirt extends Ground {
         super('.');
     }
 }
+

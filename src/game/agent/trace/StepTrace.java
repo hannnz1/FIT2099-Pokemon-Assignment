@@ -25,9 +25,13 @@ public final class StepTrace {
   observedState=state;
  }
  public void record(String taskId,String operationId,ToolRequest request,String validation,ActionResult result,AgentTask.State before,AgentTask.State after,double latency,Map<String,Number> usage) {
+  record(taskId,operationId,request,validation,result,before,after,latency,usage,request==null?"SCHEDULER":"MODEL_OR_CONTINUATION");
+ }
+ public void record(String taskId,String operationId,ToolRequest request,String validation,ActionResult result,AgentTask.State before,AgentTask.State after,double latency,Map<String,Number> usage,String executionSource) {
   observe(before);
   Map<String,Object> row=new LinkedHashMap<>();row.put("traceId",UUID.randomUUID().toString());row.put("stepNumber",++sequence);row.put("goal",goal);row.put("taskId",label(taskId));row.put("agentId",agent);
   row.put("actionId",request==null?null:label(request.getActionId()));row.put("operationId",operationId==null?null:label(operationId));
+  row.put("executionSource",executionSource);
   row.put("toolName",request==null?null:label(request.getName()));row.put("arguments",request==null?Collections.emptyMap():sanitize(request.getArguments(),0));
   row.put("validationResult",validation);row.put("actionResult",label(result.getCode()));row.put("actionStatus",result.getStatus().name());row.put("resultData",sanitize(result.getData(),0));
   row.put("taskStateBefore",before.name());row.put("taskStateAfter",after.name());row.put("latencyMs",Math.max(0,latency));

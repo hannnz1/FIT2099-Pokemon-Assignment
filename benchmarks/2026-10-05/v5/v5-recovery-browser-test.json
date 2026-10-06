@@ -1,0 +1,11 @@
+{
+  "lostActionResponse": true,
+  "originalPayloadRetried": true,
+  "appliedRound": 0,
+  "verifiedBattleRounds": 1,
+  "verifiedTraceRounds": 1,
+  "recoveredRound": "第 1 回合\n\n己方：POUND · 伤害 24\n\n对手：POUND · 伤害 10",
+  "offlineReconnect": true,
+  "pageErrors": [],
+  "realAi": false
+}

@@ -1,0 +1,15 @@
+{
+  "browserChecks": 55,
+  "browserFailures": 0,
+  "javaTotal": 641,
+  "javaPassed": 620,
+  "javaSkipped": 21,
+  "frontendPassed": 216,
+  "paidCalls": 0,
+  "artifact": "C:\\Users\\Administrator\\Desktop\\project\\pokemon-game\\project-main\\target\\fit2099-pokemon-assignment-1.0.0.jar",
+  "sha256": "49252ae5d72735e4f864c47ccdafa7f0cd07744518ecf5dc4df0c54a00d7f034",
+  "sourceSynced": true,
+  "review": "no remaining Critical or Important issues",
+  "deployed": false,
+  "realDeviceTesting": false
+}

@@ -1,0 +1,166 @@
+{
+  "base": "http://127.0.0.1:8111",
+  "findings": [
+    {
+      "name": "desktop visible [data-open-panel=\"panel-travel\"]",
+      "pass": true,
+      "detail": {
+        "x": 20,
+        "y": 607,
+        "width": 82,
+        "height": 44
+      }
+    },
+    {
+      "name": "desktop visible .player-dock",
+      "pass": true,
+      "detail": {
+        "x": 20,
+        "y": 704,
+        "width": 1326,
+        "height": 52
+      }
+    },
+    {
+      "name": "desktop canvas fills available height",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "no premature wild instruction",
+      "pass": true,
+      "detail": "先选择与你同行的伙伴"
+    },
+    {
+      "name": "mobile canvas contained",
+      "pass": true,
+      "detail": {
+        "host": {
+          "x": 8,
+          "y": 364,
+          "right": 382,
+          "bottom": 689
+        },
+        "canvas": {
+          "x": 32,
+          "y": 364,
+          "right": 357,
+          "bottom": 689
+        },
+        "dock": 783,
+        "navBottom": 739,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "mobile camera is square",
+      "pass": true,
+      "detail": {
+        "host": {
+          "x": 8,
+          "y": 364,
+          "right": 382,
+          "bottom": 689
+        },
+        "canvas": {
+          "x": 32,
+          "y": 364,
+          "right": 357,
+          "bottom": 689
+        },
+        "dock": 783,
+        "navBottom": 739,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "mobile navigation above dock",
+      "pass": true,
+      "detail": {
+        "host": {
+          "x": 8,
+          "y": 364,
+          "right": 382,
+          "bottom": 689
+        },
+        "canvas": {
+          "x": 32,
+          "y": 364,
+          "right": 357,
+          "bottom": 689
+        },
+        "dock": 783,
+        "navBottom": 739,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "mobile no overflow",
+      "pass": true,
+      "detail": {
+        "host": {
+          "x": 8,
+          "y": 364,
+          "right": 382,
+          "bottom": 689
+        },
+        "canvas": {
+          "x": 32,
+          "y": 364,
+          "right": 357,
+          "bottom": 689
+        },
+        "dock": 783,
+        "navBottom": 739,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "evaluation submit visible",
+      "pass": true,
+      "detail": {
+        "x": 1142,
+        "y": 701,
+        "width": 150,
+        "height": 44
+      }
+    },
+    {
+      "name": "empty arena hidden before battle",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "invalid selection error visible",
+      "pass": true,
+      "detail": "见习对战请选择一位伙伴。"
+    },
+    {
+      "name": "battle configuration change clears obsolete validation",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "quest guide initially collapsed",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "quest partner selection accessible",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "focused menu closes on Escape",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "browser errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "paidCalls": 0
+}

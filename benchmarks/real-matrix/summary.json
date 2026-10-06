@@ -1,0 +1,177 @@
+{
+  "frozenCode": "2d7a837",
+  "privateTokenCap": 250000,
+  "plannedPaidCases": 18,
+  "completedPaidCases": 6,
+  "baselineCompleted": 18,
+  "outcomes": {
+    "COMPLETED": 6,
+    "PROVIDER_INVALID_RESPONSE": 2,
+    "NO_PROGRESS_REQUIRES_HELP": 3,
+    "PROVIDER_BUDGET_EXHAUSTED": 7
+  },
+  "knownTokens": 235972,
+  "providerLatencyP50Ms": 6011.430039,
+  "providerLatencyP95Ms": 6489.172404,
+  "latencyIncludesClientPacing": true,
+  "cost": null,
+  "costReason": "PRICE_NOT_CONFIGURED",
+  "repairRetest": "Completed separately: ../real-matrix-repair/summary.json;8 complete,3 failures,7 budget-stopped;no full live stability pass",
+  "scenarios": [
+    {
+      "scenario": "forest",
+      "cases": 3,
+      "completed": 2,
+      "results": [
+        {
+          "seed": 11,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 59584
+        },
+        {
+          "seed": 23,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 40220
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null
+        }
+      ]
+    },
+    {
+      "scenario": "shared",
+      "cases": 3,
+      "completed": 0,
+      "results": [
+        {
+          "seed": 11,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_INVALID_RESPONSE",
+          "tokens": 5822
+        },
+        {
+          "seed": 23,
+          "status": "NO_PROGRESS_REQUIRES_HELP",
+          "reason": "NO_PROGRESS_REQUIRES_HELP",
+          "tokens": 10147
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null
+        }
+      ]
+    },
+    {
+      "scenario": "competition",
+      "cases": 3,
+      "completed": 0,
+      "results": [
+        {
+          "seed": 11,
+          "status": "NO_PROGRESS_REQUIRES_HELP",
+          "reason": "NO_PROGRESS_REQUIRES_HELP",
+          "tokens": 10177
+        },
+        {
+          "seed": 23,
+          "status": "NO_PROGRESS_REQUIRES_HELP",
+          "reason": "NO_PROGRESS_REQUIRES_HELP",
+          "tokens": 17643
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null
+        }
+      ]
+    },
+    {
+      "scenario": "information",
+      "cases": 3,
+      "completed": 3,
+      "results": [
+        {
+          "seed": 11,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 1564
+        },
+        {
+          "seed": 23,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 1564
+        },
+        {
+          "seed": 37,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 1564
+        }
+      ]
+    },
+    {
+      "scenario": "fault",
+      "cases": 3,
+      "completed": 0,
+      "results": [
+        {
+          "seed": 11,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_INVALID_RESPONSE",
+          "tokens": 19382
+        },
+        {
+          "seed": 23,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null
+        }
+      ]
+    },
+    {
+      "scenario": "battle",
+      "cases": 3,
+      "completed": 1,
+      "results": [
+        {
+          "seed": 11,
+          "status": "COMPLETED",
+          "reason": null,
+          "tokens": 33888
+        },
+        {
+          "seed": 23,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null
+        },
+        {
+          "seed": 37,
+          "status": "PROVIDER_UNAVAILABLE",
+          "reason": "PROVIDER_BUDGET_EXHAUSTED",
+          "tokens": null
+        }
+      ]
+    }
+  ],
+  "providerDecisionRecords": 91,
+  "decisionsReturned": 82,
+  "httpCalls": 84,
+  "successfulHttpCalls": 84,
+  "failedHttpCalls": 0
+}

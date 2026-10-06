@@ -110,7 +110,7 @@ public abstract class Actor implements Capable, Printable {
 	}
 
 	/**
-	 * Get a copy of this Actor's inventory list.
+	 * Get a copy of this Actor's inventory list. 
 	 * @return An unmodifiable wrapper of the inventory.
 	 */
 	public List<Item> getInventory() {
@@ -118,7 +118,7 @@ public abstract class Actor implements Capable, Printable {
 	}
 
 	/**
-	 * Select and return an action to perform on the current turn.
+	 * Select and return an action to perform on the current turn. 
 	 *
 	 * @param actions    collection of possible Actions for this Actor
 	 * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
@@ -144,8 +144,8 @@ public abstract class Actor implements Capable, Printable {
 	 * Is this Actor conscious?
 	 * Returns true if the current Actor has positive hit points.
 	 * Actors on zero hit points are deemed to be unconscious.
-	 *
-	 * Depending on the game client, this status may be interpreted as either
+	 * 
+	 * Depending on the game client, this status may be interpreted as either 
 	 * unconsciousness or death, or inflict some other kind of status.
 	 *
 	 * @return true if and only if hitPoints is positive.
@@ -205,7 +205,7 @@ public abstract class Actor implements Capable, Printable {
 
 	/**
 	 * Get the weapon this Actor is using.
-	 *
+	 * 
 	 * If the current Actor is carrying weapons, returns the first one in the
 	 * inventory. Otherwise, returns the Actor's natural fighting equipment e.g.
 	 * fists.
@@ -250,7 +250,7 @@ public abstract class Actor implements Capable, Printable {
 
 	/**
 	 * Add a capability to this Actor.
-	 *
+	 * 
 	 * @param capability the Capability to add
 	 */
 	public void addCapability(Enum<?> capability) {
@@ -258,7 +258,7 @@ public abstract class Actor implements Capable, Printable {
 	}
 
 	/** Remove a capability from this Actor.
-	 *
+	 * 
 	 * @param capability the Capability to remove
 	 */
 	public void removeCapability(Enum<?> capability) {

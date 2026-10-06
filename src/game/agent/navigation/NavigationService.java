@@ -26,11 +26,15 @@ public final class NavigationService {
     }
     /** Excludes origin. Empty means no route, or already at destination. */
     public List<Location> findRoute(Actor actor, GameMap map, Location destination, Predicate<Location> allowed) {
+        return findRoute(actor,map,destination,allowed,false);
+    }
+    // Occupancy-free search is diagnostic only; its routes are never executed.
+    private List<Location> findRoute(Actor actor, GameMap map, Location destination, Predicate<Location> allowed,boolean ignoreActors) {
         Objects.requireNonNull(actor); Objects.requireNonNull(map); Objects.requireNonNull(allowed);
         if (destination == null || destination.map() != map || !map.contains(actor) || !allowed.test(destination)) return Collections.emptyList();
         Location origin = map.locationOf(actor);
         if (origin.equals(destination)) return Collections.emptyList();
-        if (!destination.canActorEnter(actor)) return Collections.emptyList();
+        if (!(ignoreActors?destination.getGround().canActorEnter(actor):destination.canActorEnter(actor))) return Collections.emptyList();
         PriorityQueue<Candidate> queue = new PriorityQueue<>(Comparator.comparingInt((Candidate c) -> c.cost).thenComparingLong(c -> c.order));
         Map<Location,Integer> best = new HashMap<>();
         queue.add(new Candidate(origin, null, 0, 0)); best.put(origin,0);
@@ -45,7 +49,7 @@ public final class NavigationService {
             }
             for (Exit exit : current.location.getExits()) {
                 Location next = exit.getDestination();
-                if (next.map() != map || !allowed.test(next) || !next.canActorEnter(actor)) continue;
+                if (next.map() != map || !allowed.test(next) || !(ignoreActors?next.getGround().canActorEnter(actor):next.canActorEnter(actor))) continue;
                 int cost = current.cost + 1;
                 if (best.containsKey(next) && best.get(next) <= cost) continue;
                 best.put(next,cost); queue.add(new Candidate(next,current,cost,order++));
@@ -57,14 +61,22 @@ public final class NavigationService {
     public ActionResult approach(Actor actor, GameMap map, Actor target, Predicate<Location> allowed, BooleanSupplier active) {
         if(!active.getAsBoolean())return interrupted();
         if(!map.contains(actor)||!map.contains(target))return ActionResult.rejected("ACTOR_NOT_ON_MAP");
-        Location origin=map.locationOf(actor),best=null;int distance=Integer.MAX_VALUE;
+        Location origin=map.locationOf(actor),best=null;int distance=Integer.MAX_VALUE;boolean temporarilyBlocked=false;
+        if(!allowed.test(origin))return ActionResult.rejected("AREA_RESTRICTED");
         for(Exit exit:map.locationOf(target).getExits()){
             Location candidate=exit.getDestination();if(candidate.map()!=map||!allowed.test(candidate))continue;
             if(candidate.equals(origin))return step(actor,map,origin,allowed,active);
             List<Location> route=findRoute(actor,map,candidate,allowed);
             if(!route.isEmpty()&&route.size()<distance){best=candidate;distance=route.size();}
+            if(!findRoute(actor,map,candidate,allowed,true).isEmpty())temporarilyBlocked=true;
         }
-        return best==null?ActionResult.rejected("NO_PATH"):step(actor,map,best,allowed,active);
+        if(best!=null)return step(actor,map,best,allowed,active);
+        if(temporarilyBlocked){
+            if(!active.getAsBoolean())return interrupted();
+            // Spend one real world turn so moving actors can release a choke point.
+            return position(ActionResult.Status.IN_PROGRESS,"INTERACTION_WAITED",origin);
+        }
+        return ActionResult.rejected("NO_PATH");
     }
     /** Executes at most one legal exit; caller decides when to advance the world clock. */
     public ActionResult step(Actor actor, GameMap map, Location destination, Predicate<Location> allowed, BooleanSupplier active) {

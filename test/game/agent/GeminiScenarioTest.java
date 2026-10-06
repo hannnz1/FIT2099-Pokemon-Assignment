@@ -16,8 +16,6 @@ class GeminiScenarioTest {
         replies.add(GeminiGatewayTest.function("pickup","{\"itemId\":\"BERRY\",\"quantity\":2}"));
         replies.add(GeminiGatewayTest.function("move_to","{\"locationId\":\"alternative\"}"));
         replies.add(GeminiGatewayTest.function("pickup","{\"itemId\":\"BERRY\",\"quantity\":1}"));
-        replies.add(GeminiGatewayTest.function("move_to","{\"locationId\":\"laboratory\"}"));
-        replies.add(GeminiGatewayTest.function("deliver",Json.write(Json.object("questId",scene.getSession().getQuestId(),"targetNpcId","professor"))));
         GeminiGateway gateway=GeminiGatewayTest.gateway((m,k,body,t)->body.contains("responseJsonSchema")
             ?NaturalTaskParserTest.taskResponse(scene.getSession().getQuestId(),"NO_SPENDING"):new GeminiTransport.Response(200,replies.remove()));
         TaskIntent intent=new NaturalTaskParser(gateway).parse("帮我完成树果任务，不要花金币",scene.getSession().getQuestId());
@@ -28,5 +26,6 @@ class GeminiScenarioTest {
         assertEquals(BerryQuestSession.QuestStatus.COMPLETED,scene.getSession().getQuestStatus());
         assertEquals(AgentTask.State.COMPLETED,loop.getState()); assertEquals(5,scene.getSession().getBalance()); assertEquals(3,scene.getDelivered());
         assertTrue(replies.isEmpty()); assertThrows(IllegalStateException.class,()->scene.start(intent,gateway,Runnable::run));
+        assertTrue(loop.getStepTrace().stream().anyMatch(row->"ENGINE_DELIVERY_PRIORITY".equals(row.get("executionSource"))&&"deliver".equals(row.get("toolName"))));
     }
 }

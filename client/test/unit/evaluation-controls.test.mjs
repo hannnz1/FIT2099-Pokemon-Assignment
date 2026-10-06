@@ -38,12 +38,12 @@ test('page playback pauses on manual navigation and stale cases cannot replace c
   globalThis.matchMedia=()=>({matches:true});
   const batch={id:'batch-a',createdAt:0,status:'COMPLETED',cases:[]};
   const run=id=>({id,scenario:'forest',model:id,seed:11,trace:[0,1,2].map(turn=>({agentId:'partner',worldAfter:{turn}}))});
-  let resolveOld,reportCount=0;
+  let resolveOld,reportCount=0,reportStatus='RUNNING';
   globalThis.fetch=async path=>({ok:true,json:async()=>{
     if(path.endsWith('/session'))return {csrfToken:'test'};
     if(path.endsWith('/catalog'))return {models:['baseline'],scenarios:['forest']};
     if(path.endsWith('/batches'))return {revision:1,batches:[batch]};
-    if(path.endsWith('/report'))return {comparison:[],cases:[{id:'current',scenario:'forest',model:'baseline',seed:11,repetition:1,status:'COMPLETED',metrics:{actionSteps:++reportCount,totalTokens:null}}]};
+    if(path.endsWith('/report'))return {comparison:[],cases:[{id:'current',scenario:'forest',model:'baseline',seed:11,repetition:1,status:reportStatus,metrics:{actionSteps:++reportCount,totalTokens:null}}]};
     if(path.includes('/runs/old/'))return new Promise(resolve=>{resolveOld=resolve;});
     return run('current');
   }});
@@ -60,9 +60,10 @@ test('page playback pauses on manual navigation and stale cases cannot replace c
     globalThis.document.activeElement=null;documentEvents.get('focusout')();
     await new Promise(resolve=>setImmediate(resolve));
     assert.notEqual(nodes.get('cases').innerHTML,previousCases);
-    const old=click('cases',{run:'old'});
+    const oldScene=nodes.get('scene-results').innerHTML;globalThis.document.activeElement=nodes.get('scene-results');reportStatus='COMPLETED';click('batches',{show:'batch-a'});await new Promise(resolve=>setImmediate(resolve));assert.notEqual(nodes.get('scene-results').innerHTML,oldScene,'focused scene cards must receive final results');globalThis.document.activeElement=null;documentEvents.get('focusout')();
+    const old=click('detail',{run:'old'});
     await new Promise(resolve=>setImmediate(resolve));
-    await click('cases',{run:'current'});
+    await click('detail',{run:'current'});
     resolveOld(run('old'));await old;
     assert.equal(nodes.get('replay-panel').hidden,false);
     assert.match(nodes.get('replay-title').textContent,/current/);
@@ -80,6 +81,8 @@ test('page playback pauses on manual navigation and stale cases cannot replace c
     assert.equal(nodes.get('replay-play').attrs['aria-pressed'],'false');
     click('replay-play');assert.equal(nodes.get('step').value,0);
     click('batches',{show:'batch-b'});
+    assert.equal(nodes.get('scene-results').innerHTML,'','old result cards must disappear on selection');
+    assert.doesNotMatch(nodes.get('result-summary').innerHTML,/项目标达成/,'old totals must disappear on selection');
     assert.equal(nodes.get('replay-panel').hidden,true);
     assert.equal(nodes.get('replay-play').attrs['aria-pressed'],'false');
     await new Promise(resolve=>setImmediate(resolve));
@@ -88,3 +91,5 @@ test('page playback pauses on manual navigation and stale cases cannot replace c
     Object.assign(globalThis,before);
   }
 });
+
+

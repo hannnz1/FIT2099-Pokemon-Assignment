@@ -26,3 +26,28 @@ test('reconnection clears a transport failure even when snapshot revision is unc
  assert.equal(training.trainingError({revision:3},failure,true),'');
  assert.equal(training.trainingError({revision:3},failure,false),'连接失败');
 });
+
+test('training journey follows capture, collection and growth without invented rewards',()=>{
+ assert.equal(training.trainingJourney(view).action,'CAPTURE');
+ assert.equal(training.trainingJourney({...view,world:{...view.world,x:0}}).action,'APPROACH');
+ assert.equal(training.trainingJourney({...view,targets:[{...view.targets[0],state:'CAPTURED'}]}).action,'TRANSFER');
+ assert.equal(training.trainingJourney({...view,targets:[{...view.targets[0],state:'TRANSFERRED'}]}).action,'GROWTH');
+ assert.equal(training.trainingJourney({...view,world:{actorHp:0}}).action,'REST');
+ assert.equal(training.trainingJourney({...view,targets:[{...view.targets[0],state:'DEFEATED'},{id:'wild-torchic',state:'DEFEATED'}]}).action,'RESET');
+});
+
+test('newbie guide only advances from committed movement, selection, capture and combat',()=>{
+ const v={...view,tutorial:{moves:0,selected:false,attacked:false,rested:false}};
+ assert.equal(training.newbieGuide(v).action,'MOVE');
+ assert.equal(training.newbieGuide({...v,tutorial:{...v.tutorial,moves:2}}).action,'SELECT');
+ assert.equal(training.newbieGuide({...v,tutorial:{...v.tutorial,moves:2,selected:true}}).action,'CAPTURE');
+ const owned={...v,targets:[{id:'wild-treecko',state:'TRANSFERRED'},{id:'wild-torchic',state:'WILD',x:6,y:1}],tutorial:{moves:2,selected:true,attacked:true,rested:false}};
+ assert.equal(training.newbieGuide(owned).action,'REST');
+ assert.equal(training.newbieGuide({...owned,tutorial:{...owned.tutorial,rested:true}}).action,'GROWTH');
+ assert.equal(training.newbieGuide({...v,tutorial:{...v.tutorial,skipped:true}}).guided,false);
+});
+
+test('replaying an already defeated fire target proceeds after resting',()=>{
+ const v={world:{actorHp:1000},targets:[{id:'wild-treecko',state:'TRANSFERRED'},{id:'wild-torchic',state:'DEFEATED'}],tutorial:{attacked:false,rested:true}};
+ assert.equal(training.newbieGuide(v).action,'GROWTH');
+});

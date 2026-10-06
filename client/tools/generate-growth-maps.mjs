@@ -58,3 +58,5 @@ for(const m of Object.values(maps)){
  for(const e of m.exits){const dest=maps[e.regionId],p=e.arrival;if(!dest||dest.collision[p.y*dest.width+p.x]!==0)throw new Error('Blocked arrival');}
 }
 writeFileSync(new URL('../agent/growth-maps.json',import.meta.url),JSON.stringify({schemaVersion:2,maps}));
+
+

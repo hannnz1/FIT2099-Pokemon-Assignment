@@ -6,9 +6,10 @@ export function agentPresentation(view={},online=true,busy=false){
  const status=view.status??'IDLE';let label,detail,tone='neutral',phase='ready';
  const states={IDLE:['等待委托','选择目标后，把任务交给伙伴。'],PARSING:['正在理解任务','伙伴正在理解你的要求，请稍候。'],READY:['请确认目标','检查目标与限制，确认后伙伴才会出发。'],RUNNING:['伙伴正在行动','伙伴正在观察与行动，你可以随时暂停。'],REPLANNING:['正在调整计划','伙伴遇到了变化，正在重新选择下一步行动。'],WAITING_APPROVAL:['需要你的决定','请批准或拒绝购买；等待期间不会推进游戏回合。'],PAUSED:['委托已暂停','可以继续委托，也可以自己操作伙伴。'],COMPLETED:['委托已完成','目标已达成，可以查看结果与行动记录。'],FAILED:['本次委托未完成','查看行动记录和原因，休整后再尝试。'],CANCELLED:['委托已取消','已保留实际游戏进度。'],PROVIDER_UNAVAILABLE:['AI 暂时不可用','可以稍后继续，或取消后手动操作。'],ERROR:['需要重新描述任务','请调整任务描述后重新提交。'],STORAGE_ERROR:['存档需要恢复','请先恢复存档，确认后再继续操作。']};
  [label,detail]=states[status]??['状态待确认','请重新连接以确认当前任务。'];
- if(status==='FAILED'||status==='PROVIDER_UNAVAILABLE')detail=failureReason(view);
+ if(status==='FAILED'||status==='PROVIDER_UNAVAILABLE'||status==='PAUSED'&&['NAVIGATION_REQUIRES_HELP','NO_PROGRESS_REQUIRES_HELP'].includes(view.errorCode))detail=failureReason(view);
  if(status==='PARSING')phase='understand';else if(status==='READY')phase='confirm';else if(['RUNNING','REPLANNING','WAITING_APPROVAL','PAUSED','PROVIDER_UNAVAILABLE'].includes(status))phase='execute';else if(status==='COMPLETED')phase='complete';else if(['FAILED','CANCELLED','ERROR','STORAGE_ERROR'].includes(status))phase='stopped';
  if(status==='COMPLETED')tone='success';else if(['WAITING_APPROVAL','PROVIDER_UNAVAILABLE','FAILED','ERROR','STORAGE_ERROR'].includes(status))tone='warning';else if(active.includes(status))tone='active';
+ if(status==='PAUSED'&&['NAVIGATION_REQUIRES_HELP','NO_PROGRESS_REQUIRES_HELP'].includes(view.errorCode))tone='warning';
  if(status==='IDLE'&&!view.aiAvailable)detail='AI 尚未配置，可先手动探索、战斗和培养伙伴。';
  const partner=view.world?.partner;
  if(partner&&view.targetLevel&&phase==='execute')detail=`当前 Lv.${partner.level} → 目标 Lv.${view.targetLevel}。${view.targetRegion?`培养区域：${regionNames[view.targetRegion]??view.targetRegion}。`:""}${detail}`;

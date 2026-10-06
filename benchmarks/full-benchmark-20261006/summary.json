@@ -1,0 +1,177 @@
+{
+  "benchmark": "Pokemon full feature baseline v1",
+  "recordedAt": "2026-10-06T06:29:51.625887+00:00",
+  "scope": "local offline, existing automated tests; incomplete full acceptance",
+  "productionRevision": "513b6a5",
+  "testRevision": "db5cb3e",
+  "jarSha256": "ebebb5c1a14d9d6be8768ad7fad4e6b3c516155c4bd4fc95c3c8fdde9c72d125",
+  "environment": {
+    "os": "Windows",
+    "java": "Microsoft JDK 21.0.11",
+    "browser": "Chromium headless",
+    "storage": "isolated memory + temporary file stores in unit tests",
+    "realModelEnabled": false
+  },
+  "java": {
+    "PASSED": 625,
+    "SKIPPED": 21
+  },
+  "frontend": {
+    "passed": 220,
+    "failed": 0
+  },
+  "operations": {
+    "passed": 5,
+    "failed": 0
+  },
+  "newcomer": {
+    "completed": 3,
+    "planned": 3,
+    "humanTest": false
+  },
+  "browserFlow": {
+    "passed": 16,
+    "total": 16,
+    "errors": []
+  },
+  "scenarios": {
+    "forest": {
+      "planned": 3,
+      "completed": 3,
+      "invalidActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0
+    },
+    "shared": {
+      "planned": 3,
+      "completed": 3,
+      "invalidActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0
+    },
+    "competition": {
+      "planned": 3,
+      "completed": 3,
+      "invalidActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0
+    },
+    "information": {
+      "planned": 3,
+      "completed": 3,
+      "invalidActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0
+    },
+    "fault": {
+      "planned": 3,
+      "completed": 3,
+      "invalidActions": 3,
+      "injectedFaults": 3,
+      "recoveredFaults": 3
+    },
+    "battle": {
+      "planned": 3,
+      "completed": 3,
+      "invalidActions": 0,
+      "injectedFaults": 0,
+      "recoveredFaults": 0
+    }
+  },
+  "duel": {
+    "realAi": false,
+    "cases": 60,
+    "comparison": [
+      {
+        "battleCases": 30,
+        "battleWins": 28,
+        "battleDraws": 0,
+        "battleWinRate": 0.9333333333333333,
+        "battleWin95Wilson": [
+          0.7867654163738362,
+          0.981522976208729
+        ],
+        "model": "baseline",
+        "planned": 30,
+        "finished": 30,
+        "completed": 30,
+        "completionRate": 1.0,
+        "completion95Wilson": [
+          0.8864866068260369,
+          1.0
+        ],
+        "averageActionSteps": 10.9,
+        "invalidActionRate": 0.0,
+        "averageProviderLatencyMs": 0.13461131498470946,
+        "totalTokens": null,
+        "cost": null,
+        "injectedFaults": 0,
+        "recoveredFaults": 0,
+        "recoverySuccessRate": null
+      },
+      {
+        "battleCases": 30,
+        "battleWins": 25,
+        "battleDraws": 0,
+        "battleWinRate": 0.8333333333333334,
+        "battleWin95Wilson": [
+          0.664356494935845,
+          0.9266345762815128
+        ],
+        "model": "first-legal",
+        "planned": 30,
+        "finished": 30,
+        "completed": 30,
+        "completionRate": 1.0,
+        "completion95Wilson": [
+          0.8864866068260369,
+          1.0
+        ],
+        "averageActionSteps": 18.233333333333334,
+        "invalidActionRate": 0.0,
+        "averageProviderLatencyMs": 0.01544223034734918,
+        "totalTokens": null,
+        "cost": null,
+        "injectedFaults": 0,
+        "recoveredFaults": 0,
+        "recoverySuccessRate": null
+      }
+    ]
+  },
+  "animation": {
+    "frameP50": 16.69999999999891,
+    "frameP95": 16.799999999999272,
+    "commandP95": 20,
+    "longTasks": 3,
+    "objectsMin": 9,
+    "objectsMax": 9
+  },
+  "paidCalls": 0,
+  "unverified": [
+    "21 PostgreSQL integration tests: dedicated database not configured",
+    "movement-receipt browser: initial starter timeout; isolated retry did not complete and was stopped",
+    "stable-map browser: no completed current report; not counted passed",
+    "DeepSeek matched real-model matrix: no new fee authorization",
+    "actual mobile hardware and human onboarding",
+    "long-duration production load, offsite scheduled backup and external alert delivery"
+  ],
+  "notes": [
+    "Functional tests and task episodes use separate denominators; no overall all-functions percentage.",
+    "18/18 baseline episodes are not evidence of DeepSeek task completion.",
+    "Three rejected actions in six-scenario matrix are intentional fault injections; all three recovered.",
+    "Token/cost null fields in baseline reports remain null; paidCalls is explicitly zero.",
+    "Browser scripts contain machine-specific paths and some fixed ports; use documented environment.",
+    "INVALID_PUBLIC_ORIGIN setup was corrected by omitting PUBLIC_ORIGIN for localhost; no product changes."
+  ],
+  "realModelSupplement": {
+    "report": "../deepseek-benchmark-20261006-513b6a5/README.md",
+    "planned": 18,
+    "completed": 9,
+    "invalidResponse": 1,
+    "budgetLimited": 8,
+    "actualTokens": 286997,
+    "authorizedTokenCeiling": 300000,
+    "baselineCompleted": 18,
+    "remainingNotAccepted": true
+  }
+}

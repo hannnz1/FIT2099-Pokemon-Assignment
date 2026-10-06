@@ -95,3 +95,4 @@ public class Lava extends Ground implements TimePerception {
 //        TimePerceptionManager.getInstance().append(this);
 //    }
 }
+

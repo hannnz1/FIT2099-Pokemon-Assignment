@@ -1,0 +1,8 @@
+{
+  "mode": "delegated",
+  "pause": true,
+  "manualTakeover": true,
+  "manualRound": true,
+  "cancel": true,
+  "realAi": false
+}

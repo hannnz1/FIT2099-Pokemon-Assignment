@@ -1,0 +1,17 @@
+{
+  "environment": "Windows local Java, 384MB heap; not production capacity",
+  "site": "http://127.0.0.1:8102",
+  "startedAt": "2026-10-05T16:19:05.702Z",
+  "elapsedMs": 3692438,
+  "plannedSoakMs": 3600000,
+  "phase": "finished",
+  "complete": true,
+  "admitted": 8,
+  "rejectedSessionLimit": 2,
+  "requests": 28702,
+  "errorCount": 0,
+  "errors": [],
+  "requestP50Ms": 15.20850000018254,
+  "requestP95Ms": 20.81099999975413,
+  "paidCalls": 0
+}
