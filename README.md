@@ -18,7 +18,7 @@ Java 游戏引擎 + Phaser 网页交互的可执行 AI Agent Demo，源自 FIT20
 
 ## 运行与测试
 
-Java 8+ 与 Maven：`mvn clean verify`。前端无额外依赖：`cd client`，`node --test test/unit/*.test.mjs`。
+Java 21 与 Maven：`mvn clean verify`。前端无额外依赖：`cd client`，`node --test test/unit/*.test.mjs`。CI、编译目标与腾讯云 Docker 镜像统一使用 Java 21。
 网页入口和服务启动见 [运行说明](docs/unified-entry.md)，公开 AI 管理见 [运维说明](docs/public-ai-operations.md)。密钥只配置在服务端环境变量中。
 
 2026-10-06 benchmark：Java 625 项通过、21 项 PostgreSQL 集成测试跳过；前端 220 项通过。详见 [全功能回归报告](benchmarks/full-benchmark-20261006/README.md)，其中仍未完成的浏览器专项、真机和生产耐久验收单独列出。
@@ -166,7 +166,7 @@ docs/                           # UML and design documentation
 
 ## Build and Test
 
-The project uses Java 8, Maven, JUnit 5, and JaCoCo.
+The current web game uses Java 21, Maven, JUnit 5, and JaCoCo. The original console assignment targeted Java 8; newer identity APIs require the current runtime.
 
 ```bash
 mvn clean verify
